@@ -1,0 +1,230 @@
+[
+  {"event": "syscall:freebsd:execve:entry", "time": 1455713720270988351, "pid": 1188, "tid": 100606, "ppid": 675, "uid": 1001, "exec": "/usr/local/bin/wget"}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/etc/libmap.conf"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/local/lib/libintl.so.8"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/var/run/ld-elf.so.hints"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/libssl.so.8"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/lib/libcrypto.so.8"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/lib/libz.so.6"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720271877500, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/local/lib/libidn.so.11"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/lib/libc.so.7"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720272876440, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n/libiconv_std.so.4"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720278880276, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.dir.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/ISO646/ISO646-US.esdb"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.dir.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/UTF/UTF-8.esdb"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n/libUTF8.so.4"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/mapper.dir"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720279875654, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n/libmapper_646.so.4"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/etc/localtime"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/zoneinfo/posixrules"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720280893311, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.dir.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/UTF/UTF-8.esdb"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/esdb.dir.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/esdb/ISO646/ISO646-US.esdb"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias.db"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/charset.alias"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": -1}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/mapper.dir"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/lib/i18n"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/etc/nsswitch.conf"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720281874022, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720282873940, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720282873940, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/etc/hosts"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720282873940, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720282873940, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720282873940, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720282873940, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720283873857, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/etc/resolv.conf"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720283873857, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720283873857, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720283873857, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720283873857, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720283873857, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "172.16.57.2", "port": 53, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720296872856, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720296872856, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "172.16.57.2", "port": 53, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720307875441, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720307875441, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 28, "address": "2607:f8b0:4006:80f::2004", "port": 1, "err": 65}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720307875441, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720307875441, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.98", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720307875441, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720307875441, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.87", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.83", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.106", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.117", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.91", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.109", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.121", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.93", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.113", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.102", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.123", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.94", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.79", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.108", "port": 1, "err": 0}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720308873124, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:connect:return", "time": 1455713720320872484, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "family": 2, "address": "146.115.8.108", "port": 80, "err": 0}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720320872484, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/zoneinfo/UTC"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/share/zoneinfo/posixrules"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:open:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "index.html"}
+, {"event": "syscall:freebsd:open:return", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:openat:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "path": "/usr/local/lib/charset.alias"}
+, {"event": "syscall:freebsd:openat:return", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 5}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 5}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 5}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 5}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720382921990, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720383875743, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720383875743, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720383875743, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720384873077, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720384873077, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720386874169, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720386874169, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720391873827, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720391873827, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720391873827, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720391873827, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720393872614, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720393872614, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720394875116, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720394875116, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720397872773, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720397872773, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720398921091, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720398921091, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720398921091, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720398921091, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720399875053, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:write:entry", "time": 1455713720399875053, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720399875053, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720399875053, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:read:entry", "time": 1455713720399875053, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 3}
+, {"event": "syscall:freebsd:close:entry", "time": 1455713720399875053, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget", "fd": 4}
+, {"event": "syscall:freebsd:exit:entry", "time": 1455713720403882755, "pid": 1188, "tid": 100606, "uid": 1001, "exec": "wget"}
+
+]
+
