@@ -56,4 +56,5 @@ Traces
 ======
 
 * buildinject.json -  Trace in CADETS format
+* buildinject.json.CDM.json -  Trace in CDM json format
 * CDM Traces forthcoming
