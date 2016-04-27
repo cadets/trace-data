@@ -1,0 +1,9 @@
+strict digraph listdir {
+rankdir="LR";
+"f_." [label="."];
+"f_listdir.json" [label="listdir.json"];
+    p_8244 [label="pid 8244", shape="diamond"];
+    "p_8244_listdir" [label="listdir
+p8244", shape="box"];
+    "p_8244_listdir" -> "f_listdir.json" [label="write", color="saddlebrown"];
+}

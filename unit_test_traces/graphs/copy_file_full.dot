@@ -1,0 +1,25 @@
+strict digraph copy_file {
+rankdir="LR";
+"f_README" [label="README"];
+"f_temp.out" [label="temp.out"];
+    p_8250 [label="pid 8250", shape="diamond"];
+    "p_8250_copy_file" [label="copy_file", shape="box"];
+     p_8250 -> "p_8250_copy_file" [dir="none", minlen=2];
+    "p_8250_copy_file" -> "f_README" [label="open"];
+    p_8250 [label="pid 8250", shape="diamond"];
+    "p_8250_copy_file" [label="copy_file", shape="box"];
+     p_8250 -> "p_8250_copy_file" [dir="none", minlen=2];
+    "p_8250_copy_file" -> "f_temp.out" [label="open"];
+    p_8250 [label="pid 8250", shape="diamond"];
+    "p_8250_copy_file" [label="copy_file", shape="box"];
+     p_8250 -> "p_8250_copy_file" [dir="none", minlen=2];
+    "p_8250_copy_file" -> "f_README" [label="read"];
+    p_8250 [label="pid 8250", shape="diamond"];
+    "p_8250_copy_file" [label="copy_file", shape="box"];
+     p_8250 -> "p_8250_copy_file" [dir="none", minlen=2];
+    "p_8250_copy_file" -> "f_README" [label="read"];
+    p_8250 [label="pid 8250", shape="diamond"];
+    "p_8250_copy_file" [label="copy_file", shape="box"];
+     p_8250 -> "p_8250_copy_file" [dir="none", minlen=2];
+    "p_8250_copy_file" -> "f_temp.out" [label="write"];
+}

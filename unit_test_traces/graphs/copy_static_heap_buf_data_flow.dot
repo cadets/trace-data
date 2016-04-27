@@ -1,0 +1,3 @@
+strict digraph copy_static_heap_buf {
+rankdir="LR";
+}
