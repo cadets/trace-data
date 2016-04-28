@@ -2,13 +2,11 @@ strict digraph buildinject {
 rankdir="LR";
 "f_./crt1.o" [label="./crt1.o"];
 "f_/dev/console" [label="/dev/console"];
-"f_/dev/crypto" [label="/dev/crypto"];
 "f_/dev/devctl" [label="/dev/devctl"];
 "f_/dev/klog" [label="/dev/klog"];
 "f_/dev/null" [label="/dev/null"];
-"f_/dev/pts/2" [label="/dev/pts/2"];
+"f_/dev/pts/0" [label="/dev/pts/0"];
 "f_/dev/tty" [label="/dev/tty"];
-"f_/etc/debian_version" [label="/etc/debian_version"];
 "f_/etc/group" [label="/etc/group"];
 "f_/etc/gss/mech" [label="/etc/gss/mech"];
 "f_/etc/hosts" [label="/etc/hosts"];
@@ -16,21 +14,16 @@ rankdir="LR";
 "f_/etc/libmap.conf" [label="/etc/libmap.conf"];
 "f_/etc/login.access" [label="/etc/login.access"];
 "f_/etc/login.conf.db" [label="/etc/login.conf.db"];
-"f_/etc/lsb-release" [label="/etc/lsb-release"];
 "f_/etc/motd" [label="/etc/motd"];
 "f_/etc/nsswitch.conf" [label="/etc/nsswitch.conf"];
-"f_/etc/pam.conf" [label="/etc/pam.conf"];
+"f_/etc/opiekeys" [label="/etc/opiekeys"];
 "f_/etc/pam.d/sshd" [label="/etc/pam.d/sshd"];
-"f_/etc/pam.d/sudo" [label="/etc/pam.d/sudo"];
 "f_/etc/pam.d/system" [label="/etc/pam.d/system"];
 "f_/etc/profile" [label="/etc/profile"];
 "f_/etc/protocols" [label="/etc/protocols"];
 "f_/etc/pwd.db" [label="/etc/pwd.db"];
-"f_/etc/redhat-release" [label="/etc/redhat-release"];
 "f_/etc/resolv.conf" [label="/etc/resolv.conf"];
 "f_/etc/spwd.db" [label="/etc/spwd.db"];
-"f_/etc/ssh/ssh_host_dsa_key" [label="/etc/ssh/ssh_host_dsa_key"];
-"f_/etc/ssh/ssh_host_dsa_key.pub" [label="/etc/ssh/ssh_host_dsa_key.pub"];
 "f_/etc/ssh/ssh_host_ecdsa_key" [label="/etc/ssh/ssh_host_ecdsa_key"];
 "f_/etc/ssh/ssh_host_ecdsa_key.pub" [label="/etc/ssh/ssh_host_ecdsa_key.pub"];
 "f_/etc/ssh/ssh_host_ed25519_key" [label="/etc/ssh/ssh_host_ed25519_key"];
@@ -38,14 +31,9 @@ rankdir="LR";
 "f_/etc/ssh/ssh_host_rsa_key" [label="/etc/ssh/ssh_host_rsa_key"];
 "f_/etc/ssh/ssh_host_rsa_key.pub" [label="/etc/ssh/ssh_host_rsa_key.pub"];
 "f_/etc/ssl/openssl.cnf" [label="/etc/ssl/openssl.cnf"];
-"f_/home/bob/.editrc" [label="/home/bob/.editrc"];
 "f_/home/bob/.login_conf" [label="/home/bob/.login_conf"];
-"f_/home/bob/.login_conf.db" [label="/home/bob/.login_conf.db"];
 "f_/home/bob/.profile" [label="/home/bob/.profile"];
 "f_/home/bob/.shrc" [label="/home/bob/.shrc"];
-"f_/home/bob/.ssh/authorized_keys" [label="/home/bob/.ssh/authorized_keys"];
-"f_/home/bob/.termcap" [label="/home/bob/.termcap"];
-"f_/home/bob/.termcap.db" [label="/home/bob/.termcap.db"];
 "f_/home/bob/crt1.o" [label="/home/bob/crt1.o"];
 "f_/lib/libc.so.7" [label="/lib/libc.so.7"];
 "f_/lib/libcrypt.so.5" [label="/lib/libcrypt.so.5"];
@@ -56,11 +44,9 @@ rankdir="LR";
 "f_/lib/libthr.so.3" [label="/lib/libthr.so.3"];
 "f_/lib/libutil.so.9" [label="/lib/libutil.so.9"];
 "f_/lib/libz.so.6" [label="/lib/libz.so.6"];
-"f_/tmp/hello-f8abf3.o" [label="/tmp/hello-f8abf3.o"];
-"f_/tmp/hello-f8abf3.o-d92212b3" [label="/tmp/hello-f8abf3.o-d92212b3"];
+"f_/tmp/hello-4c8ff9.o" [label="/tmp/hello-4c8ff9.o"];
+"f_/tmp/hello-4c8ff9.o-c8896050" [label="/tmp/hello-4c8ff9.o-c8896050"];
 "f_/tmp/runlog" [label="/tmp/runlog"];
-"f_/usr/bin/../lib/clang/3.8.0/include/stdio.h" [label="/usr/bin/../lib/clang/3.8.0/include/stdio.h"];
-"f_/usr/bin/../lib/clang/3.8.0/include/stdlib.h" [label="/usr/bin/../lib/clang/3.8.0/include/stdlib.h"];
 "f_/usr/include/machine/_types.h" [label="/usr/include/machine/_types.h"];
 "f_/usr/include/stdio.h" [label="/usr/include/stdio.h"];
 "f_/usr/include/stdlib.h" [label="/usr/include/stdlib.h"];
@@ -79,7 +65,6 @@ rankdir="LR";
 "f_/usr/lib/libc_nonshared.a" [label="/usr/lib/libc_nonshared.a"];
 "f_/usr/lib/libcom_err.so.5" [label="/usr/lib/libcom_err.so.5"];
 "f_/usr/lib/libgcc.a" [label="/usr/lib/libgcc.a"];
-"f_/usr/lib/libgcc.so" [label="/usr/lib/libgcc.so"];
 "f_/usr/lib/libgcc_s.so" [label="/usr/lib/libgcc_s.so"];
 "f_/usr/lib/libgssapi.so.10" [label="/usr/lib/libgssapi.so.10"];
 "f_/usr/lib/libgssapi_krb5.so.10" [label="/usr/lib/libgssapi_krb5.so.10"];
@@ -119,1477 +104,1463 @@ rankdir="LR";
 "f_/var/log/utx.lastlogin" [label="/var/log/utx.lastlogin"];
 "f_/var/log/utx.log" [label="/var/log/utx.log"];
 "f_/var/run/ld-elf.so.hints" [label="/var/run/ld-elf.so.hints"];
-"f_/var/run/nologin" [label="/var/run/nologin"];
 "f_/var/run/utx.active" [label="/var/run/utx.active"];
-"f_freebsd-tips" [label="freebsd-tips"];
 "f_hello" [label="hello"];
 "f_hello.c" [label="hello.c"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/dev/console" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/messages" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "p_11371_scp" -> "f_/home/bob/crt1.o" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/dev/console" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/messages" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "p_11376_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "p_11376_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "p_11376_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "p_11376_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "p_11376_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "p_690_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
-    p_11378 [label="pid 11378", shape="diamond"];
-    "p_11378_cp" [label="cp
-p11378", shape="box"];
-    "p_11378_cp" -> "f_/usr/lib/crt1.o" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "p_11380_cc" -> "f_/tmp/hello-f8abf3.o-d92212b3" [label="write", color="saddlebrown"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "p_11380_cc" -> "f_/tmp/hello-f8abf3.o-d92212b3" [label="write", color="saddlebrown"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "p_11380_cc" -> "f_/tmp/hello-f8abf3.o-d92212b3" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "p_11381_ld" -> "f_hello" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11382 [label="pid 11382", shape="diamond"];
-    "p_11382_hello" [label="hello
-p11382", shape="box"];
-    "p_11382_hello" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_11382 [label="pid 11382", shape="diamond"];
-    "p_11382_hello" [label="hello
-p11382", shape="box"];
-    "p_11382_hello" -> "f_/tmp/runlog" [label="write", color="saddlebrown"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "p_11375_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "f_/dev/klog" -> "p_690_syslogd" [label="read", color="black"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "f_/dev/klog" -> "p_690_syslogd" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_sh" [label="sh
-p11371", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11371_sh" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_sh" [label="sh
-p11371", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11371_sh" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/nsswitch.conf" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/nsswitch.conf" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_11371 [label="pid 11371", shape="diamond"];
-    "p_11371_scp" [label="scp
-p11371", shape="box"];
-    "f_/etc/pwd.db" -> "p_11371_scp" [label="read", color="black"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "f_/dev/klog" -> "p_690_syslogd" [label="read", color="black"];
-    p_690 [label="pid 690", shape="diamond"];
-    "p_690_syslogd" [label="syslogd
-p690", shape="box"];
-    "f_/dev/klog" -> "p_690_syslogd" [label="read", color="black"];
-    p_506 [label="pid 506", shape="diamond"];
-    "p_506_devd" [label="devd
-p506", shape="box"];
-    "f_/dev/devctl" -> "p_506_devd" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/etc/profile" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/etc/profile" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/home/bob/.profile" -> "p_11375_sh" [label="read", color="black"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11376_fortune" [label="read", color="black"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11376_fortune" [label="read", color="black"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "f_/usr/share/games/fortune/freebsd-tips.dat" -> "p_11376_fortune" [label="read", color="black"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "f_/usr/share/games/fortune/freebsd-tips.dat" -> "p_11376_fortune" [label="read", color="black"];
-    p_11376 [label="pid 11376", shape="diamond"];
-    "p_11376_fortune" [label="fortune
-p11376", shape="box"];
-    "f_/usr/share/games/fortune/freebsd-tips" -> "p_11376_fortune" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/home/bob/.profile" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/home/bob/.shrc" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/home/bob/.shrc" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/usr/share/zoneinfo/UTC" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/usr/share/zoneinfo/posixrules" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/nsswitch.conf" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/nsswitch.conf" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/group" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/group" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/usr/local/etc/sudoers" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/usr/local/etc/sudoers" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/group" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/group" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/group" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/usr/local/etc/pam.d/sudo" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/pam.d/system" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/pam.d/system" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/pam.d/system" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/pam.d/system" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/pam.d/system" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/pam.d/system" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/usr/local/etc/pam.d/sudo" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11377 [label="pid 11377", shape="diamond"];
-    "p_11377_sudo" [label="sudo
-p11377", shape="box"];
-    "f_/etc/spwd.db" -> "p_11377_sudo" [label="read", color="black"];
-    p_11378 [label="pid 11378", shape="diamond"];
-    "p_11378_cp" [label="cp
-p11378", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11378_cp" [label="read", color="black"];
-    p_11378 [label="pid 11378", shape="diamond"];
-    "p_11378_cp" [label="cp
-p11378", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11378_cp" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11379 [label="pid 11379", shape="diamond"];
-    "p_11379_cc" [label="cc
-p11379", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11379_cc" [label="read", color="black"];
-    p_11379 [label="pid 11379", shape="diamond"];
-    "p_11379_cc" [label="cc
-p11379", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11379_cc" [label="read", color="black"];
-    p_11379 [label="pid 11379", shape="diamond"];
-    "p_11379_cc" [label="cc
-p11379", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11379_cc" [label="read", color="black"];
-    p_11379 [label="pid 11379", shape="diamond"];
-    "p_11379_cc" [label="cc
-p11379", shape="box"];
-    "f_/usr/share/misc/termcap.db" -> "p_11379_cc" [label="read", color="black"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "f_hello.c" -> "p_11380_cc" [label="read", color="black"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "f_/usr/include/sys/_null.h" -> "p_11380_cc" [label="read", color="black"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "f_/usr/include/sys/_types.h" -> "p_11380_cc" [label="read", color="black"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "f_/usr/include/machine/_types.h" -> "p_11380_cc" [label="read", color="black"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "f_/usr/include/x86/_types.h" -> "p_11380_cc" [label="read", color="black"];
-    p_11380 [label="pid 11380", shape="diamond"];
-    "p_11380_cc" [label="cc
-p11380", shape="box"];
-    "f_/usr/include/stdlib.h" -> "p_11380_cc" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crt1.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crt1.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crti.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crtbegin.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/tmp/hello-f8abf3.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc.a" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/lib/libc.so.7" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libc_nonshared.a" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libssp_nonshared.a" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc.a" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/libgcc_s.so" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crtend.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crtn.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crt1.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crti.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/usr/lib/crtbegin.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11381 [label="pid 11381", shape="diamond"];
-    "p_11381_ld" [label="ld
-p11381", shape="box"];
-    "f_/tmp/hello-f8abf3.o" -> "p_11381_ld" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
-    p_11382 [label="pid 11382", shape="diamond"];
-    "p_11382_hello" [label="hello
-p11382", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11382_hello" [label="read", color="black"];
-    p_11382 [label="pid 11382", shape="diamond"];
-    "p_11382_hello" [label="hello
-p11382", shape="box"];
-    "f_/var/run/ld-elf.so.hints" -> "p_11382_hello" [label="read", color="black"];
-    p_11375 [label="pid 11375", shape="diamond"];
-    "p_11375_sh" [label="sh
-p11375", shape="box"];
-    "f_/dev/tty" -> "p_11375_sh" [label="read", color="black"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/dev/console" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/messages" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "p_1210_scp" -> "f_/home/bob/crt1.o" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/dev/console" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/messages" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "p_1216_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "p_1216_fortune" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "p_692_syslogd" -> "f_/var/log/auth.log" [label="write", color="saddlebrown"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "p_1218_cp" -> "f_/usr/lib/crt1.o" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "p_1220_cc" -> "f_/tmp/hello-4c8ff9.o-c8896050" [label="write", color="saddlebrown"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "p_1220_cc" -> "f_/tmp/hello-4c8ff9.o-c8896050" [label="write", color="saddlebrown"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "p_1220_cc" -> "f_/tmp/hello-4c8ff9.o-c8896050" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "p_1221_ld" -> "f_hello" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "p_1222_hello" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "p_1222_hello" -> "f_/tmp/runlog" [label="write", color="saddlebrown"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "p_1215_sh" -> "f_/dev/tty" [label="write", color="saddlebrown"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "f_/dev/klog" -> "p_692_syslogd" [label="read", color="black"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "f_/dev/klog" -> "p_692_syslogd" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1210_sh" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1210_sh" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/nsswitch.conf" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/nsswitch.conf" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/pwd.db" -> "p_1210_scp" [label="read", color="black"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "f_/dev/klog" -> "p_692_syslogd" [label="read", color="black"];
+    p_692 [label="pid 692", shape="diamond"];
+    "p_692_syslogd" [label="syslogd
+p692", shape="box"];
+    "f_/dev/klog" -> "p_692_syslogd" [label="read", color="black"];
+    p_508 [label="pid 508", shape="diamond"];
+    "p_508_devd" [label="devd
+p508", shape="box"];
+    "f_/dev/devctl" -> "p_508_devd" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/etc/profile" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/etc/profile" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/home/bob/.profile" -> "p_1215_sh" [label="read", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1216_fortune" [label="read", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1216_fortune" [label="read", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/usr/share/games/fortune/freebsd-tips.dat" -> "p_1216_fortune" [label="read", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/usr/share/games/fortune/freebsd-tips.dat" -> "p_1216_fortune" [label="read", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/usr/share/games/fortune/freebsd-tips" -> "p_1216_fortune" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/home/bob/.profile" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/home/bob/.shrc" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/home/bob/.shrc" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/share/zoneinfo/UTC" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/share/zoneinfo/posixrules" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/nsswitch.conf" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/nsswitch.conf" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/group" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/group" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/etc/sudoers" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/etc/sudoers" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/group" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/group" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/group" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/etc/pam.d/sudo" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/pam.d/system" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/pam.d/system" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/pam.d/system" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/pam.d/system" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/pam.d/system" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/pam.d/system" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/etc/pam.d/sudo" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/spwd.db" -> "p_1217_sudo" [label="read", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1218_cp" [label="read", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1218_cp" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1219 [label="pid 1219", shape="diamond"];
+    "p_1219_cc" [label="cc
+p1219", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1219_cc" [label="read", color="black"];
+    p_1219 [label="pid 1219", shape="diamond"];
+    "p_1219_cc" [label="cc
+p1219", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1219_cc" [label="read", color="black"];
+    p_1219 [label="pid 1219", shape="diamond"];
+    "p_1219_cc" [label="cc
+p1219", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1219_cc" [label="read", color="black"];
+    p_1219 [label="pid 1219", shape="diamond"];
+    "p_1219_cc" [label="cc
+p1219", shape="box"];
+    "f_/usr/share/misc/termcap.db" -> "p_1219_cc" [label="read", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_hello.c" -> "p_1220_cc" [label="read", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/sys/_null.h" -> "p_1220_cc" [label="read", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/sys/_types.h" -> "p_1220_cc" [label="read", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/machine/_types.h" -> "p_1220_cc" [label="read", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/x86/_types.h" -> "p_1220_cc" [label="read", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/stdlib.h" -> "p_1220_cc" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crt1.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crt1.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crti.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crtbegin.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/tmp/hello-4c8ff9.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc.a" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libc_nonshared.a" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libssp_nonshared.a" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc.a" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/libgcc_s.so" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crtend.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crtn.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crt1.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crti.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/usr/lib/crtbegin.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1221 [label="pid 1221", shape="diamond"];
+    "p_1221_ld" [label="ld
+p1221", shape="box"];
+    "f_/tmp/hello-4c8ff9.o" -> "p_1221_ld" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1222_hello" [label="read", color="black"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "f_/var/run/ld-elf.so.hints" -> "p_1222_hello" [label="read", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
 }
