@@ -1563,4 +1563,452 @@ p1222", shape="box"];
     "p_1215_sh" [label="sh
 p1215", shape="box"];
     "f_/dev/tty" -> "p_1215_sh" [label="read", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libedit.so.7" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libedit.so.7" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libedit.so.7" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libncursesw.so.8" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libncursesw.so.8" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_sh" [label="sh
+p1210", shape="box"];
+    "f_/lib/libncursesw.so.8" -> "p_1210_sh" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/usr/lib/libprivatessh.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/usr/lib/libprivatessh.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/usr/lib/libprivatessh.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/usr/lib/libprivateldns.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/usr/lib/libprivateldns.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/usr/lib/libprivateldns.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libcrypto.so.8" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libcrypto.so.8" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libcrypto.so.8" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libcrypt.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libcrypt.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libcrypt.so.5" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libz.so.6" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libz.so.6" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1210 [label="pid 1210", shape="diamond"];
+    "p_1210_scp" [label="scp
+p1210", shape="box"];
+    "f_/lib/libz.so.6" -> "p_1210_scp" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libedit.so.7" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libedit.so.7" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libedit.so.7" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libncursesw.so.8" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libncursesw.so.8" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1215 [label="pid 1215", shape="diamond"];
+    "p_1215_sh" [label="sh
+p1215", shape="box"];
+    "f_/lib/libncursesw.so.8" -> "p_1215_sh" [label="mmap", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1216_fortune" [label="mmap", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1216_fortune" [label="mmap", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1216_fortune" [label="mmap", color="black"];
+    p_1216 [label="pid 1216", shape="diamond"];
+    "p_1216_fortune" [label="fortune
+p1216", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1216_fortune" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libutil.so.9" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libutil.so.9" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libutil.so.9" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/libexec/sudo/libsudo_util.so.0" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/libexec/sudo/libsudo_util.so.0" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/libexec/sudo/libsudo_util.so.0" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/lib/libintl.so.8" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/lib/libintl.so.8" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/lib/libintl.so.8" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/libexec/sudo/sudoers.so" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/libexec/sudo/sudoers.so" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/local/libexec/sudo/sudoers.so" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libbsm.so.3" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libbsm.so.3" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libbsm.so.3" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libpam.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libpam.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libpam.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libz.so.6" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libz.so.6" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libz.so.6" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_opie.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_opie.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_opie.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libopie.so.8" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libopie.so.8" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libopie.so.8" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libmd.so.6" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libmd.so.6" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libmd.so.6" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_opieaccess.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_opieaccess.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_opieaccess.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libcrypt.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libcrypt.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/lib/libcrypt.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libypclnt.so.4" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libypclnt.so.4" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/libypclnt.so.4" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_login_access.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_login_access.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_login_access.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_permit.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_permit.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_permit.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1217 [label="pid 1217", shape="diamond"];
+    "p_1217_sudo" [label="sudo
+p1217", shape="box"];
+    "f_/usr/lib/pam_unix.so.5" -> "p_1217_sudo" [label="mmap", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1218_cp" [label="mmap", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1218_cp" [label="mmap", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1218_cp" [label="mmap", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1218_cp" [label="mmap", color="black"];
+    p_1218 [label="pid 1218", shape="diamond"];
+    "p_1218_cp" [label="cp
+p1218", shape="box"];
+    "f_./crt1.o" -> "p_1218_cp" [label="mmap", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/stdio.h" -> "p_1220_cc" [label="mmap", color="black"];
+    p_1220 [label="pid 1220", shape="diamond"];
+    "p_1220_cc" [label="cc
+p1220", shape="box"];
+    "f_/usr/include/sys/cdefs.h" -> "p_1220_cc" [label="mmap", color="black"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "f_/etc/libmap.conf" -> "p_1222_hello" [label="mmap", color="black"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1222_hello" [label="mmap", color="black"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1222_hello" [label="mmap", color="black"];
+    p_1222 [label="pid 1222", shape="diamond"];
+    "p_1222_hello" [label="hello
+p1222", shape="box"];
+    "f_/lib/libc.so.7" -> "p_1222_hello" [label="mmap", color="black"];
 }
