@@ -28,7 +28,8 @@ Each event will have a subset of following attributes:
 * _event_: Event name. We use DTrace's naming convention for events
   (<dtrace provider>:<module>:<function>:<probe name>). For example,
   "syscall:freebsd:open:entry" is an event that is triggered when the
-  FreeBSD ```open()`` system call is entered.
+  FreeBSD `open()` system call is entered. The probe name is optional - 
+  not all events will include it.
 * _time_: The time the event occurred expressed as nanoseconds since 00:00
   Universal Coordinated Time, January 1, 1970.
 * _pid_: The ID of the process that generated the event.
@@ -42,6 +43,11 @@ Each event will have a subset of following attributes:
 * _fd_: The filesystem descriptor (fd) associated with this event.
 * _address_: The IPv4/v6 address associated with an event.
 * _port_: The network port associated with an event.
+* _new_exec_: new executable if one was started by this event
+* _new_fd_: new file descriptor if one was created by this event
+* _new_pid_: new process id if one was started by this event
+* _err_: the `errno` code if connect failed
+
 
 Specific applications may have extra attributes:
 
