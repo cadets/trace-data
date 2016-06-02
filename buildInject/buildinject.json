@@ -1125,12 +1125,12 @@
 , {"event": "syscall:freebsd:mmap:", "time": 1461868804682204614, "pid": 2005, "tid": 100111, "uid": 0, "exec": "cp", "fd": 3, "path": "/lib/libc.so.7" }
 , {"event": "syscall:freebsd:mmap:", "time": 1461868804682204614, "pid": 2005, "tid": 100111, "uid": 0, "exec": "cp", "fd": 3, "path": "/lib/libc.so.7" }
 , {"event": "syscall:freebsd:close:", "time": 1461868804682204614, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "/lib/libc.so.7", "fd": 3 }
-, {"event": "syscall:freebsd:openat:", "time": 1461868804684204857, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "./crt1.o", "fd": 3}
+, {"event": "syscall:freebsd:openat:", "time": 1461868804684204857, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "/home/bob/crt1.o", "fd": 3}
 , {"event": "syscall:freebsd:openat:", "time": 1461868804684204857, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "/usr/lib/crt1.o", "fd": 4}
-, {"event": "syscall:freebsd:mmap:", "time": 1461868804684204857, "pid": 2005, "tid": 100111, "uid": 0, "exec": "cp", "fd": 3, "path": "./crt1.o" }
+, {"event": "syscall:freebsd:mmap:", "time": 1461868804684204857, "pid": 2005, "tid": 100111, "uid": 0, "exec": "cp", "fd": 3, "path": "/home/bob/crt1.o" }
 , {"event": "syscall:freebsd:write:", "time": 1461868804684204857, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "fd": 4, "path": "/usr/lib/crt1.o" }
 , {"event": "syscall:freebsd:close:", "time": 1461868804685205113, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "/usr/lib/crt1.o", "fd": 4 }
-, {"event": "syscall:freebsd:close:", "time": 1461868804685205113, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "./crt1.o", "fd": 3 }
+, {"event": "syscall:freebsd:close:", "time": 1461868804685205113, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp", "path": "/home/bob/crt1.o", "fd": 3 }
 , {"event": "syscall:freebsd:exit:", "time": 1461868804685205113, "pid": 2005, "ppid": 2004, "tid": 100111, "uid": 0, "exec": "cp"}
 , {"event": "syscall:freebsd:write:", "time": 1461868804686205019, "pid": 2004, "ppid": 2000, "tid": 100073, "uid": 0, "exec": "sudo", "fd": 5, "path": "<unknown>" }
 , {"event": "syscall:freebsd:read:", "time": 1461868804686205019, "pid": 2004, "ppid": 2000, "tid": 100073, "uid": 0, "exec": "sudo", "fd": 4, "path": "<unknown>" }
@@ -1218,7 +1218,7 @@
 , {"event": "syscall:freebsd:exit:", "time": 1461868810646204772, "pid": 2007, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "cc"}
 , {"event": "syscall:freebsd:vfork:", "time": 1461868810647204414, "pid": 2006, "ppid": 2000, "tid": 100073, "uid": 8314, "exec": "cc", "new_pid": 2008 }
 , {"event": "syscall:freebsd:execve:", "time": 1461868810647204414, "pid": 2008, "tid": 100099, "ppid": 2006, "uid": 8314, "exec": "cc", "new_exec": "/usr/bin/ld"}
-, {"event": "syscall:freebsd:open:", "time": 1461868810650203878, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "hello", "fd": 3}
+, {"event": "syscall:freebsd:open:", "time": 1461868810650203878, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/home/bob/hello", "fd": 3}
 , {"event": "syscall:freebsd:open:", "time": 1461868810650203878, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/usr/lib/crt1.o", "fd": 4}
 , {"event": "syscall:freebsd:read:", "time": 1461868810650203878, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 4, "path": "/usr/lib/crt1.o" }
 , {"event": "syscall:freebsd:read:", "time": 1461868810651203952, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 4, "path": "/usr/lib/crt1.o" }
@@ -1305,7 +1305,7 @@
 , {"event": "syscall:freebsd:open:", "time": 1461868810664204322, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/usr/lib/libssp_nonshared.a", "fd": 13}
 , {"event": "syscall:freebsd:read:", "time": 1461868810664204322, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 13, "path": "/usr/lib/libssp_nonshared.a" }
 , {"event": "syscall:freebsd:open:", "time": 1461868810665204308, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/usr/lib/libgcc.a", "fd": 14}
-, {"event": "syscall:freebsd:close:", "time": 1461868810665204308, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "hello", "fd": 3 }
+, {"event": "syscall:freebsd:close:", "time": 1461868810665204308, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/home/bob/hello", "fd": 3 }
 , {"event": "syscall:freebsd:read:", "time": 1461868810665204308, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 14, "path": "/usr/lib/libgcc.a" }
 , {"event": "syscall:freebsd:open:", "time": 1461868810665204308, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/usr/lib/libgcc_s.so", "fd": 3}
 , {"event": "syscall:freebsd:close:", "time": 1461868810665204308, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/usr/lib/crt1.o", "fd": 4 }
@@ -1335,55 +1335,55 @@
 , {"event": "syscall:freebsd:open:", "time": 1461868810673204440, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/tmp/hello-6b23fe.o", "fd": 9}
 , {"event": "syscall:freebsd:read:", "time": 1461868810673204440, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 9, "path": "/tmp/hello-6b23fe.o" }
 , {"event": "syscall:freebsd:close:", "time": 1461868810677204224, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/usr/lib/libc_nonshared.a", "fd": 12 }
-, {"event": "syscall:freebsd:open:", "time": 1461868810677204224, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "hello", "fd": 11}
-, {"event": "syscall:freebsd:write:", "time": 1461868810677204224, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810678204479, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810678204479, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810678204479, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810684204253, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810684204253, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810684204253, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "hello" }
-, {"event": "syscall:freebsd:close:", "time": 1461868810687204143, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "hello", "fd": 11 }
+, {"event": "syscall:freebsd:open:", "time": 1461868810677204224, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/home/bob/hello", "fd": 11}
+, {"event": "syscall:freebsd:write:", "time": 1461868810677204224, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810678204479, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810678204479, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810678204479, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810679204575, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810680204742, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810681204379, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810682204360, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810683204138, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810684204253, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810684204253, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810684204253, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810685203881, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:write:", "time": 1461868810686204145, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "fd": 11, "path": "/home/bob/hello" }
+, {"event": "syscall:freebsd:close:", "time": 1461868810687204143, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld", "path": "/home/bob/hello", "fd": 11 }
 , {"event": "syscall:freebsd:exit:", "time": 1461868810687204143, "pid": 2008, "ppid": 2006, "tid": 100099, "uid": 8314, "exec": "ld"}
 , {"event": "syscall:freebsd:exit:", "time": 1461868810689204144, "pid": 2006, "ppid": 2000, "tid": 100073, "uid": 8314, "exec": "cc"}
 , {"event": "syscall:freebsd:write:", "time": 1461868810690204177, "pid": 2000, "ppid": 1999, "tid": 100074, "uid": 8314, "exec": "sh", "fd": 2, "path": "/dev/tty" }
@@ -1404,7 +1404,7 @@
 , {"event": "syscall:freebsd:read:", "time": 1461868816168203893, "pid": 2000, "ppid": 1999, "tid": 100074, "uid": 8314, "exec": "sh", "fd": 0, "path": "/dev/tty" }
 , {"event": "syscall:freebsd:write:", "time": 1461868817067203659, "pid": 2000, "ppid": 1999, "tid": 100074, "uid": 8314, "exec": "sh", "fd": 2, "path": "/dev/tty" }
 , {"event": "syscall:freebsd:fork:", "time": 1461868817068203660, "pid": 2000, "ppid": 1999, "tid": 100074, "uid": 8314, "exec": "sh", "new_pid": 2009 }
-, {"event": "syscall:freebsd:execve:", "time": 1461868817068203660, "pid": 2009, "tid": 100073, "ppid": 2000, "uid": 8314, "exec": "sh", "new_exec": "./hello"}
+, {"event": "syscall:freebsd:execve:", "time": 1461868817068203660, "pid": 2009, "tid": 100073, "ppid": 2000, "uid": 8314, "exec": "sh", "new_exec": "/home/bob/hello"}
 , {"event": "syscall:freebsd:openat:", "time": 1461868817086204118, "pid": 2009, "ppid": 2000, "tid": 100073, "uid": 8314, "exec": "hello", "path": "/etc/libmap.conf", "fd": 3}
 , {"event": "syscall:freebsd:mmap:", "time": 1461868817086204118, "pid": 2009, "tid": 100073, "uid": 8314, "exec": "hello", "fd": 3, "path": "/etc/libmap.conf" }
 , {"event": "syscall:freebsd:close:", "time": 1461868817086204118, "pid": 2009, "ppid": 2000, "tid": 100073, "uid": 8314, "exec": "hello", "path": "/etc/libmap.conf", "fd": 3 }
