@@ -33,6 +33,7 @@ Each event will have a subset of following attributes:
 * _time_: The time the event occurred expressed as nanoseconds since 00:00
   Universal Coordinated Time, January 1, 1970.
 * _pid_: The ID of the process that generated the event.
+* _subjuuid_: A UUID of the process that generated the event. 
 * _ppid_: The ID of the parent of the process that generated the
   event.
 * _tid_: The ID of the thread that generated the event.
@@ -46,7 +47,12 @@ Each event will have a subset of following attributes:
 * _new_exec_: new executable if one was started by this event
 * _new_fd_: new file descriptor if one was created by this event
 * _new_pid_: new process id if one was started by this event
+* _procuuid_: A UUID for a process affected by this effect
 * _err_: the `errno` code if connect failed
+* _upath1_: A path associated with the event.                                  
+* _upath2_: A second path associated with the event.
+* _obj1uuid_: A UUID associated with an object (probably a file) affected by this event
+* _obj2uuid_: A UUID associated with an object (probably a file) affected by this event
 
 
 Specific applications may have extra attributes:
