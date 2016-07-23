@@ -66,6 +66,49 @@ Specific applications may have extra attributes:
 
 # CDM Mapping
 
+Our traces are converted to CDM format on an entry to entry basis. Currently,
+each event in a CADETS trace is converted to an event entry in the CDM format.
+If necessary, related objects are also created, such as files, users, or
+processes.
+
+Take this short trace:
+```json
+[
+  {"event": "audit:event:aue_unlink:", "time": 1469212266719943874, "pid": 3555, "ppid": 3554, "tid": 100153, "uid": 0, "exec": "remove_file", "subjuuid": "73bc6807-503a-11e6-b8c7-080027889132", "arg_objuuid1": "ea7eea24-097f-cf5b-bf09-a3843bcf40b6", "upath1": "/usr/home/strnad/unit_tests/temp.out", "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1469212266719943874, "pid": 3555, "ppid": 3554, "tid": 100153, "uid": 0, "exec": "remove_file", "subjuuid": "73bc6807-503a-11e6-b8c7-080027889132", "retval": 0}
+]
+```
+
+In CDM format, it looks like this
+[remove_file.json.CDM.json](./unit_test_traces/remove_file.json.CDM.json). This
+simple trace becomes a graph with 2 events, 4 edges, and 3 nodes describing the
+running process, the user, and the file being removed.
+
+Events are converted to known CDM events when possible, and are otherwise left
+as OS_UNKNOWN or APP_UNKNOWN depending on the source of the event.
+
+Any information from the CADETS trace that does not have a corresponding place
+in the CDM trace is copied into the properties field as a map of fields to
+values.
+
+File objects are created when they are first referenced. File names are
+associated with file objects on opens, but may not be included for each read or
+write. Versions are incremented on writes, but versions may be created at
+version -1 at any time to associate a file path with the object. Sometimes
+different paths will associate to the same file object, and sometimes the same
+path will refer to different file objects over time.
+
+When a process starts executing a new program, the CDM trace will show a link
+between the file being executed and the exec event. This provides the full path
+to the program upon start of execution.
+
+For example:
+```json
+{"datum": {"timestampMicros": 1469212271398110, "uuid": "00000000000000030000000000000019", "sequence": 25, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100259, "type": "EVENT_EXECUTE", "properties": {"subjuuid": "76dd6962-    503a-11e6-b8c7-080027889132", "arg_objuuid1": "c63c9e57-55b6-7d59-b655-e198f97d106e", "probe": "", "module": "event", "call": "aue_execve", "provider": "audit", "path": "/usr/local/bin/wget", "retval": "0", "upath1": "/usr/local/bin    /wget"}}, "CDMVersion": "13"}
+{"CDMVersion": "13", "datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "000000000000000649883dfd38c0a873", "url": "/usr/local/bin/wget", "isPipe": false, "version": 1, "properties": {}}}
+{"CDMVersion": "13", "datum": {"fromUuid": "000000000000000649883dfd38c0a873", "toUuid": "00000000000000030000000000000019", "properties": {}, "timestamp": 1469212271398110, "type": "EDGE_FILE_AFFECTS_EVENT"}}
+```
+
 # Traces
 
 The current traces we are sharing include:
