@@ -66,8 +66,8 @@ Specific applications may have extra attributes:
 
 # CDM Mapping
 
-Our traces are converted to CDM format on an entry to entry basis. Currently,
-each event in a CADETS trace is converted to an event entry in the CDM format.
+Our traces are converted to CDM format on a per event record basis. Currently,
+each event in a CADETS trace is converted to a corresponding event entry in the CDM format.
 If necessary, related objects are also created, such as files, users, or
 processes.
 
@@ -104,7 +104,7 @@ to the program upon start of execution.
 
 For example:
 ```json
-{"datum": {"timestampMicros": 1469212271398110, "uuid": "00000000000000030000000000000019", "sequence": 25, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100259, "type": "EVENT_EXECUTE", "properties": {"subjuuid": "76dd6962-    503a-11e6-b8c7-080027889132", "arg_objuuid1": "c63c9e57-55b6-7d59-b655-e198f97d106e", "probe": "", "module": "event", "call": "aue_execve", "provider": "audit", "path": "/usr/local/bin/wget", "retval": "0", "upath1": "/usr/local/bin    /wget"}}, "CDMVersion": "13"}
+{"datum": {"timestampMicros": 1469212271398110, "uuid": "00000000000000030000000000000019", "sequence": 25, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100259, "type": "EVENT_EXECUTE", "properties": {"subjuuid": "76dd6962-503a-11e6-b8c7-080027889132", "arg_objuuid1": "c63c9e57-55b6-7d59-b655-e198f97d106e", "probe": "", "module": "event", "call": "aue_execve", "provider": "audit", "path": "/usr/local/bin/wget", "retval": "0", "upath1": "/usr/local/bin/wget"}}, "CDMVersion": "13"}
 {"CDMVersion": "13", "datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "000000000000000649883dfd38c0a873", "url": "/usr/local/bin/wget", "isPipe": false, "version": 1, "properties": {}}}
 {"CDMVersion": "13", "datum": {"fromUuid": "000000000000000649883dfd38c0a873", "toUuid": "00000000000000030000000000000019", "properties": {}, "timestamp": 1469212271398110, "type": "EDGE_FILE_AFFECTS_EVENT"}}
 ```
