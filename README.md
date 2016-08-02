@@ -36,7 +36,8 @@ Each event will have a subset of following attributes:
 * _time_: The time the event occurred expressed as nanoseconds since 00:00
   Universal Coordinated Time, January 1, 1970.
 * _pid_: The ID of the process that generated the event.
-* _subjuuid_: A UUID of the process that generated the event.
+* _subjprocuuid_: A UUID of the process that generated the event.
+* _subjthruuid_: A UUID of the thread that generated the event.
 * _ppid_: The ID of the parent of the process that generated the
   event.
 * _tid_: The ID of the thread that generated the event.
