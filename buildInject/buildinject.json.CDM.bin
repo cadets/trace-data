@@ -1,4 +1,4 @@
-Objavro.schema’å{"doc": "* A record representing either a vertex or an edge. This is the top level record that allows\n     * us to easily mix the vertices and edges defined above on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "TCCDMDatum", "fields": [{"type": [{"doc": "* A provenance tag defines source dependence on specific data sources (inputs).\n     * A tag identifier is typically bound to a source and used by the tracking system to\n     * capture dependence on this source input.\n     * A provenance tag is represented as a tree. Each node in the tree has a value and\n     * a set of children nodes.", "namespace": "com.bbn.tc.schema.avro", "name": "ProvenanceTagNode", "fields": [{"doc": "*  the value of the node: can have the following types\n         *   int                 references another node by tagId\n         *   UUID                object uuid (source or sink for example)\n         *   TaOpCode            the opcode applied to the children nodes, see TaOpCode\n         *   IntegrityTag        an integrity tag\n         *   ConfidentialityTag  a confidentiality tag", "type": ["int", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "UUID", "size": 16}, {"symbols": ["TAG_OP_SEQUENCE", "TAG_OP_UNION", "TAG_OP_ENCODE", "TAG_OP_STRONG", "TAG_OP_MEDIUM", "TAG_OP_WEAK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "TagOpCode", "doc": "* The tag opcode describes the provenance relation i.e., how multiple sources are combined to\n     * produce the output. We identify the following provenance relations\n     *\n     *   TAG_OP_SEQUENCE       the output is derived from the specified inputs in order, sequentially\n     *   TAG_OP_UNION,         the output is the union of its inputs\n     *   TAG_OP_ENCODE         the output is some encoding of the input\n     *   TAG_OP_STRONG         this is more qualitative (coarse) saying there is strong dependence\n     *   TAG_OP_MEDIUM         this is more qualitative (coarse) saying there is medium dependence\n     *   TAG_OP_WEAK           this is more qualitative (coarse) saying there is weak   dependence"}, {"symbols": ["INTEGRITY_UNTRUSTED", "INTEGRITY_BENIGN", "INTEGRITY_INVULNERABLE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "IntegrityTag", "doc": "* The integrity tag may be used to specify the initial integrity of an entity,\n     * or to endorse its content after performing appropriate checking/sanitization."}, {"symbols": ["CONFIDENTIALITY_SECRET", "CONFIDENTIALITY_SENSITIVE", "CONFIDENTIALITY_PRIVATE", "CONFIDENTIALITY_PUBLIC"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ConfidentialityTag", "doc": "* The confidentiality tag may be used to specify the initial confidentiality of an entity,\n     * or to declassify its content after performing appropriate checking/sanitization."}], "name": "value"}, {"default": null, "doc": "the child nodes", "type": ["null", {"items": "com.bbn.tc.schema.avro.ProvenanceTagNode", "type": "array"}], "name": "children"}, {"default": null, "doc": "* the id to be assigned to this tag node\n         * typically set once when the node is first created, and used in value afterwards", "type": ["null", "int"], "name": "tagId"}, {"default": null, "doc": "Arbitrary key, value pairs associated with a tag node", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Subjects represent execution contexts and include mainly threads and processes. They can be more granular and\n     * can represent other execution boundaries such as functions and blocks if needed.", "namespace": "com.bbn.tc.schema.avro", "name": "Subject", "fields": [{"doc": "universally unique identifier for the subject", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "the subject type", "type": {"symbols": ["SUBJECT_PROCESS", "SUBJECT_THREAD", "SUBJECT_UNIT", "SUBJECT_BASIC_BLOCK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SubjectType", "doc": "* SUBJECT_PROCESS,    process\n     * SUBJECT_THREAD,     thread within a process\n     * SUBJECT_UNIT        so far we only know of TRACE BEEP using this"}, "name": "type"}, {"doc": "OS process id for type process and unit id for a unit (Optional)", "type": "int", "name": "pid"}, {"doc": "OS parent process id for type process and pid for type unit (Optional)", "type": "int", "name": "ppid"}, {"doc": "Where it came from, see InstrumentationSource", "type": {"symbols": ["SOURCE_LINUX_AUDIT_TRACE", "SOURCE_LINUX_PROC_TRACE", "SOURCE_LINUX_BEEP_TRACE", "SOURCE_FREEBSD_OPENBSM_TRACE", "SOURCE_ANDROID_JAVA_CLEARSCOPE", "SOURCE_ANDROID_NATIVE_CLEARSCOPE", "SOURCE_FREEBSD_DTRACE_CADETS", "SOURCE_FREEBSD_TESLA_CADETS", "SOURCE_FREEBSD_LOOM_CADETS", "SOURCE_FREEBSD_MACIF_CADETS", "SOURCE_WINDOWS_DIFT_FAROS", "SOURCE_LINUX_THEIA", "SOURCE_WINDOWS_FIVEDIRECTIONS"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "InstrumentationSource", "doc": "* SOURCE_LINUX_AUDIT_TRACE,          from Linux /dev/audit\n     * SOURCE_LINUX_PROC_TRACE,           from Linux's /proc\n     * SOURCE_LINUX_BEEP_TRACE,           from BEEP instrumentation\n     * SOURCE_FREEBSD_OPENBSM_TRACE,      from FreeBSD openBSM\n     * SOURCE_ANDROID_JAVA_CLEARSCOPE,    from android java instrumentation\n     * SOURCE_ANDROID_NATIVE_CLEARSCOPE,  from android's native instrumentation\n     * SOURCE_FREEBSD_DTRACE_CADETS, SOURCE_FREEBSD_TESLA_CADETS  for CADETS freebsd instrumentation\n     * SOURCE_FREEBSD_LOOM_CADETS, SOURCE_FREEBSD_MACIF_CADETS    for CADETS freebsd instrumentation\n     * SOURCE_LINUX_THEIA                 from the GATech THEIA instrumentation source\n     * SOURCE_WINDOWS_FIVEDIRECTIONS      for the fivedirections windows events"}, "name": "source"}, {"default": null, "doc": "* The start time of the subject\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         * (Optional)", "type": ["null", "long"], "name": "startTimestampMicros"}, {"default": null, "doc": "unit id for unit based instrumentation (Optional)", "type": ["null", "int"], "name": "unitId"}, {"default": null, "doc": "The end time of the subject (Optional)", "type": ["null", "long"], "name": "endTimestampMicros"}, {"default": null, "doc": "Process command line arguments including process name (Optional)", "type": ["null", "string"], "name": "cmdLine"}, {"default": null, "doc": "imported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "importedLibraries"}, {"default": null, "doc": "exported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "exportedLibraries"}, {"default": null, "doc": "additional process information, such portable execution (PE) info in windows (Optional)", "type": ["null", "string"], "name": "pInfo"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Events represent actions executed on behalf of subjects. Events could include system calls,\n     * function calls, instruction executions, or even more abstract notions representing a blind execution\n     * such as black boxes that are not instrumented (more shortly). Events are the core entity in the model\n     * and they are the main abstraction for representing information flow between data objects, and subjects.\n     * Events are atomic and immutable.", "namespace": "com.bbn.tc.schema.avro", "name": "Event", "fields": [{"doc": "A universally unique identifier for the event", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": 0, "doc": "A logical sequence number for ordering events relative to each other within a subject's execution context", "type": "long", "name": "sequence"}, {"doc": "The type of the event", "type": {"symbols": ["EVENT_ACCEPT", "EVENT_BIND", "EVENT_CHANGE_PRINCIPAL", "EVENT_CHECK_FILE_ATTRIBUTES", "EVENT_CLONE", "EVENT_CLOSE", "EVENT_CONNECT", "EVENT_CREATE_OBJECT", "EVENT_CREATE_THREAD", "EVENT_EXECUTE", "EVENT_FORK", "EVENT_LINK", "EVENT_UNLINK", "EVENT_MMAP", "EVENT_MODIFY_FILE_ATTRIBUTES", "EVENT_MPROTECT", "EVENT_OPEN", "EVENT_READ", "EVENT_RECVFROM", "EVENT_RECVMSG", "EVENT_RENAME", "EVENT_WRITE", "EVENT_SIGNAL", "EVENT_TRUNCATE", "EVENT_WAIT", "EVENT_OS_UNKNOWN", "EVENT_KERNEL_UNKNOWN", "EVENT_APP_UNKNOWN", "EVENT_UI_UNKNOWN", "EVENT_UNKNOWN", "EVENT_BLIND", "EVENT_UNIT", "EVENT_UPDATE", "EVENT_SENDTO", "EVENT_SENDMSG", "EVENT_SHM", "EVENT_EXIT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EventType", "doc": "* These event types correspond to the common system calls. Note that we added blind, unit, and update events\n     *   EVENT_ACCEPT                     accept a connection on an object\n     *   EVENT_BIND                       bind to a network endpoint object\n     *   EVENT_CHANGE_PRINCIPAL           change the principal associated with the process\n     *   EVENT_CHECK_FILE_ATTRIBUTES      check the file attributes such as permissions\n     *   EVENT_CLONE                      clone a subject\n     *   EVENT_CLOSE                      close an object\n     *   EVENT_CONNECT                    connect to an object\n     *   EVENT_CREATE_OBJECT              create an object\n     *   EVENT_CREATE_THREAD              create a thread subject\n     *   EVENT_EXECUTE                    execute an object\n     *   EVENT_FORK                       fork a process subject\n     *   EVENT_LINK                       link an object to a new name\n     *   EVENT_UNLINK                     unlink a name from an object\n     *   EVENT_MMAP                       memory map an object\n     *   EVENT_MODIFY_FILE_ATTRIBUTES     modify the attributes of a file object\n     *   EVENT_MPROTECT                   change permissions of a memory object\n     *   EVENT_OPEN                       open an object\n     *   EVENT_READ                       read from an object (file or socket)\n     *   EVENT_RECVFROM                   receive message from a socket\n     *   EVENT_RECVMSG                    receive message from a socket\n     *   EVENT_RENAME                     rename an object\n     *   EVENT_WRITE                      write to an object (file or socket)\n     *   EVENT_SIGNAL                     signal another subject\n     *   EVENT_TRUNCATE                   truncate an object\n     *   EVENT_WAIT                       wait on another subject\n     *   EVENT_KERNEL_UNKNOWN             some kernel event\n     *   EVENT_OS_UNKNOWN                 some OS layer event\n     *   EVENT_APP_UNKNOWN                some application layer event\n     *   EVENT_UI_UNKNOWN                 some UI layer event\n     *   EVENT_UNKNOWN                    some event (we don't know what layer)\n     *   EVENT_BLIND                      blind event for a black boxes that are not instrumented\n     *   EVENT_UNIT                       create a BEEP unit\n     *   EVENT_UPDATE                     update an object\n     *   EVENT_SENDTO                     send through socket\n     *   EVENT_SENDMSG                    send message through socket\n     *   EVENT_SHM                        share memory between processes\n     *   EVENT_EXIT                       process exit"}, "name": "type"}, {"doc": "The thread id to which this event belongs", "type": "int", "name": "threadId"}, {"doc": "What source system generated this event, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "* The time at which the event occurred. Timestamps allow reasoning about order of events\n         *  on a host when the same clock is used.\n         * TODO When different clocks are used on a host or across hosts, we need to also define a clock source\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Event name (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "Event parameters represented as values, see Value (Optional)", "type": ["null", {"items": {"doc": "* Values represent transient data, mainly parameters to events. Values are created and used once within an\n     * event's execution and are relevant mainly during fine-grained tracking (such as with tag/taint propagation).\n     * Values have tags describing their provenance. Sometimes the actual value's value is reported in addition to\n     * the value's metadata\n     *\n     * The size of the value is the number of elements of type valueDataType. This should be 0 for primitive or\n     * complex types or the size of the array for arrays i.e., if size>0, then this value is an array.\n     * A complex value (such as an object) can contain other values (primitives of other complex values) within it, as\n     * components.\n     *\n     * isNull indicates whether a complex value is null. runtimeDataType indicates the runtime datatype. E.g., <br>\n     *  e.g., an integer will have size=0 and valueDataType=INT, and valueBytes.length=4 bytes <br>\n     *  e.g., an int[4] will have  size=4 and valueDataType=INT, and valueBytes.length=16 bytes (4*4) <br>\n     *  e.g., a string s=\"abc\" has size=3 and valueDataType=CHAR, and valueBytes.length=6 bytes (treated as char[]) <br>\n     *  e.g., an MyClass obj has size=0, valueDataType=COMPLEX, runtimeDataType=\"MyClass\", valueBytes=<pointer> <br>", "namespace": "com.bbn.tc.schema.avro", "name": "Value", "fields": [{"default": 0, "doc": "The size of the value: the number of elements of type valueDataType; 0 for primitives", "type": "int", "name": "size"}, {"doc": "The type of the value whether input or return", "type": {"symbols": ["VALUE_TYPE_IN", "VALUE_TYPE_OUT", "VALUE_TYPE_INOUT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueType", "doc": "* A value type is either in, out, or in/out\n     * This is for event parameters to distinguish inputs vs return values\n     *\n     *   VALUE_TYPE_IN       An input value to the event\n     *   VALUE_TYPE_OUT      An output value from the event (return value)\n     *   VALUE_TYPE_INOUT    Adding this for completeness"}, "name": "type"}, {"doc": "The actual datatype of the value elements, e.g., int, double, byte, etc. (Optional)\n         *  Strings are treated as char[] so type=CHAR\n         *  String[] is a COMPLEX value whose components are the string values (each modeled as a char[])\n         *  Complex composite objects comprising of primitive values use the COMPLEX type", "type": {"symbols": ["VALUE_DATA_TYPE_BYTE", "VALUE_DATA_TYPE_BOOL", "VALUE_DATA_TYPE_CHAR", "VALUE_DATA_TYPE_SHORT", "VALUE_DATA_TYPE_INT", "VALUE_DATA_TYPE_FLOAT", "VALUE_DATA_TYPE_LONG", "VALUE_DATA_TYPE_DOUBLE", "VALUE_DATA_TYPE_COMPLEX"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueDataType", "doc": "* A value data type is one of the primitive data types. A string is treated as a char array"}, "name": "valueDataType"}, {"default": false, "doc": "Whether this value is null, needed to indicate null objects (default: false)", "type": "boolean", "name": "isNull"}, {"default": null, "doc": "the name of the Value, string. (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "The runtime data type of the value (Optional); For example, an object of dataType=COMPLEX, can have\n         *  a runtime data type of say \"MyClass\"", "type": ["null", "string"], "name": "runtimeDataType"}, {"default": null, "doc": "The actual bytes of the value in Big Endian format, e.g., an int is converted to a 4 byte buffer (Optional)", "type": ["null", "bytes"], "name": "valueBytes"}, {"default": null, "doc": "* The value's tag expression describing its provenance (Optional)\n         * Since value could be an array, the tag can use run length encoding if needed. The format of the array is:\n         *   {<numElements:int>, <tagId:int>}*\n         * For example, to assign a tag 0 (unknown) to elements 0-3, 1 to elements 4-7 and 2 to elements 8-15 of\n         * an int[16] value, this would be represented using the following tag array\n         *  {4, 0, 4, 1, 8, 2} meaning the first 4 elements have tag 0, next 4 have tag 1, next 8 have tag 2\n         * Note that 4 elements of the array correspond to 16 bytes in the valueBytes buffer\n         * Note that tagId had to be defined/emitted earlier (see ProvenanceTagNode)\n         * before it can be assigned to a value", "type": ["null", {"items": "int", "type": "array"}], "name": "tag"}, {"default": null, "doc": "A complex value might comprise other component values if needed (Optional)", "type": ["null", {"items": "com.bbn.tc.schema.avro.Value", "type": "array"}], "name": "components"}], "type": "record"}, "type": "array"}], "name": "parameters"}, {"default": null, "doc": "Location refers to the location of the data affecting the event\n         *  (e.g., the read offset in the file for the read system call event (Optional)", "type": ["null", "long"], "name": "location"}, {"default": null, "doc": "Size refers to the size of the data affecting the event\n         *  (e.g., the number of bytes read from the file for the read system call event (Optional)", "type": ["null", "long"], "name": "size"}, {"default": null, "doc": "The program point where the event was triggered (e.g., executable and line number), (Optional)", "type": ["null", "string"], "name": "programPoint"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a network flow object. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "NetFlowObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": {"doc": "*  Objects, in general, represent data sources and sinks which could include sockets, files,\n     *  memory, and any data in general that can be an input and/or output to an event.\n     *  This record is intended to be abstract i.e., one should not instantiate an Object\n     *  but rather instantiate one of its sub types File, NetFlow, of Memory", "namespace": "com.bbn.tc.schema.avro", "name": "AbstractObject", "fields": [{"doc": "The source that emitted the object, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Permission bits defined over the object (Optional)", "type": ["null", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "SHORT", "size": 2}], "name": "permission"}, {"default": null, "doc": "* The timestamp when the object was last modified (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "lastTimestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, "name": "baseObject"}, {"doc": "The ip address of the source host for this flow", "type": "string", "name": "srcAddress"}, {"doc": "The network port on the source host for this flow", "type": "int", "name": "srcPort"}, {"doc": "The ip address of the destination host for this flow", "type": "string", "name": "destAddress"}, {"doc": "The network port on the destination host for this flow", "type": "int", "name": "destPort"}, {"default": null, "doc": "The IP protocol number e.g., TCP=6", "type": ["null", "int"], "name": "ipProtocol"}], "type": "record"}, {"doc": "* Represents a file on the file system. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "FileObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location of the file absolute path or remote url", "type": "string", "name": "url"}, {"default": false, "doc": "Whether the file is a Unix pipe", "type": "boolean", "name": "isPipe"}, {"default": 1, "doc": "The file version incremented every time the file changes", "type": "int", "name": "version"}, {"default": null, "doc": "The file size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}, {"doc": "* Represents a generic source or sink on the host device that is can be a file, memory, or netflow.\n     * This is the most basic representation of a source or sink, basically specifying its type only.", "namespace": "com.bbn.tc.schema.avro", "name": "SrcSinkObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The type of the object", "type": {"symbols": ["SOURCE_ACCELEROMETER", "SOURCE_TEMPERATURE", "SOURCE_GYROSCOPE", "SOURCE_MAGNETIC_FIELD", "SOURCE_HEART_RATE", "SOURCE_LIGHT", "SOURCE_PROXIMITY", "SOURCE_PRESSURE", "SOURCE_RELATIVE_HUMIDITY", "SOURCE_LINEAR_ACCELERATION", "SOURCE_MOTION", "SOURCE_STEP_DETECTOR", "SOURCE_STEP_COUNTER", "SOURCE_TILT_DETECTOR", "SOURCE_ROTATION_VECTOR", "SOURCE_GRAVITY", "SOURCE_GEOMAGNETIC_ROTATION_VECTOR", "SOURCE_CAMERA", "SOURCE_GPS", "SOURCE_AUDIO", "SOURCE_SYSTEM_PROPERTY", "SOURCE_ENV_VARIABLE", "SOURCE_SINK_IPC", "SOURCE_UNKNOWN"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SrcSinkType", "doc": "* There are many types of sources such as sensors\n     * The type of a sensor could be base (close to hardware) or composite\n     * See https://source.android.com/devices/sensors/index.html for details\n     * TODO: camera and GPS ideally should be modeled separately to match the Android model. These are rich subsystems"}, "name": "type"}], "type": "record"}, {"doc": "* Represents a page in memory. Instantiates an AbstractObject.\n     * TODO: is memory really an object (with permissions and so on) or is it a transient data?", "namespace": "com.bbn.tc.schema.avro", "name": "MemoryObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location in memory", "type": "long", "name": "memoryAddress"}, {"default": null, "doc": "The memory page number", "type": ["null", "long"], "name": "pageNumber"}], "type": "record"}, {"doc": "* A principal is a local user\n    * TODO: extend for second evaluation to include remote principals\n    * TODO: what happens when the user information changes (are we tracking versions?)\n    * TODO: Authentication mechanisms: are TA1s providing that information and how?", "namespace": "com.bbn.tc.schema.avro", "name": "Principal", "fields": [{"doc": "A unique id for the principal", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": "PRINCIPAL_LOCAL", "doc": "The type of the principal, local by default", "type": {"symbols": ["PRINCIPAL_LOCAL", "PRINCIPAL_REMOTE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "PrincipalType", "doc": "* The type of principal may be local to the host, or remote users/systems."}, "name": "type"}, {"doc": "The operating system identifier associated with the user", "type": "string", "name": "userId"}, {"doc": "The ids of the groups which this user is part of", "type": {"items": "string", "type": "array"}, "name": "groupIds"}, {"doc": "The source that emitted the Principal record, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* The purpose of a TagEntity is to be able to assign one or more tags to the objects/subjects/events\n     * at a later point in time after the objects/subjects/events have been emitted.\n     * As the name indicates, TagEntity wraps a tag (ProvenanceTagNode) with an entity i.e. assign a uuid\n     * to the tag to allow adding an edge from the object/subject/event to the TagEntity.", "namespace": "com.bbn.tc.schema.avro", "name": "TagEntity", "fields": [{"doc": "A unique ID for the entity", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The provenance tag", "type": "com.bbn.tc.schema.avro.ProvenanceTagNode", "name": "tag"}, {"default": null, "doc": "* The timestamp when the tag was created (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Edges in the CDM only connect the entities and do not have attributes of their own.\n     *  In order to make the streaming efficient, the edge specification does not require\n     *  the objects on both ends every time it is streamed/serialized. Instead, we defined\n     *  the edge to be simple, it has a type and it connects two entities each identified by\n     *  a uid each.\n     * Since the different edge types in the current model do not have different properties\n     *  (actually no properties at all), we do not define the different edges as separate\n     *  records at this time.\n     * For example, when streaming a large number of edges having the same from node, the\n     *  from node in all these edges will be represented using the node id instead of having\n     *  to replicate the full node object on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "SimpleEdge", "fields": [{"doc": "A unique id of the From entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "fromUuid"}, {"doc": "The id of the To entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "toUuid"}, {"doc": "The type of the edge, see EdgeType", "type": {"symbols": ["EDGE_EVENT_AFFECTS_MEMORY", "EDGE_EVENT_AFFECTS_FILE", "EDGE_EVENT_AFFECTS_NETFLOW", "EDGE_EVENT_AFFECTS_SUBJECT", "EDGE_EVENT_AFFECTS_SRCSINK", "EDGE_EVENT_HASPARENT_EVENT", "EDGE_EVENT_CAUSES_EVENT", "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "EDGE_SUBJECT_AFFECTS_EVENT", "EDGE_SUBJECT_HASPARENT_SUBJECT", "EDGE_SUBJECT_HASLOCALPRINCIPAL", "EDGE_SUBJECT_RUNSON", "EDGE_FILE_AFFECTS_EVENT", "EDGE_NETFLOW_AFFECTS_EVENT", "EDGE_MEMORY_AFFECTS_EVENT", "EDGE_SRCSINK_AFFECTS_EVENT", "EDGE_OBJECT_PREV_VERSION", "EDGE_FILE_HAS_TAG", "EDGE_NETFLOW_HAS_TAG", "EDGE_MEMORY_HAS_TAG", "EDGE_SRCSINK_HAS_TAG", "EDGE_SUBJECT_HAS_TAG", "EDGE_EVENT_HAS_TAG", "EDGE_EVENT_AFFECTS_REGISTRYKEY", "EDGE_REGISTRYKEY_AFFECTS_EVENT", "EDGE_REGISTRYKEY_HAS_TAG"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EdgeType", "doc": "* The different types of simple edges in the CDM\n     *   EDGE_EVENT_AFFECTS_MEMORY          an event affects a memory object (such as updating a memory location)\n     *   EDGE_EVENT_AFFECTS_FILE            an event affects a file object (such as writing to a file)\n     *   EDGE_EVENT_AFFECTS_REGISTRYKEY     an event affects a registry value (such as writing to a registry key)\n     *   EDGE_EVENT_AFFECTS_NETFLOW         an event affects a netflow object (such as writing to socket)\n     *   EDGE_EVENT_AFFECTS_SUBJECT         an event affects a subject (such as forking a process)\n     *   EDGE_EVENT_AFFECTS_SRCSINK         an event affects a generic src/sink object\n     *   EDGE_EVENT_HASPARENT_EVENT         a metaevent that represents a set of child atomic events\n     *   EDGE_EVENT_CAUSES_EVENT            an event caused/triggered another event\n     *   EDGE_EVENT_ISGENERATEDBY_SUBJECT   an event is generated by a subject (every event is)\n     *   EDGE_SUBJECT_AFFECTS_EVENT         a subject affects an event (such as when killing a process)\n     *   EDGE_SUBJECT_HASPARENT_SUBJECT     a subject has a parent subject (such as thread has parent process)\n     *   EDGE_SUBJECT_HASPRINCIPAL          a subject has a principal (such as a process owned by a user)\n     *   EDGE_SUBJECT_RUNSON                a subject runs on a host (TODO: host not yet modeled)\n     *   EDGE_FILE_AFFECTS_EVENT            an event reads from a file\n     *   EDGE_REGISTRYKEY_AFFECTS_EVENT     an event reads values from a registry key\n     *   EDGE_NETFLOW_AFFECTS_EVENT         an event reads from a network flow\n     *   EDGE_MEMORY_AFFECTS_EVENT          an event reads from a memory object\n     *   EDGE_SRCSINK_AFFECTS_EVENT         a generic source/sink object affects an event\n     *   EDGE_OBJECT_PREV_VERSION           the previous version of an object, typically used for file versioning\n     *   EDGE_FILE_HAS_TAG                  attach a tag to a file object\n     *   EDGE_REGISTRYKEY_HAS_TAG           attach a tag to a registrykey object\n     *   EDGE_NETFLOW_HAS_TAG               attach a tag to a netflow object\n     *   EDGE_MEMORY_HAS_TAG                attach a tag to a memory object\n     *   EDGE_SRCSINK_HAS_TAG               attach a tag to a srcsink object\n     *   EDGE_SUBJECT_HAS_TAG               attach a tag to a subject\n     *   EDGE_EVENT_HAS_TAG                 attach a tag to an event\n     *"}, "name": "type"}, {"doc": "* When the edge was created.\n        * Timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": "long", "name": "timestamp"}, {"default": null, "doc": "Arbitrary key, value pairs describing the edge", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a registry key. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "RegistryKeyObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The registry key/path", "type": "string", "name": "key"}, {"default": 1, "doc": "The version incremented every time the entry changes", "type": "int", "name": "version"}, {"default": null, "doc": "The entry size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}], "name": "datum"}, {"default": "13", "type": "string", "name": "CDMVersion"}], "type": "record"}avro.codecnull wúqÂtğEÑØò@®€$à	Ôè               z 8314  13]ÖÓ3N¦æ«)D¨B4‹ ÊÈ        13]ÖÓ3N¦æ«)D¨B4‹               z˜ÅÉÏ«…œ 13                *ğœ˜ÅÉÏ«…œ    bash
+Objavro.schema’å{"doc": "* A record representing either a vertex or an edge. This is the top level record that allows\n     * us to easily mix the vertices and edges defined above on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "TCCDMDatum", "fields": [{"type": [{"doc": "* A provenance tag defines source dependence on specific data sources (inputs).\n     * A tag identifier is typically bound to a source and used by the tracking system to\n     * capture dependence on this source input.\n     * A provenance tag is represented as a tree. Each node in the tree has a value and\n     * a set of children nodes.", "namespace": "com.bbn.tc.schema.avro", "name": "ProvenanceTagNode", "fields": [{"doc": "*  the value of the node: can have the following types\n         *   int                 references another node by tagId\n         *   UUID                object uuid (source or sink for example)\n         *   TaOpCode            the opcode applied to the children nodes, see TaOpCode\n         *   IntegrityTag        an integrity tag\n         *   ConfidentialityTag  a confidentiality tag", "type": ["int", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "UUID", "size": 16}, {"symbols": ["TAG_OP_SEQUENCE", "TAG_OP_UNION", "TAG_OP_ENCODE", "TAG_OP_STRONG", "TAG_OP_MEDIUM", "TAG_OP_WEAK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "TagOpCode", "doc": "* The tag opcode describes the provenance relation i.e., how multiple sources are combined to\n     * produce the output. We identify the following provenance relations\n     *\n     *   TAG_OP_SEQUENCE       the output is derived from the specified inputs in order, sequentially\n     *   TAG_OP_UNION,         the output is the union of its inputs\n     *   TAG_OP_ENCODE         the output is some encoding of the input\n     *   TAG_OP_STRONG         this is more qualitative (coarse) saying there is strong dependence\n     *   TAG_OP_MEDIUM         this is more qualitative (coarse) saying there is medium dependence\n     *   TAG_OP_WEAK           this is more qualitative (coarse) saying there is weak   dependence"}, {"symbols": ["INTEGRITY_UNTRUSTED", "INTEGRITY_BENIGN", "INTEGRITY_INVULNERABLE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "IntegrityTag", "doc": "* The integrity tag may be used to specify the initial integrity of an entity,\n     * or to endorse its content after performing appropriate checking/sanitization."}, {"symbols": ["CONFIDENTIALITY_SECRET", "CONFIDENTIALITY_SENSITIVE", "CONFIDENTIALITY_PRIVATE", "CONFIDENTIALITY_PUBLIC"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ConfidentialityTag", "doc": "* The confidentiality tag may be used to specify the initial confidentiality of an entity,\n     * or to declassify its content after performing appropriate checking/sanitization."}], "name": "value"}, {"default": null, "doc": "the child nodes", "type": ["null", {"items": "com.bbn.tc.schema.avro.ProvenanceTagNode", "type": "array"}], "name": "children"}, {"default": null, "doc": "* the id to be assigned to this tag node\n         * typically set once when the node is first created, and used in value afterwards", "type": ["null", "int"], "name": "tagId"}, {"default": null, "doc": "Arbitrary key, value pairs associated with a tag node", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Subjects represent execution contexts and include mainly threads and processes. They can be more granular and\n     * can represent other execution boundaries such as functions and blocks if needed.", "namespace": "com.bbn.tc.schema.avro", "name": "Subject", "fields": [{"doc": "universally unique identifier for the subject", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "the subject type", "type": {"symbols": ["SUBJECT_PROCESS", "SUBJECT_THREAD", "SUBJECT_UNIT", "SUBJECT_BASIC_BLOCK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SubjectType", "doc": "* SUBJECT_PROCESS,    process\n     * SUBJECT_THREAD,     thread within a process\n     * SUBJECT_UNIT        so far we only know of TRACE BEEP using this"}, "name": "type"}, {"doc": "OS process id for type process and unit id for a unit (Optional)", "type": "int", "name": "pid"}, {"doc": "OS parent process id for type process and pid for type unit (Optional)", "type": "int", "name": "ppid"}, {"doc": "Where it came from, see InstrumentationSource", "type": {"symbols": ["SOURCE_LINUX_AUDIT_TRACE", "SOURCE_LINUX_PROC_TRACE", "SOURCE_LINUX_BEEP_TRACE", "SOURCE_FREEBSD_OPENBSM_TRACE", "SOURCE_ANDROID_JAVA_CLEARSCOPE", "SOURCE_ANDROID_NATIVE_CLEARSCOPE", "SOURCE_FREEBSD_DTRACE_CADETS", "SOURCE_FREEBSD_TESLA_CADETS", "SOURCE_FREEBSD_LOOM_CADETS", "SOURCE_FREEBSD_MACIF_CADETS", "SOURCE_WINDOWS_DIFT_FAROS", "SOURCE_LINUX_THEIA", "SOURCE_WINDOWS_FIVEDIRECTIONS"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "InstrumentationSource", "doc": "* SOURCE_LINUX_AUDIT_TRACE,          from Linux /dev/audit\n     * SOURCE_LINUX_PROC_TRACE,           from Linux's /proc\n     * SOURCE_LINUX_BEEP_TRACE,           from BEEP instrumentation\n     * SOURCE_FREEBSD_OPENBSM_TRACE,      from FreeBSD openBSM\n     * SOURCE_ANDROID_JAVA_CLEARSCOPE,    from android java instrumentation\n     * SOURCE_ANDROID_NATIVE_CLEARSCOPE,  from android's native instrumentation\n     * SOURCE_FREEBSD_DTRACE_CADETS, SOURCE_FREEBSD_TESLA_CADETS  for CADETS freebsd instrumentation\n     * SOURCE_FREEBSD_LOOM_CADETS, SOURCE_FREEBSD_MACIF_CADETS    for CADETS freebsd instrumentation\n     * SOURCE_LINUX_THEIA                 from the GATech THEIA instrumentation source\n     * SOURCE_WINDOWS_FIVEDIRECTIONS      for the fivedirections windows events"}, "name": "source"}, {"default": null, "doc": "* The start time of the subject\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         * (Optional)", "type": ["null", "long"], "name": "startTimestampMicros"}, {"default": null, "doc": "unit id for unit based instrumentation (Optional)", "type": ["null", "int"], "name": "unitId"}, {"default": null, "doc": "The end time of the subject (Optional)", "type": ["null", "long"], "name": "endTimestampMicros"}, {"default": null, "doc": "Process command line arguments including process name (Optional)", "type": ["null", "string"], "name": "cmdLine"}, {"default": null, "doc": "imported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "importedLibraries"}, {"default": null, "doc": "exported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "exportedLibraries"}, {"default": null, "doc": "additional process information, such portable execution (PE) info in windows (Optional)", "type": ["null", "string"], "name": "pInfo"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Events represent actions executed on behalf of subjects. Events could include system calls,\n     * function calls, instruction executions, or even more abstract notions representing a blind execution\n     * such as black boxes that are not instrumented (more shortly). Events are the core entity in the model\n     * and they are the main abstraction for representing information flow between data objects, and subjects.\n     * Events are atomic and immutable.", "namespace": "com.bbn.tc.schema.avro", "name": "Event", "fields": [{"doc": "A universally unique identifier for the event", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": 0, "doc": "A logical sequence number for ordering events relative to each other within a subject's execution context", "type": "long", "name": "sequence"}, {"doc": "The type of the event", "type": {"symbols": ["EVENT_ACCEPT", "EVENT_BIND", "EVENT_CHANGE_PRINCIPAL", "EVENT_CHECK_FILE_ATTRIBUTES", "EVENT_CLONE", "EVENT_CLOSE", "EVENT_CONNECT", "EVENT_CREATE_OBJECT", "EVENT_CREATE_THREAD", "EVENT_EXECUTE", "EVENT_FORK", "EVENT_LINK", "EVENT_UNLINK", "EVENT_MMAP", "EVENT_MODIFY_FILE_ATTRIBUTES", "EVENT_MPROTECT", "EVENT_OPEN", "EVENT_READ", "EVENT_RECVFROM", "EVENT_RECVMSG", "EVENT_RENAME", "EVENT_WRITE", "EVENT_SIGNAL", "EVENT_TRUNCATE", "EVENT_WAIT", "EVENT_OS_UNKNOWN", "EVENT_KERNEL_UNKNOWN", "EVENT_APP_UNKNOWN", "EVENT_UI_UNKNOWN", "EVENT_UNKNOWN", "EVENT_BLIND", "EVENT_UNIT", "EVENT_UPDATE", "EVENT_SENDTO", "EVENT_SENDMSG", "EVENT_SHM", "EVENT_EXIT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EventType", "doc": "* These event types correspond to the common system calls. Note that we added blind, unit, and update events\n     *   EVENT_ACCEPT                     accept a connection on an object\n     *   EVENT_BIND                       bind to a network endpoint object\n     *   EVENT_CHANGE_PRINCIPAL           change the principal associated with the process\n     *   EVENT_CHECK_FILE_ATTRIBUTES      check the file attributes such as permissions\n     *   EVENT_CLONE                      clone a subject\n     *   EVENT_CLOSE                      close an object\n     *   EVENT_CONNECT                    connect to an object\n     *   EVENT_CREATE_OBJECT              create an object\n     *   EVENT_CREATE_THREAD              create a thread subject\n     *   EVENT_EXECUTE                    execute an object\n     *   EVENT_FORK                       fork a process subject\n     *   EVENT_LINK                       link an object to a new name\n     *   EVENT_UNLINK                     unlink a name from an object\n     *   EVENT_MMAP                       memory map an object\n     *   EVENT_MODIFY_FILE_ATTRIBUTES     modify the attributes of a file object\n     *   EVENT_MPROTECT                   change permissions of a memory object\n     *   EVENT_OPEN                       open an object\n     *   EVENT_READ                       read from an object (file or socket)\n     *   EVENT_RECVFROM                   receive message from a socket\n     *   EVENT_RECVMSG                    receive message from a socket\n     *   EVENT_RENAME                     rename an object\n     *   EVENT_WRITE                      write to an object (file or socket)\n     *   EVENT_SIGNAL                     signal another subject\n     *   EVENT_TRUNCATE                   truncate an object\n     *   EVENT_WAIT                       wait on another subject\n     *   EVENT_KERNEL_UNKNOWN             some kernel event\n     *   EVENT_OS_UNKNOWN                 some OS layer event\n     *   EVENT_APP_UNKNOWN                some application layer event\n     *   EVENT_UI_UNKNOWN                 some UI layer event\n     *   EVENT_UNKNOWN                    some event (we don't know what layer)\n     *   EVENT_BLIND                      blind event for a black boxes that are not instrumented\n     *   EVENT_UNIT                       create a BEEP unit\n     *   EVENT_UPDATE                     update an object\n     *   EVENT_SENDTO                     send through socket\n     *   EVENT_SENDMSG                    send message through socket\n     *   EVENT_SHM                        share memory between processes\n     *   EVENT_EXIT                       process exit"}, "name": "type"}, {"doc": "The thread id to which this event belongs", "type": "int", "name": "threadId"}, {"doc": "What source system generated this event, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "* The time at which the event occurred. Timestamps allow reasoning about order of events\n         *  on a host when the same clock is used.\n         * TODO When different clocks are used on a host or across hosts, we need to also define a clock source\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Event name (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "Event parameters represented as values, see Value (Optional)", "type": ["null", {"items": {"doc": "* Values represent transient data, mainly parameters to events. Values are created and used once within an\n     * event's execution and are relevant mainly during fine-grained tracking (such as with tag/taint propagation).\n     * Values have tags describing their provenance. Sometimes the actual value's value is reported in addition to\n     * the value's metadata\n     *\n     * The size of the value is the number of elements of type valueDataType. This should be 0 for primitive or\n     * complex types or the size of the array for arrays i.e., if size>0, then this value is an array.\n     * A complex value (such as an object) can contain other values (primitives of other complex values) within it, as\n     * components.\n     *\n     * isNull indicates whether a complex value is null. runtimeDataType indicates the runtime datatype. E.g., <br>\n     *  e.g., an integer will have size=0 and valueDataType=INT, and valueBytes.length=4 bytes <br>\n     *  e.g., an int[4] will have  size=4 and valueDataType=INT, and valueBytes.length=16 bytes (4*4) <br>\n     *  e.g., a string s=\"abc\" has size=3 and valueDataType=CHAR, and valueBytes.length=6 bytes (treated as char[]) <br>\n     *  e.g., an MyClass obj has size=0, valueDataType=COMPLEX, runtimeDataType=\"MyClass\", valueBytes=<pointer> <br>", "namespace": "com.bbn.tc.schema.avro", "name": "Value", "fields": [{"default": 0, "doc": "The size of the value: the number of elements of type valueDataType; 0 for primitives", "type": "int", "name": "size"}, {"doc": "The type of the value whether input or return", "type": {"symbols": ["VALUE_TYPE_IN", "VALUE_TYPE_OUT", "VALUE_TYPE_INOUT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueType", "doc": "* A value type is either in, out, or in/out\n     * This is for event parameters to distinguish inputs vs return values\n     *\n     *   VALUE_TYPE_IN       An input value to the event\n     *   VALUE_TYPE_OUT      An output value from the event (return value)\n     *   VALUE_TYPE_INOUT    Adding this for completeness"}, "name": "type"}, {"doc": "The actual datatype of the value elements, e.g., int, double, byte, etc. (Optional)\n         *  Strings are treated as char[] so type=CHAR\n         *  String[] is a COMPLEX value whose components are the string values (each modeled as a char[])\n         *  Complex composite objects comprising of primitive values use the COMPLEX type", "type": {"symbols": ["VALUE_DATA_TYPE_BYTE", "VALUE_DATA_TYPE_BOOL", "VALUE_DATA_TYPE_CHAR", "VALUE_DATA_TYPE_SHORT", "VALUE_DATA_TYPE_INT", "VALUE_DATA_TYPE_FLOAT", "VALUE_DATA_TYPE_LONG", "VALUE_DATA_TYPE_DOUBLE", "VALUE_DATA_TYPE_COMPLEX"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueDataType", "doc": "* A value data type is one of the primitive data types. A string is treated as a char array"}, "name": "valueDataType"}, {"default": false, "doc": "Whether this value is null, needed to indicate null objects (default: false)", "type": "boolean", "name": "isNull"}, {"default": null, "doc": "the name of the Value, string. (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "The runtime data type of the value (Optional); For example, an object of dataType=COMPLEX, can have\n         *  a runtime data type of say \"MyClass\"", "type": ["null", "string"], "name": "runtimeDataType"}, {"default": null, "doc": "The actual bytes of the value in Big Endian format, e.g., an int is converted to a 4 byte buffer (Optional)", "type": ["null", "bytes"], "name": "valueBytes"}, {"default": null, "doc": "* The value's tag expression describing its provenance (Optional)\n         * Since value could be an array, the tag can use run length encoding if needed. The format of the array is:\n         *   {<numElements:int>, <tagId:int>}*\n         * For example, to assign a tag 0 (unknown) to elements 0-3, 1 to elements 4-7 and 2 to elements 8-15 of\n         * an int[16] value, this would be represented using the following tag array\n         *  {4, 0, 4, 1, 8, 2} meaning the first 4 elements have tag 0, next 4 have tag 1, next 8 have tag 2\n         * Note that 4 elements of the array correspond to 16 bytes in the valueBytes buffer\n         * Note that tagId had to be defined/emitted earlier (see ProvenanceTagNode)\n         * before it can be assigned to a value", "type": ["null", {"items": "int", "type": "array"}], "name": "tag"}, {"default": null, "doc": "A complex value might comprise other component values if needed (Optional)", "type": ["null", {"items": "com.bbn.tc.schema.avro.Value", "type": "array"}], "name": "components"}], "type": "record"}, "type": "array"}], "name": "parameters"}, {"default": null, "doc": "Location refers to the location of the data affecting the event\n         *  (e.g., the read offset in the file for the read system call event (Optional)", "type": ["null", "long"], "name": "location"}, {"default": null, "doc": "Size refers to the size of the data affecting the event\n         *  (e.g., the number of bytes read from the file for the read system call event (Optional)", "type": ["null", "long"], "name": "size"}, {"default": null, "doc": "The program point where the event was triggered (e.g., executable and line number), (Optional)", "type": ["null", "string"], "name": "programPoint"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a network flow object. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "NetFlowObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": {"doc": "*  Objects, in general, represent data sources and sinks which could include sockets, files,\n     *  memory, and any data in general that can be an input and/or output to an event.\n     *  This record is intended to be abstract i.e., one should not instantiate an Object\n     *  but rather instantiate one of its sub types File, NetFlow, of Memory", "namespace": "com.bbn.tc.schema.avro", "name": "AbstractObject", "fields": [{"doc": "The source that emitted the object, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Permission bits defined over the object (Optional)", "type": ["null", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "SHORT", "size": 2}], "name": "permission"}, {"default": null, "doc": "* The timestamp when the object was last modified (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "lastTimestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, "name": "baseObject"}, {"doc": "The ip address of the source host for this flow", "type": "string", "name": "srcAddress"}, {"doc": "The network port on the source host for this flow", "type": "int", "name": "srcPort"}, {"doc": "The ip address of the destination host for this flow", "type": "string", "name": "destAddress"}, {"doc": "The network port on the destination host for this flow", "type": "int", "name": "destPort"}, {"default": null, "doc": "The IP protocol number e.g., TCP=6", "type": ["null", "int"], "name": "ipProtocol"}], "type": "record"}, {"doc": "* Represents a file on the file system. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "FileObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location of the file absolute path or remote url", "type": "string", "name": "url"}, {"default": false, "doc": "Whether the file is a Unix pipe", "type": "boolean", "name": "isPipe"}, {"default": 1, "doc": "The file version incremented every time the file changes", "type": "int", "name": "version"}, {"default": null, "doc": "The file size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}, {"doc": "* Represents a generic source or sink on the host device that is can be a file, memory, or netflow.\n     * This is the most basic representation of a source or sink, basically specifying its type only.", "namespace": "com.bbn.tc.schema.avro", "name": "SrcSinkObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The type of the object", "type": {"symbols": ["SOURCE_ACCELEROMETER", "SOURCE_TEMPERATURE", "SOURCE_GYROSCOPE", "SOURCE_MAGNETIC_FIELD", "SOURCE_HEART_RATE", "SOURCE_LIGHT", "SOURCE_PROXIMITY", "SOURCE_PRESSURE", "SOURCE_RELATIVE_HUMIDITY", "SOURCE_LINEAR_ACCELERATION", "SOURCE_MOTION", "SOURCE_STEP_DETECTOR", "SOURCE_STEP_COUNTER", "SOURCE_TILT_DETECTOR", "SOURCE_ROTATION_VECTOR", "SOURCE_GRAVITY", "SOURCE_GEOMAGNETIC_ROTATION_VECTOR", "SOURCE_CAMERA", "SOURCE_GPS", "SOURCE_AUDIO", "SOURCE_SYSTEM_PROPERTY", "SOURCE_ENV_VARIABLE", "SOURCE_SINK_IPC", "SOURCE_UNKNOWN"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SrcSinkType", "doc": "* There are many types of sources such as sensors\n     * The type of a sensor could be base (close to hardware) or composite\n     * See https://source.android.com/devices/sensors/index.html for details\n     * TODO: camera and GPS ideally should be modeled separately to match the Android model. These are rich subsystems"}, "name": "type"}], "type": "record"}, {"doc": "* Represents a page in memory. Instantiates an AbstractObject.\n     * TODO: is memory really an object (with permissions and so on) or is it a transient data?", "namespace": "com.bbn.tc.schema.avro", "name": "MemoryObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location in memory", "type": "long", "name": "memoryAddress"}, {"default": null, "doc": "The memory page number", "type": ["null", "long"], "name": "pageNumber"}], "type": "record"}, {"doc": "* A principal is a local user\n    * TODO: extend for second evaluation to include remote principals\n    * TODO: what happens when the user information changes (are we tracking versions?)\n    * TODO: Authentication mechanisms: are TA1s providing that information and how?", "namespace": "com.bbn.tc.schema.avro", "name": "Principal", "fields": [{"doc": "A unique id for the principal", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": "PRINCIPAL_LOCAL", "doc": "The type of the principal, local by default", "type": {"symbols": ["PRINCIPAL_LOCAL", "PRINCIPAL_REMOTE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "PrincipalType", "doc": "* The type of principal may be local to the host, or remote users/systems."}, "name": "type"}, {"doc": "The operating system identifier associated with the user", "type": "string", "name": "userId"}, {"doc": "The ids of the groups which this user is part of", "type": {"items": "string", "type": "array"}, "name": "groupIds"}, {"doc": "The source that emitted the Principal record, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* The purpose of a TagEntity is to be able to assign one or more tags to the objects/subjects/events\n     * at a later point in time after the objects/subjects/events have been emitted.\n     * As the name indicates, TagEntity wraps a tag (ProvenanceTagNode) with an entity i.e. assign a uuid\n     * to the tag to allow adding an edge from the object/subject/event to the TagEntity.", "namespace": "com.bbn.tc.schema.avro", "name": "TagEntity", "fields": [{"doc": "A unique ID for the entity", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The provenance tag", "type": "com.bbn.tc.schema.avro.ProvenanceTagNode", "name": "tag"}, {"default": null, "doc": "* The timestamp when the tag was created (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Edges in the CDM only connect the entities and do not have attributes of their own.\n     *  In order to make the streaming efficient, the edge specification does not require\n     *  the objects on both ends every time it is streamed/serialized. Instead, we defined\n     *  the edge to be simple, it has a type and it connects two entities each identified by\n     *  a uid each.\n     * Since the different edge types in the current model do not have different properties\n     *  (actually no properties at all), we do not define the different edges as separate\n     *  records at this time.\n     * For example, when streaming a large number of edges having the same from node, the\n     *  from node in all these edges will be represented using the node id instead of having\n     *  to replicate the full node object on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "SimpleEdge", "fields": [{"doc": "A unique id of the From entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "fromUuid"}, {"doc": "The id of the To entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "toUuid"}, {"doc": "The type of the edge, see EdgeType", "type": {"symbols": ["EDGE_EVENT_AFFECTS_MEMORY", "EDGE_EVENT_AFFECTS_FILE", "EDGE_EVENT_AFFECTS_NETFLOW", "EDGE_EVENT_AFFECTS_SUBJECT", "EDGE_EVENT_AFFECTS_SRCSINK", "EDGE_EVENT_HASPARENT_EVENT", "EDGE_EVENT_CAUSES_EVENT", "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "EDGE_SUBJECT_AFFECTS_EVENT", "EDGE_SUBJECT_HASPARENT_SUBJECT", "EDGE_SUBJECT_HASLOCALPRINCIPAL", "EDGE_SUBJECT_RUNSON", "EDGE_FILE_AFFECTS_EVENT", "EDGE_NETFLOW_AFFECTS_EVENT", "EDGE_MEMORY_AFFECTS_EVENT", "EDGE_SRCSINK_AFFECTS_EVENT", "EDGE_OBJECT_PREV_VERSION", "EDGE_FILE_HAS_TAG", "EDGE_NETFLOW_HAS_TAG", "EDGE_MEMORY_HAS_TAG", "EDGE_SRCSINK_HAS_TAG", "EDGE_SUBJECT_HAS_TAG", "EDGE_EVENT_HAS_TAG", "EDGE_EVENT_AFFECTS_REGISTRYKEY", "EDGE_REGISTRYKEY_AFFECTS_EVENT", "EDGE_REGISTRYKEY_HAS_TAG"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EdgeType", "doc": "* The different types of simple edges in the CDM\n     *   EDGE_EVENT_AFFECTS_MEMORY          an event affects a memory object (such as updating a memory location)\n     *   EDGE_EVENT_AFFECTS_FILE            an event affects a file object (such as writing to a file)\n     *   EDGE_EVENT_AFFECTS_REGISTRYKEY     an event affects a registry value (such as writing to a registry key)\n     *   EDGE_EVENT_AFFECTS_NETFLOW         an event affects a netflow object (such as writing to socket)\n     *   EDGE_EVENT_AFFECTS_SUBJECT         an event affects a subject (such as forking a process)\n     *   EDGE_EVENT_AFFECTS_SRCSINK         an event affects a generic src/sink object\n     *   EDGE_EVENT_HASPARENT_EVENT         a metaevent that represents a set of child atomic events\n     *   EDGE_EVENT_CAUSES_EVENT            an event caused/triggered another event\n     *   EDGE_EVENT_ISGENERATEDBY_SUBJECT   an event is generated by a subject (every event is)\n     *   EDGE_SUBJECT_AFFECTS_EVENT         a subject affects an event (such as when killing a process)\n     *   EDGE_SUBJECT_HASPARENT_SUBJECT     a subject has a parent subject (such as thread has parent process)\n     *   EDGE_SUBJECT_HASPRINCIPAL          a subject has a principal (such as a process owned by a user)\n     *   EDGE_SUBJECT_RUNSON                a subject runs on a host (TODO: host not yet modeled)\n     *   EDGE_FILE_AFFECTS_EVENT            an event reads from a file\n     *   EDGE_REGISTRYKEY_AFFECTS_EVENT     an event reads values from a registry key\n     *   EDGE_NETFLOW_AFFECTS_EVENT         an event reads from a network flow\n     *   EDGE_MEMORY_AFFECTS_EVENT          an event reads from a memory object\n     *   EDGE_SRCSINK_AFFECTS_EVENT         a generic source/sink object affects an event\n     *   EDGE_OBJECT_PREV_VERSION           the previous version of an object, typically used for file versioning\n     *   EDGE_FILE_HAS_TAG                  attach a tag to a file object\n     *   EDGE_REGISTRYKEY_HAS_TAG           attach a tag to a registrykey object\n     *   EDGE_NETFLOW_HAS_TAG               attach a tag to a netflow object\n     *   EDGE_MEMORY_HAS_TAG                attach a tag to a memory object\n     *   EDGE_SRCSINK_HAS_TAG               attach a tag to a srcsink object\n     *   EDGE_SUBJECT_HAS_TAG               attach a tag to a subject\n     *   EDGE_EVENT_HAS_TAG                 attach a tag to an event\n     *"}, "name": "type"}, {"doc": "* When the edge was created.\n        * Timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": "long", "name": "timestamp"}, {"default": null, "doc": "Arbitrary key, value pairs describing the edge", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a registry key. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "RegistryKeyObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The registry key/path", "type": "string", "name": "key"}, {"default": 1, "doc": "The version incremented every time the entry changes", "type": "int", "name": "version"}, {"default": null, "doc": "The entry size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}], "name": "datum"}, {"default": "13", "type": "string", "name": "CDMVersion"}], "type": "record"}avro.codecnull )Nd“á„Ñq»!ùÏòNà	Ôè               z 8314  13]ÖÓ3N¦æ«)D¨B4‹ ÊÈ        13]ÖÓ3N¦æ«)D¨B4‹               z˜ÅÉÏ«…œ 13                *ğœ˜ÅÉÏ«…œ    bash
 errno0
 probe subjprocuuid@5dd6d3334ea611e6ab2944a842348b1cmodule
 eventarg_objuuid1@ed28181720f67e52b6207e7b827e05afcallaue_writeprovider
@@ -872,7 +872,7 @@ auditfd3retval3216 13ËÜQ³LÃÔSƒLU†ãÔùø              Ëğ±®Ğ«…œ 13      
 errno0
 probe subjprocuuid@b5b79f214ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
-auditfd3retval0 13wúqÂtğEÑØò@®€$Ò
+auditfd3retval0 13)Nd“á„Ñq»!ùÏòNÒ
 êè              Ìµ·Ÿ!N§æ«1D¨B4‹ğ±®Ğ«…œ 13              Íš"Œœğ±®Ğ«…œ    ld
 errno0
 probe subjprocuuid@b5b79f214ea711e6ab3144a842348b1cmodule
@@ -1756,7 +1756,7 @@ auditfd11retval23 13ÂéÕ+é…&_…é2ó&Ï      13ÂéÕ+é…&_…é2ó&ÏÂéÕ+é…&_…
 errno0
 probe subjprocuuid@5d9a5b7d4ea611e6ab2944a842348b1cmodule
 eventarg_objuuid1@c2e9d52be985265f85e932f30f2613cfcallaue_closeprovider
-auditfd11retval0 13wúqÂtğEÑØò@®€$ 	äéÂéÕ+é…&_…é2ó&Ï             š°ÚóÒ«…œ 13             š]š[}N¦æ«)D¨B4‹°ÚóÒ«…œ 13             ›¶
+auditfd11retval0 13)Nd“á„Ñq»!ùÏòN 	äéÂéÕ+é…&_…é2ó&Ï             š°ÚóÒ«…œ 13             š]š[}N¦æ«)D¨B4‹°ÚóÒ«…œ 13             ›¶
 äœ°ÚóÒ«…œ    sshd
 errno0
 probe subjprocuuid@5d9a5b7d4ea611e6ab2944a842348b1cmodule
@@ -2650,7 +2650,7 @@ auditpath/var/empty/retval0upath1/var/empty/ 13‰iæVaîQa¨/ÁînÁ   /va
 errno0
 probe arg_egid22subjprocuuid@b822178a4ea711e6ab3144a842348b1cmodule
 eventarg_rgid22callaue_setresgidprovider
-auditarg_sgid22retval0 13wúqÂtğEÑØò@®€$Ê	„è             S¸"ŠN§æ«1D¨B4‹ÀªšÔ«…œ 13             T¨	2‚œÀªšÔ«…œ    sshdarg_euid22arg_ruid22arg_suid22
+auditarg_sgid22retval0 13)Nd“á„Ñq»!ùÏòNÊ	„è             S¸"ŠN§æ«1D¨B4‹ÀªšÔ«…œ 13             T¨	2‚œÀªšÔ«…œ    sshdarg_euid22arg_ruid22arg_suid22
 errno0
 probe subjprocuuid@b822178a4ea711e6ab3144a842348b1cmodule
 eventcallaue_setresuidprovider
@@ -3609,7 +3609,7 @@ auditretval18 13             ¸>8¡N§æ«1D¨B4‹°õ°Ô«…œ 13            
 errno0
 probe subjprocuuid@b83e38a14ea711e6ab3144a842348b1cmodule
 eventcallaue_umaskprovider
-auditretval18 13wúqÂtğEÑØò@®€$´	¸è             ¸>8¡N§æ«1D¨B4‹°õ°Ô«…œ 13             ¸2‚œ°õ°Ô«…œ    sshd
+auditretval18 13)Nd“á„Ñq»!ùÏòN´	¸è             ¸>8¡N§æ«1D¨B4‹°õ°Ô«…œ 13             ¸2‚œ°õ°Ô«…œ    sshd
 errno0
 probe subjprocuuid@b83e38a14ea711e6ab3144a842348b1cmodule
 eventcallaue_setuidprovider
@@ -4491,7 +4491,7 @@ auditfd3retval3496 13•ı±LÉ;]‰L®‡½;ß             âìÂÔ«…œ 13      
 errno0
 probe subjprocuuid@b85319e04ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@ed28181720f67e52b6207e7b827e05afcallaue_writeprovider
-auditfd1retval77 13í( ö~R¶ ~{‚~¯      13í( ö~R¶ ~{‚~¯í( ö~R¶ ~{‚~¯ ìÂÔ«…œ 13             ãí( ö~R¶ ~{‚~¯ìÂÔ«…œ 13             ã¸SàN§æ«1D¨B4‹ìÂÔ«…œ 13wúqÂtğEÑØò@®€$ô	ˆè             äÈ*ìœìÂÔ«…œ    fortune
+auditfd1retval77 13í( ö~R¶ ~{‚~¯      13í( ö~R¶ ~{‚~¯í( ö~R¶ ~{‚~¯ ìÂÔ«…œ 13             ãí( ö~R¶ ~{‚~¯ìÂÔ«…œ 13             ã¸SàN§æ«1D¨B4‹ìÂÔ«…œ 13)Nd“á„Ñq»!ùÏòNô	ˆè             äÈ*ìœìÂÔ«…œ    fortune
 errno0
 probe subjprocuuid@b85319e04ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@ed28181720f67e52b6207e7b827e05afcallaue_writeprovider
@@ -5301,8 +5301,8 @@ auditfd8retval0 13çòbÑ(O[^(ÕU^[ÉÃ             ™ºğ•Ü«…œ 13        
 errno0
 probe subjprocuuid@b95dbe354ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@37c566e1444d0d5d8d44f3a5cd0de821callaue_writeprovider
-auditfd6retval501 137ÅfáDM]Dó¥Íè!      13             š7ÅfáDM]Dó¥Íè!ºğ•Ü«…œ 13             š¹]¾5N§æ«1D¨B4‹ºğ•Ü«…œ 13wúqÂtğEÑØò@®€$’
-Üê             ›¶
+auditfd6retval501 137ÅfáDM]Dó¥Íè!      13             š7ÅfáDM]Dó¥Íè!ºğ•Ü«…œ 13             š¹]¾5N§æ«1D¨B4‹ºğ•Ü«…œ 13)Nd“á„Ñq»!ùÏòN’
+”è             ›¶
 ğœºğ•Ü«…œ    vi
 errno0
 probe subjprocuuid@b95dbe354ea711e6ab3144a842348b1cmodule
@@ -5888,7 +5888,7 @@ errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
 eventcallaue_open_rwtcmode438provider
 audit
-flags1538path&/usr/home/bob/helloretval3upath1&/usr/home/bob/hello 13       ÑûñÇ†gU              ¬ñŠã«…œ 13              Án¡tN§æ«1D¨B4‹¬ñŠã«…œ 13             !Â Öœ®ÿŠã«…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
+flags1538path&/usr/home/bob/helloretval3upath1&/usr/home/bob/hello 13»¾Å¯&ø0U¸&}20Š©   &/usr/home/bob/hello  13       ÑûñÇ†gU              ¬ñŠã«…œ 13              Án¡tN§æ«1D¨B4‹¬ñŠã«…œ 13             !Â Öœ®ÿŠã«…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
 errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@2290610fdee2215ba2de1a77eb217137callaue_open_rwtcmode438provider
@@ -6139,12 +6139,12 @@ auditfd10retval0 13†Á*øĞ^¸*ß>Ğ´Ò             [¦í‹ã«…œ 13       
 errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
-auditfd10retval0 13             \Án¡tN§æ«1D¨B4‹¦í‹ã«…œ 13             ]º"Öœ¦í‹ã«…œ    ld
+auditfd10retval0 13             \Án¡tN§æ«1D¨B4‹¦í‹ã«…œ 13)Nd“á„Ñq»!ùÏòN²
+¨è             ]º"Öœ¦í‹ã«…œ    ld
 errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@1786c11d2af8d05eb82adf163ed0b4d2callaue_readprovider
-auditfd10retval95 13wúqÂtğEÑØò@®€$´
-ğè†Á*øĞ^¸*ß>Ğ´Ò             ]¦í‹ã«…œ 13             ]Án¡tN§æ«1D¨B4‹¦í‹ã«…œ 13             ^¼
+auditfd10retval95 13†Á*øĞ^¸*ß>Ğ´Ò             ]¦í‹ã«…œ 13             ]Án¡tN§æ«1D¨B4‹¦í‹ã«…œ 13             ^¼
 Öœ¦í‹ã«…œ    ld
 errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
@@ -6412,7 +6412,7 @@ auditfd3retval0 13             Án¡tN§æ«1D¨B4‹Î˜ã«…œ 13        
 errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@bbbec5af26f83055b8267d3215308aa9callaue_closeprovider
-auditfd3retval0 13»¾Å¯&ø0U¸&}20Š©      13»¾Å¯&ø0U¸&}20Š©             Î˜ã«…œ 13             Án¡tN§æ«1D¨B4‹Î˜ã«…œ 13             Ÿ¾2ÖœÎ˜ã«…œ    ld
+auditfd3retval0 13»¾Å¯&ø0U¸&}20Š©             Î˜ã«…œ 13             Án¡tN§æ«1D¨B4‹Î˜ã«…œ 13             Ÿ¾2ÖœÎ˜ã«…œ    ld
 errno0
 probe subjprocuuid@c16ea1744ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
@@ -7032,12 +7032,12 @@ errno0
 probe fd-100subjprocuuid@c17665434ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@ffdae5651dc0ec51801dbac641ec6a59callaue_openat_rwtcmode0provider
 audit
-flags1048576path /etc/libmap.confretval3upath1 /etc/libmap.conf 13ÿÚåeÀìQ€ºÆAìjY    /etc/libmap.conf  13ÿÚåeÀìQ€ºÆAìjY             3şüã«…œ 13             3ÁveCN§æ«1D¨B4‹şüã«…œ 13             4èğœşüã«…œ    
+flags1048576path /etc/libmap.confretval3upath1 /etc/libmap.conf 13ÿÚåeÀìQ€ºÆAìjY    /etc/libmap.conf  13ÿÚåeÀìQ€ºÆAìjY             3şüã«…œ 13             3ÁveCN§æ«1D¨B4‹şüã«…œ 13)Nd“á„Ñq»!ùÏòN´	´è             4èğœşüã«…œ    
 hello
 errno0
 probe subjprocuuid@c17665434ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@ffdae5651dc0ec51801dbac641ec6a59callaue_mmapprovider
-auditfd3retval6451200 13wúqÂtğEÑØò@®€$¶	†éÿÚåeÀìQ€ºÆAìjY             4şüã«…œ 13             4ÁveCN§æ«1D¨B4‹şüã«…œ 13             5ê
+auditfd3retval6451200 13ÿÚåeÀìQ€ºÆAìjY             4şüã«…œ 13             4ÁveCN§æ«1D¨B4‹şüã«…œ 13             5ê
 ğœÎŒ‘ã«…œ    
 hello
 errno0
@@ -7901,12 +7901,12 @@ auditfd3retval89 13Ë`ğN§æ«1D¨B4‹             í¼¤¿ò«…œ 13       
 errno0
 probe subjprocuuid@a8fa4abc4e9811e6ab0b44a842348b1cmodule
 eventarg_objuuid1@a8fa8d6c4e9811e6ab0b44a842348b1ccallaue_recvfromprovider
-auditfd4path/retval89address upath1/ 13¨úlN˜æ«D¨B4‹             î¼¤¿ò«…œ 13             î¨úJ¼N˜æ«D¨B4‹¼¤¿ò«…œ 13             ïŞ
+auditfd4path/retval89address upath1/ 13¨úlN˜æ«D¨B4‹             î¼¤¿ò«…œ 13)Nd“á„Ñq»!ùÏòN®	Âê             î¨úJ¼N˜æ«D¨B4‹¼¤¿ò«…œ 13             ïŞ
 äœ¼¤¿ò«…œ    sshd
 errno0
 probe subjprocuuid@cb0d53d04ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@cb1060f04ea711e6ab3144a842348b1ccallaue_closeprovider
-auditfd3retval0 13wúqÂtğEÑØò@®€$°	¦ëË`ğN§æ«1D¨B4‹             ï¼¤¿ò«…œ 13             ïËSĞN§æ«1D¨B4‹¼¤¿ò«…œ 13             ğà à›¼¤¿ò«…œ    syslogdret_objuuid1@ac71b1ef2455545295249c5da25489c0
+auditfd3retval0 13Ë`ğN§æ«1D¨B4‹             ï¼¤¿ò«…œ 13             ïËSĞN§æ«1D¨B4‹¼¤¿ò«…œ 13             ğà à›¼¤¿ò«…œ    syslogdret_objuuid1@ac71b1ef2455545295249c5da25489c0
 errno0
 probe fd-100subjprocuuid@a8fa4abc4e9811e6ab0b44a842348b1cmodule
 eventarg_objuuid1@ac71b1ef2455545295249c5da25489c0callaue_openat_rwtcmode0provider
@@ -8823,11 +8823,11 @@ auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ²¬¡Õò«…œ 13      
 errno0
 probe subjprocuuid@cb0d53d04ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
-auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ³¬¡Õò«…œ 13             ³ËSĞN§æ«1D¨B4‹¬¡Õò«…œ 13             ´è"äœ¬¡Õò«…œ    sshd
+auditfd4retval4096 13)Nd“á„Ñq»!ùÏòNÈ	”é¥÷ºØ©i]©Ø;V=i˜ë             ³¬¡Õò«…œ 13             ³ËSĞN§æ«1D¨B4‹¬¡Õò«…œ 13             ´è"äœ¬¡Õò«…œ    sshd
 errno0
 probe subjprocuuid@cb0d53d04ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
-auditfd4retval4096 13wúqÂtğEÑØò@®€$È	é¥÷ºØ©i]©Ø;V=i˜ë             ´¬¡Õò«…œ 13             ´ËSĞN§æ«1D¨B4‹¬¡Õò«…œ 13             µê"äœ¬¡Õò«…œ    sshd
+auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ´¬¡Õò«…œ 13             ´ËSĞN§æ«1D¨B4‹¬¡Õò«…œ 13             µê"äœ¬¡Õò«…œ    sshd
 errno0
 probe subjprocuuid@cb0d53d04ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
@@ -9730,12 +9730,12 @@ auditfd3retval9510912 13J¡°9±$S±9ÁÃ$n             ìÌæò«…œ 13   
 errno0
 probe subjprocuuid@cb40745f4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@9e4aa1b039b12453b139c18fc3246e11callaue_mmapprovider
-auditfd3retval11931648 13J¡°9±$S±9ÁÃ$n             €ìÌæò«…œ 13             €Ë@t_N§æ«1D¨B4‹ìÌæò«…œ 13             ‚"
+auditfd3retval11931648 13)Nd“á„Ñq»!ùÏòNÌ	®èJ¡°9±$S±9ÁÃ$n             €ìÌæò«…œ 13             €Ë@t_N§æ«1D¨B4‹ìÌæò«…œ 13             ‚"
 ÌœìÌæò«…œ    bash
 errno0
 probe subjprocuuid@cb40745f4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@9e4aa1b039b12453b139c18fc3246e11callaue_closeprovider
-auditfd3retval0 13wúqÂtğEÑØò@®€$Ê	¦éJ¡°9±$S±9ÁÃ$n             ìÌæò«…œ 13             Ë@t_N§æ«1D¨B4‹ìÌæò«…œ 13             ‚„" Ìœüêæò«…œ    bashret_objuuid1@551b2083c54eb65b8ec536506bb6a71e
+auditfd3retval0 13J¡°9±$S±9ÁÃ$n             ìÌæò«…œ 13             Ë@t_N§æ«1D¨B4‹ìÌæò«…œ 13             ‚„" Ìœüêæò«…œ    bashret_objuuid1@551b2083c54eb65b8ec536506bb6a71e
 errno0
 probe fd-100subjprocuuid@cb40745f4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@551b2083c54eb65b8ec536506bb6a71ecallaue_openat_rwtcmode0provider
@@ -10618,13 +10618,13 @@ auditfd10retval0 13             	@ĞËlN§æ«1D¨B4‹Ê­¾ú«…œ 13       
 errno0
 probe subjprocuuid@d00dcb6c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@1786c11d2af8d05eb82adf163ed0b4d2callaue_readprovider
-auditfd10retval95 13†Á*øĞ^¸*ß>Ğ´Ò             	AÊ­¾ú«…œ 13             	AĞËlN§æ«1D¨B4‹Ê­¾ú«…œ 13             	B„% ´œÊ­¾ú«…œ    ldret_objuuid1@1786c11d2af8d05eb82adf163ed0b4d2
+auditfd10retval95 13†Á*øĞ^¸*ß>Ğ´Ò             	AÊ­¾ú«…œ 13)Nd“á„Ñq»!ùÏòNª
+ˆè             	AĞËlN§æ«1D¨B4‹Ê­¾ú«…œ 13             	B„% ´œÊ­¾ú«…œ    ldret_objuuid1@1786c11d2af8d05eb82adf163ed0b4d2
 errno0
 probe subjprocuuid@d00dcb6c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@1786c11d2af8d05eb82adf163ed0b4d2callaue_open_rwtcmode438provider
 audit
-flags0path /usr/lib/libc.soretval11upath1 /usr/lib/libc.so 13wúqÂtğEÑØò@®€$²
-¨è†Á*øĞ^¸*ß>Ğ´Ò    /usr/lib/libc.so  13†Á*øĞ^¸*ß>Ğ´Ò             	BÊ­¾ú«…œ 13             	BĞËlN§æ«1D¨B4‹Ê­¾ú«…œ 13             	C†%"´œÊ­¾ú«…œ    ld
+flags0path /usr/lib/libc.soretval11upath1 /usr/lib/libc.so 13†Á*øĞ^¸*ß>Ğ´Ò    /usr/lib/libc.so  13†Á*øĞ^¸*ß>Ğ´Ò             	BÊ­¾ú«…œ 13             	BĞËlN§æ«1D¨B4‹Ê­¾ú«…œ 13             	C†%"´œÊ­¾ú«…œ    ld
 errno0
 probe subjprocuuid@d00dcb6c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@1786c11d2af8d05eb82adf163ed0b4d2callaue_readprovider
@@ -11577,7 +11577,7 @@ auditfd11retval2733 13             
 errno0
 probe subjprocuuid@d00dcb6c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@bfbb496aa76ff350afa72d0880f3111fcallaue_writeprovider
-auditfd11retval216 13¿»Ij§oóP¯§-€ó     V 13¿»Ij§oóP¯§-€ó¿»Ij§oóP¯§-€ó úÃú«…œ 13             
+auditfd11retval216 13)Nd“á„Ñq»!ùÏòNÂ	˜é¿»Ij§oóP¯§-€ó     V 13¿»Ij§oóP¯§-€ó¿»Ij§oóP¯§-€ó úÃú«…œ 13             
 ¿»Ij§oóP¯§-€óúÃú«…œ 13             
 ĞËlN§æ«1D¨B4‹úÃú«…œ 13             
 ´(2´œúÃú«…œ    ld
@@ -11585,7 +11585,7 @@ errno0
 probe subjprocuuid@d00dcb6c4ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
 auditfd11retval0 13             
-ĞËlN§æ«1D¨B4‹úÃú«…œ 13wúqÂtğEÑØò@®€$¼	üé             
+ĞËlN§æ«1D¨B4‹úÃú«…œ 13             
 ¶(*´œÊÃú«…œ    ld
 errno0
 probe subjprocuuid@d00dcb6c4ea711e6ab3144a842348b1cmodule
@@ -12961,7 +12961,7 @@ flags0path2/etc/ssh/ssh_host_rsa_keyretval3upath12/etc/ssh/ssh_host_rsa_key
 errno0
 probe subjprocuuid@d22c1f4b4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@17e4c1a44b2c2c5eac4be2461e2c0987callaue_closeprovider
-auditfd3retval0 13äÁ¤K,,^¬KâF,	‡             
+auditfd3retval0 13)Nd“á„Ñq»!ùÏòNª	´èäÁ¤K,,^¬KâF,	‡             
 ÖÔ¥ñı«…œ 13             
 ÖÒ,KN§æ«1D¨B4‹Ô¥ñı«…œ 13             
 ×®+ äœÔ¥ñı«…œ    sshdret_objuuid1@17e4c1a44b2c2c5eac4be2461e2c0987
@@ -12969,7 +12969,7 @@ errno0
 probe subjprocuuid@d22c1f4b4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@17e4c1a44b2c2c5eac4be2461e2c0987callaue_open_rwtcmode438provider
 audit
-flags0path2/etc/ssh/ssh_host_rsa_keyretval3upath12/etc/ssh/ssh_host_rsa_key 13wúqÂtğEÑØò@®€$¬	îéäÁ¤K,,^¬KâF,	‡   2/etc/ssh/ssh_host_rsa_key  13äÁ¤K,,^¬KâF,	‡             
+flags0path2/etc/ssh/ssh_host_rsa_keyretval3upath12/etc/ssh/ssh_host_rsa_key 13äÁ¤K,,^¬KâF,	‡   2/etc/ssh/ssh_host_rsa_key  13äÁ¤K,,^¬KâF,	‡             
 ×Ô¥ñı«…œ 13             
 ×Ò,KN§æ«1D¨B4‹Ô¥ñı«…œ 13             
 Ø°+
@@ -14000,7 +14000,7 @@ auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ˜Îá‡ş«…œ 13      
 errno0
 probe subjprocuuid@d22c1f4b4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
-auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ™˜ñ‡ş«…œ 13             ™Ò,KN§æ«1D¨B4‹˜ñ‡ş«…œ 13             š´."äœ˜ñ‡ş«…œ    sshd
+auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ™˜ñ‡ş«…œ 13             ™Ò,KN§æ«1D¨B4‹˜ñ‡ş«…œ 13)Nd“á„Ñq»!ùÏòNÈ	¢è             š´."äœ˜ñ‡ş«…œ    sshd
 errno0
 probe subjprocuuid@d22c1f4b4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
@@ -14008,7 +14008,7 @@ auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             š˜ñ‡ş«…œ 13      
 errno0
 probe subjprocuuid@d22c1f4b4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
-auditfd4retval4096 13wúqÂtğEÑØò@®€$È	¢è¥÷ºØ©i]©Ø;V=i˜ë             ›˜ñ‡ş«…œ 13             ›Ò,KN§æ«1D¨B4‹˜ñ‡ş«…œ 13             œ¸."äœ˜ñ‡ş«…œ    sshd
+auditfd4retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ›˜ñ‡ş«…œ 13             ›Ò,KN§æ«1D¨B4‹˜ñ‡ş«…œ 13             œ¸."äœ˜ñ‡ş«…œ    sshd
 errno0
 probe subjprocuuid@d22c1f4b4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
@@ -14907,7 +14907,7 @@ auditfd10retval0 13D¹Ûå%8T¥åÅş8!„             eúë˜ş«…œ 13       
 errno0
 probe subjprocuuid@d25fde4c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@15c9b192d778a253b8d702ded3a29127callaue_chdirprovider
-auditpath/home/everetval0upath1/home/eve 13É±’×x¢S¸×ŞÓ¢‘'   /home/eve  13É±’×x¢S¸×ŞÓ¢‘'             fúë˜ş«…œ 13             fÒ_ŞLN§æ«1D¨B4‹úë˜ş«…œ 13             gÎ1
+auditpath/home/everetval0upath1/home/eve 13É±’×x¢S¸×ŞÓ¢‘'   /home/eve  13É±’×x¢S¸×ŞÓ¢‘'             fúë˜ş«…œ 13             fÒ_ŞLN§æ«1D¨B4‹úë˜ş«…œ 13)Nd“á„Ñq»!ùÏòNÆ	Ôê             gÎ1
 Ìœúë˜ş«…œ    sshd
 errno0
 probe subjprocuuid@d25fde4c4ea711e6ab3144a842348b1cmodule
@@ -14916,7 +14916,7 @@ auditfd3retval0 13             gÒ_ŞLN§æ«1D¨B4‹úë˜ş«…œ 13        
 errno0
 probe subjprocuuid@d25fde4c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@6863e9b0a7262052a6a7389ba2205a52callaue_execveprovider
-auditpath&/usr/local/bin/bashretval0upath1&/usr/local/bin/bash 13hcé°§& R¦§8›¢ ZR             hš‹™ş«…œ 13wúqÂtğEÑØò@®€$È	Æê             hÒ_ŞLN§æ«1D¨B4‹š‹™ş«…œ 13hcé°§& R¦§8›¢ ZR             hš‹™ş«…œ 13Ò_ŞLN§æ«1D¨B4‹               |š‹™ş«…œ 13             iÒ1 Ìœš‹™ş«…œ    bashret_objuuid1@ffdae5651dc0ec51801dbac641ec6a59
+auditpath&/usr/local/bin/bashretval0upath1&/usr/local/bin/bash 13hcé°§& R¦§8›¢ ZR             hš‹™ş«…œ 13             hÒ_ŞLN§æ«1D¨B4‹š‹™ş«…œ 13hcé°§& R¦§8›¢ ZR             hš‹™ş«…œ 13Ò_ŞLN§æ«1D¨B4‹               |š‹™ş«…œ 13             iÒ1 Ìœš‹™ş«…œ    bashret_objuuid1@ffdae5651dc0ec51801dbac641ec6a59
 errno0
 probe fd-100subjprocuuid@d25fde4c4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@ffdae5651dc0ec51801dbac641ec6a59callaue_openat_rwtcmode0provider
@@ -15751,7 +15751,8 @@ auditfd9retval4096 13             %Ó×#N§æ«1D¨B4‹îÀÅ€¬…œ 13      
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@cbdc51b34cc3d453834c5586e3d4f9f8callaue_readprovider
-auditfd9retval4096 13ËÜQ³LÃÔSƒLU†ãÔùø             &îÀÅ€¬…œ 13             &Ó×#N§æ«1D¨B4‹îÀÅ€¬…œ 13             'Î42ìœîÀÅ€¬…œ    ld
+auditfd9retval4096 13)Nd“á„Ñq»!ùÏòN
+ÂéËÜQ³LÃÔSƒLU†ãÔùø             &îÀÅ€¬…œ 13             &Ó×#N§æ«1D¨B4‹îÀÅ€¬…œ 13             'Î42ìœîÀÅ€¬…œ    ld
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
@@ -15759,8 +15760,7 @@ auditfd9retval0 13             'Ó×#N§æ«1D¨B4‹îÀÅ€¬…œ 13        
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@cbdc51b34cc3d453834c5586e3d4f9f8callaue_readprovider
-auditfd9retval4096 13wúqÂtğEÑØò@®€$¢
-âêËÜQ³LÃÔSƒLU†ãÔùø             (îÀÅ€¬…œ 13             (Ó×#N§æ«1D¨B4‹îÀÅ€¬…œ 13             )Ò4"ìœ†ĞÅ€¬…œ    ld
+auditfd9retval4096 13ËÜQ³LÃÔSƒLU†ãÔùø             (îÀÅ€¬…œ 13             (Ó×#N§æ«1D¨B4‹îÀÅ€¬…œ 13             )Ò4"ìœ†ĞÅ€¬…œ    ld
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@cbdc51b34cc3d453834c5586e3d4f9f8callaue_readprovider
@@ -16650,7 +16650,7 @@ auditfd11retval2192 13             şÓ×#N§æ«1D¨B4‹ª±Ê€¬…œ 13     
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@214ac2217624d359a476538739d3e4c3callaue_writeprovider
-auditfd11retval368 13!JÂ!v$ÓY¤vS‡9ÓäÃ     J 13!JÂ!v$ÓY¤vS‡9ÓäÃ!JÂ!v$ÓY¤vS‡9ÓäÃ úÀÊ€¬…œ 13             ÿ!JÂ!v$ÓY¤vS‡9ÓäÃúÀÊ€¬…œ 13             ÿÓ×#N§æ«1D¨B4‹úÀÊ€¬…œ 13              €82ìœúÀÊ€¬…œ    ld
+auditfd11retval368 13)Nd“á„Ñq»!ùÏòNØ	Üè!JÂ!v$ÓY¤vS‡9ÓäÃ     J 13!JÂ!v$ÓY¤vS‡9ÓäÃ!JÂ!v$ÓY¤vS‡9ÓäÃ úÀÊ€¬…œ 13             ÿ!JÂ!v$ÓY¤vS‡9ÓäÃúÀÊ€¬…œ 13             ÿÓ×#N§æ«1D¨B4‹úÀÊ€¬…œ 13              €82ìœúÀÊ€¬…œ    ld
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
@@ -16658,7 +16658,7 @@ auditfd11retval584 13              Ó×#N§æ«1D¨B4‹úÀÊ€¬…œ 13      
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@214ac2217624d359a476538739d3e4c3callaue_writeprovider
-auditfd11retval104 13wúqÂtğEÑØò@®€$Ô	¨è!JÂ!v$ÓY¤vS‡9ÓäÃ     L 13!JÂ!v$ÓY¤vS‡9ÓäÃ!JÂ!v$ÓY¤vS‡9ÓäÃ úÀÊ€¬…œ 13             !JÂ!v$ÓY¤vS‡9ÓäÃúÀÊ€¬…œ 13             Ó×#N§æ«1D¨B4‹úÀÊ€¬…œ 13             „82ìœúÀÊ€¬…œ    ld
+auditfd11retval104 13!JÂ!v$ÓY¤vS‡9ÓäÃ     L 13!JÂ!v$ÓY¤vS‡9ÓäÃ!JÂ!v$ÓY¤vS‡9ÓäÃ úÀÊ€¬…œ 13             !JÂ!v$ÓY¤vS‡9ÓäÃúÀÊ€¬…œ 13             Ó×#N§æ«1D¨B4‹úÀÊ€¬…œ 13             „82ìœúÀÊ€¬…œ    ld
 errno0
 probe subjprocuuid@d3d70f234ea711e6ab3144a842348b1cmodule
 eventcallaue_lseekprovider
@@ -17509,7 +17509,7 @@ auditfd3retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ½¸§Õ”¬…œ 13      
 errno0
 probe subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
-auditfd3retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ¾¸§Õ”¬…œ 13             ¾àfÔN§æ«1D¨B4‹¸§Õ”¬…œ 13             ¿ş:"äœ¸§Õ”¬…œ    sshd
+auditfd3retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ¾¸§Õ”¬…œ 13             ¾àfÔN§æ«1D¨B4‹¸§Õ”¬…œ 13)Nd“á„Ñq»!ùÏòN¦	öì             ¿ş:"äœ¸§Õ”¬…œ    sshd
 errno0
 probe subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
@@ -17517,7 +17517,7 @@ auditfd3retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             ¿¸§Õ”¬…œ 13      
 errno0
 probe subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
-auditfd3retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             À¸§Õ”¬…œ 13wúqÂtğEÑØò@®€$¤	òè             ÀàfÔN§æ«1D¨B4‹¸§Õ”¬…œ 13             Á‚;"äœ¸§Õ”¬…œ    sshd
+auditfd3retval4096 13¥÷ºØ©i]©Ø;V=i˜ë             À¸§Õ”¬…œ 13             ÀàfÔN§æ«1D¨B4‹¸§Õ”¬…œ 13             Á‚;"äœ¸§Õ”¬…œ    sshd
 errno0
 probe subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@a5f7ba7fd8a9695da9d83b563d6998ebcallaue_preadprovider
@@ -18427,11 +18427,11 @@ errno0
 probe fd-100subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventarg_objuuid1@89ba09d7bac3e85283ba5b20c2e89f4dcallaue_openat_rwtcmode0provider
 audit
-flags4path</home/bob/.ssh/authorized_keysretval4upath1</home/bob/.ssh/authorized_keys 13‰º	×ºÃèRƒº[ ÂèŸM   </home/bob/.ssh/authorized_keys  13‰º	×ºÃèRƒº[ ÂèŸM             €ªÿì”¬…œ 13             €àfÔN§æ«1D¨B4‹ªÿì”¬…œ 13             ‚>2äœ„í”¬…œ    sshd
+flags4path</home/bob/.ssh/authorized_keysretval4upath1</home/bob/.ssh/authorized_keys 13)Nd“á„Ñq»!ùÏòNÈ	ªë‰º	×ºÃèRƒº[ ÂèŸM   </home/bob/.ssh/authorized_keys  13‰º	×ºÃèRƒº[ ÂèŸM             €ªÿì”¬…œ 13             €àfÔN§æ«1D¨B4‹ªÿì”¬…œ 13             ‚>2äœ„í”¬…œ    sshd
 errno0
 probe subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventcallaue_fcntlprovider
-auditretval4 13wúqÂtğEÑØò@®€$Æ	˜ë             àfÔN§æ«1D¨B4‹„í”¬…œ 13             ‚„>2äœ„í”¬…œ    sshd
+auditretval4 13             àfÔN§æ«1D¨B4‹„í”¬…œ 13             ‚„>2äœ„í”¬…œ    sshd
 errno0
 probe subjprocuuid@e066d40e4ea711e6ab3144a842348b1cmodule
 eventcallaue_fcntlprovider
@@ -19336,12 +19336,12 @@ auditfd3retval15187968 13â`dÒŸ ]ŸÒ2,½ š£             NÆ÷ş”¬…œ 13  
 errno0
 probe subjprocuuid@e09d55cb4ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@e21b6064d29fa05d9fd2322cbda09aa3callaue_mmapprovider
-auditfd3retval17641472 13â`dÒŸ ]ŸÒ2,½ š£             OÆ÷ş”¬…œ 13             OàUËN§æ«2D¨B4‹Æ÷ş”¬…œ 13             P A
+auditfd3retval17641472 13)Nd“á„Ñq»!ùÏòNÚ	ˆèâ`dÒŸ ]ŸÒ2,½ š£             OÆ÷ş”¬…œ 13             OàUËN§æ«2D¨B4‹Æ÷ş”¬…œ 13             P A
 ÂœÆ÷ş”¬…œ    scp
 errno0
 probe subjprocuuid@e09d55cb4ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@e21b6064d29fa05d9fd2322cbda09aa3callaue_closeprovider
-auditfd3retval0 13wúqÂtğEÑØò@®€$Ú	Šèâ`dÒŸ ]ŸÒ2,½ š£             PÆ÷ş”¬…œ 13             PàUËN§æ«2D¨B4‹Æ÷ş”¬…œ 13             Q¢A ÂœÆ÷ş”¬…œ    scpret_objuuid1@d87a2d302e26a75ea62e3a425ea7f31d
+auditfd3retval0 13â`dÒŸ ]ŸÒ2,½ š£             PÆ÷ş”¬…œ 13             PàUËN§æ«2D¨B4‹Æ÷ş”¬…œ 13             Q¢A ÂœÆ÷ş”¬…œ    scpret_objuuid1@d87a2d302e26a75ea62e3a425ea7f31d
 errno0
 probe fd-100subjprocuuid@e09d55cb4ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@d87a2d302e26a75ea62e3a425ea7f31dcallaue_openat_rwtcmode0provider
@@ -20239,12 +20239,12 @@ auditretval0 13             ÷}¬äN§æ«2D¨B4‹‚ÿË¹¬…œ 13             
 errno0
 probe subjprocuuid@f77d962c4ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@f77da93b4ea711e6ab3244a842348b1ccallaue_readprovider
-auditfd5retval0 13÷}©;N§æ«2D¨B4‹      13÷}©;N§æ«2D¨B4‹             ‚ÿË¹¬…œ 13             ÷}–,N§æ«2D¨B4‹‚ÿË¹¬…œ 13             ²D
+auditfd5retval0 13÷}©;N§æ«2D¨B4‹      13)Nd“á„Ñq»!ùÏòN	Äè÷}©;N§æ«2D¨B4‹             ‚ÿË¹¬…œ 13             ÷}–,N§æ«2D¨B4‹‚ÿË¹¬…œ 13             ²D
 úœ‚ÿË¹¬…œ    cron
 errno0
 probe subjprocuuid@f77d962c4ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@f77da93b4ea711e6ab3244a842348b1ccallaue_closeprovider
-auditfd5retval0 13wúqÂtğEÑØò@®€$”	Äê÷}©;N§æ«2D¨B4‹             ‚ÿË¹¬…œ 13             ÷}–,N§æ«2D¨B4‹‚ÿË¹¬…œ 13             ´DHúœ‚ÿË¹¬…œ    cron
+auditfd5retval0 13÷}©;N§æ«2D¨B4‹             ‚ÿË¹¬…œ 13             ÷}–,N§æ«2D¨B4‹‚ÿË¹¬…œ 13             ´DHúœ‚ÿË¹¬…œ    cron
 errno0
 probe subjprocuuid@f77d962c4ea711e6ab3244a842348b1cmodule
 eventcallaue_exitprovider
@@ -21140,11 +21140,11 @@ auditretval4 13             Ñûø¤N§æ«2D¨B4‹ªŒ¶¿¬…œ 13             
 errno0
 probe subjprocuuid@fb0cf8a44ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@fb24e8e54ea711e6ab3244a842348b1ccallaue_connectprovider
-auditfd4retval0port53address192.168.1.1 13û$èåN§æ«2D¨B4‹      13û$èåN§æ«2D¨B4‹             ÒªŒ¶¿¬…œ 13              3   localhost192.168.1.1j 13             Ò              3ªŒ¶¿¬…œ 13             Òûø¤N§æ«2D¨B4‹ªŒ¶¿¬…œ 13             Ó¦GBÌœªŒ¶¿¬…œ    sshd
+auditfd4retval0port53address192.168.1.1 13)Nd“á„Ñq»!ùÏòNÊ	‚êû$èåN§æ«2D¨B4‹      13û$èåN§æ«2D¨B4‹             ÒªŒ¶¿¬…œ 13              3   localhost192.168.1.1j 13             Ò              3ªŒ¶¿¬…œ 13             Òûø¤N§æ«2D¨B4‹ªŒ¶¿¬…œ 13             Ó¦GBÌœªŒ¶¿¬…œ    sshd
 errno0
 probe subjprocuuid@fb0cf8a44ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@fb24e8e54ea711e6ab3244a842348b1ccallaue_sendtoprovider
-auditfd4retval42 13wúqÂtğEÑØò@®€$Â	˜éû$èåN§æ«2D¨B4‹             ÓªŒ¶¿¬…œ 13             Óûø¤N§æ«2D¨B4‹ªŒ¶¿¬…œ 13             Ô¨G$ÌœªŒ¶¿¬…œ    sshd
+auditfd4retval42 13û$èåN§æ«2D¨B4‹             ÓªŒ¶¿¬…œ 13             Óûø¤N§æ«2D¨B4‹ªŒ¶¿¬…œ 13             Ô¨G$ÌœªŒ¶¿¬…œ    sshd
 errno0
 probe subjprocuuid@fb0cf8a44ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@fb24e8e54ea711e6ab3244a842348b1ccallaue_recvfromprovider
@@ -22039,12 +22039,12 @@ auditretval0 13             ›û-Î¿N§æ«2D¨B4‹îÅ½¿¬…œ 13             
 errno0
 probe subjprocuuid@fb2dcebf4ea711e6ab3244a842348b1cmodule
 eventcallaue_seteuidprovider
-auditretval0 13             œû-Î¿N§æ«2D¨B4‹şÓ½¿¬…œ 13             ºJ äœşÓ½¿¬…œ    sshdret_objuuid1@fa95124d669e0c519e6625e1010c2def
+auditretval0 13)Nd“á„Ñq»!ùÏòNº	¼è             œû-Î¿N§æ«2D¨B4‹şÓ½¿¬…œ 13             ºJ äœşÓ½¿¬…œ    sshdret_objuuid1@fa95124d669e0c519e6625e1010c2def
 errno0
 probe subjprocuuid@fb2dcebf4ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@fa95124d669e0c519e6625e1010c2defcallaue_open_rwtcmode0provider
 audit
-flags1048576path*/home/bob/.login_confretval9upath1*/home/bob/.login_conf 13wúqÂtğEÑØò@®€$º	àèú•MfQf%á-ï   */home/bob/.login_conf  13ú•MfQf%á-ï             şÓ½¿¬…œ 13             û-Î¿N§æ«2D¨B4‹şÓ½¿¬…œ 13             ¼J
+flags1048576path*/home/bob/.login_confretval9upath1*/home/bob/.login_conf 13ú•MfQf%á-ï   */home/bob/.login_conf  13ú•MfQf%á-ï             şÓ½¿¬…œ 13             û-Î¿N§æ«2D¨B4‹şÓ½¿¬…œ 13             ¼J
 äœşÓ½¿¬…œ    sshd
 errno0
 probe subjprocuuid@fb2dcebf4ea711e6ab3244a842348b1cmodule
@@ -22914,12 +22914,12 @@ auditfd3retval3057 13”Î…¤œ•Ï]•œñ÷ÏX             aÆÁÎ¿¬…œ 13      
 errno0
 probe subjprocuuid@fb405c274ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@94ce85a49c95cf5d959cf1f78dcf588dcallaue_closeprovider
-auditfd3retval0 13”Î…¤œ•Ï]•œñ÷ÏX             bÆÁÎ¿¬…œ 13             bû@\'N§æ«2D¨B4‹ÆÁÎ¿¬…œ 13             cÆM úœĞÏÎ¿¬…œ    bashret_objuuid1@ab3b995c877fd358bf873a39d8d33d75
+auditfd3retval0 13”Î…¤œ•Ï]•œñ÷ÏX             bÆÁÎ¿¬…œ 13             bû@\'N§æ«2D¨B4‹ÆÁÎ¿¬…œ 13)Nd“á„Ñq»!ùÏòNø	 è             cÆM úœĞÏÎ¿¬…œ    bashret_objuuid1@ab3b995c877fd358bf873a39d8d33d75
 errno0
 probe subjprocuuid@fb405c274ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@ab3b995c877fd358bf873a39d8d33d75callaue_open_rwtcmode0provider
 audit
-flags1048576path4/usr/share/misc/termcap.dbretval3upath14/usr/share/misc/termcap.db 13«;™\‡ÓX¿‡:9ØÓ=u   4/usr/share/misc/termcap.db  13wúqÂtğEÑØò@®€$ş	¢è«;™\‡ÓX¿‡:9ØÓ=u             cĞÏÎ¿¬…œ 13             cû@\'N§æ«2D¨B4‹ĞÏÎ¿¬…œ 13             dÈM"úœĞÏÎ¿¬…œ    bash
+flags1048576path4/usr/share/misc/termcap.dbretval3upath14/usr/share/misc/termcap.db 13«;™\‡ÓX¿‡:9ØÓ=u   4/usr/share/misc/termcap.db  13«;™\‡ÓX¿‡:9ØÓ=u             cĞÏÎ¿¬…œ 13             cû@\'N§æ«2D¨B4‹ĞÏÎ¿¬…œ 13             dÈM"úœĞÏÎ¿¬…œ    bash
 errno0
 probe subjprocuuid@fb405c274ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@ab3b995c877fd358bf873a39d8d33d75callaue_readprovider
@@ -23740,12 +23740,12 @@ auditfd6retval0 13             #ÿšxWN§æ«2D¨B4‹œÊÆ¬…œ 13        
 errno0
 probe subjprocuuid@ff9a78574ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@773708bdb11b7a569bb1d6b2467a7109callaue_readprovider
-auditfd6retval499 13w7½±zV›±Ö²Fzq	             $œÊÆ¬…œ 13             $ÿšxWN§æ«2D¨B4‹œÊÆ¬…œ 13             %ÊP
+auditfd6retval499 13)Nd“á„Ñq»!ùÏòNÂ	Öêw7½±zV›±Ö²Fzq	             $œÊÆ¬…œ 13             $ÿšxWN§æ«2D¨B4‹œÊÆ¬…œ 13             %ÊP
 ôœœÊÆ¬…œ    sudo
 errno0
 probe subjprocuuid@ff9a78574ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@773708bdb11b7a569bb1d6b2467a7109callaue_closeprovider
-auditfd6retval0 13w7½±zV›±Ö²Fzq	             %œÊÆ¬…œ 13             %ÿšxWN§æ«2D¨B4‹œÊÆ¬…œ 13wúqÂtğEÑØò@®€$¾	šé             &ÌP2ôœÒœÊÆ¬…œ    sudoarg_euid4294967295arg_ruid4294967295arg_suid4294967295
+auditfd6retval0 13w7½±zV›±Ö²Fzq	             %œÊÆ¬…œ 13             %ÿšxWN§æ«2D¨B4‹œÊÆ¬…œ 13             &ÌP2ôœÒœÊÆ¬…œ    sudoarg_euid4294967295arg_ruid4294967295arg_suid4294967295
 errno0
 probe subjprocuuid@ff9a78574ea711e6ab3244a842348b1cmodule
 eventcallaue_setresuidprovider
@@ -24617,11 +24617,11 @@ auditfd2retval1 13í( ö~R¶ ~{‚~¯     š 13í( ö~R¶ ~{‚~¯í( ö~R¶ 
 errno0
 probe subjprocuuid@fb405c274ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@ed28181720f67e52b6207e7b827e05afcallaue_readprovider
-auditfd0retval1 13í( ö~R¶ ~{‚~¯             ïÂÆåÇ¬…œ 13             ïû@\'N§æ«2D¨B4‹ÂÆåÇ¬…œ 13             ğàS*úœÂÆåÇ¬…œ    bash
+auditfd0retval1 13)Nd“á„Ñq»!ùÏòN¦	Úèí( ö~R¶ ~{‚~¯             ïÂÆåÇ¬…œ 13             ïû@\'N§æ«2D¨B4‹ÂÆåÇ¬…œ 13             ğàS*úœÂÆåÇ¬…œ    bash
 errno0
 probe subjprocuuid@fb405c274ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@ed28181720f67e52b6207e7b827e05afcallaue_writeprovider
-auditfd2retval1 13wúqÂtğEÑØò@®€$¦	Úèí( ö~R¶ ~{‚~¯     œ 13í( ö~R¶ ~{‚~¯í( ö~R¶ ~{‚~¯ ÂÆåÇ¬…œ 13             ğí( ö~R¶ ~{‚~¯ÂÆåÇ¬…œ 13             ğû@\'N§æ«2D¨B4‹ÂÆåÇ¬…œ 13             ñâS*úœÂÆåÇ¬…œ    bash
+auditfd2retval1 13í( ö~R¶ ~{‚~¯     œ 13í( ö~R¶ ~{‚~¯í( ö~R¶ ~{‚~¯ ÂÆåÇ¬…œ 13             ğí( ö~R¶ ~{‚~¯ÂÆåÇ¬…œ 13             ğû@\'N§æ«2D¨B4‹ÂÆåÇ¬…œ 13             ñâS*úœÂÆåÇ¬…œ    bash
 errno0
 probe subjprocuuid@fb405c274ea711e6ab3244a842348b1cmodule
 eventarg_objuuid1@ed28181720f67e52b6207e7b827e05afcallaue_writeprovider
@@ -25478,14 +25478,14 @@ flags0path:/etc/ssh/ssh_host_ed25519_keyretval3upath1:/etc/ssh/ssh_host_ed2
 Zš­ïÊ
 ÷T   :/etc/ssh/ssh_host_ed25519_key  13°¯öß­
 Zš­ïÊ
-÷T             ¦ş¿¤Í¬…œ 13             ¦Ëk¼N¨æ«2D¨B4‹ş¿¤Í¬…œ 13             §ÎV
+÷T             ¦ş¿¤Í¬…œ 13             ¦Ëk¼N¨æ«2D¨B4‹ş¿¤Í¬…œ 13)Nd“á„Ñq»!ùÏòN²	†è             §ÎV
 Ìœş¿¤Í¬…œ    sshd
 errno0
 probe subjprocuuid@03cb6bbc4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b0aff6dfad1a0a5a9aad12efca0af754callaue_closeprovider
 auditfd3retval0 13°¯öß­
 Zš­ïÊ
-÷T             §ş¿¤Í¬…œ 13             §Ëk¼N¨æ«2D¨B4‹ş¿¤Í¬…œ 13wúqÂtğEÑØò@®€$¸	‚ê             ¨ĞV Ìœ´Ğ¤Í¬…œ    sshdret_objuuid1@b0aff6dfad1a0a5a9aad12efca0af754
+÷T             §ş¿¤Í¬…œ 13             §Ëk¼N¨æ«2D¨B4‹ş¿¤Í¬…œ 13             ¨ĞV Ìœ´Ğ¤Í¬…œ    sshdret_objuuid1@b0aff6dfad1a0a5a9aad12efca0af754
 errno0
 probe subjprocuuid@03cb6bbc4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b0aff6dfad1a0a5a9aad12efca0af754callaue_open_rwtcmode438provider
@@ -26394,12 +26394,12 @@ auditretval4 13             mËk¼N¨æ«2D¨B4‹„½ºÍ¬…œ 13             
 errno0
 probe subjprocuuid@03cb6bbc4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@03ea747a4ea811e6ab3244a842348b1ccallaue_connectprovider
-auditfd4retval0port1address192.168.1.1 13êtzN¨æ«2D¨B4‹      13êtzN¨æ«2D¨B4‹             n„½ºÍ¬…œ 13              G   localhost192.168.1.1 13             n              G„½ºÍ¬…œ 13             nËk¼N¨æ«2D¨B4‹„½ºÍ¬…œ 13             oŞY
+auditfd4retval0port1address192.168.1.1 13)Nd“á„Ñq»!ùÏòN¾	¸éêtzN¨æ«2D¨B4‹      13êtzN¨æ«2D¨B4‹             n„½ºÍ¬…œ 13              G   localhost192.168.1.1 13             n              G„½ºÍ¬…œ 13             nËk¼N¨æ«2D¨B4‹„½ºÍ¬…œ 13             oŞY
 Ìœ„½ºÍ¬…œ    sshd
 errno0
 probe subjprocuuid@03cb6bbc4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@03ea747a4ea811e6ab3244a842348b1ccallaue_closeprovider
-auditfd4retval0 13wúqÂtğEÑØò@®€$º	 èêtzN¨æ«2D¨B4‹             o„½ºÍ¬…œ 13             oËk¼N¨æ«2D¨B4‹„½ºÍ¬…œ 13             pàY2ÌœšÌºÍ¬…œ    sshdret_objuuid1@03ea7ea84ea811e6ab3244a842348b1c
+auditfd4retval0 13êtzN¨æ«2D¨B4‹             o„½ºÍ¬…œ 13             oËk¼N¨æ«2D¨B4‹„½ºÍ¬…œ 13             pàY2ÌœšÌºÍ¬…œ    sshdret_objuuid1@03ea7ea84ea811e6ab3244a842348b1c
 errno0
 probe subjprocuuid@03cb6bbc4ea811e6ab3244a842348b1cmodule
 eventcallaue_socketprovider
@@ -27301,11 +27301,11 @@ auditfd3retval4096 13NİË#Ï[†#Š‹ÏW<             :²¸ËÍ¬…œ 13      
 errno0
 probe subjprocuuid@03fe45e34ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@174eddcb2306cf5b86238a188bcf573ccallaue_preadprovider
-auditfd3retval4096 13NİË#Ï[†#Š‹ÏW<             ;²¸ËÍ¬…œ 13             ;şEãN¨æ«2D¨B4‹²¸ËÍ¬…œ 13             <ø\"ğœ²¸ËÍ¬…œ    bash
+auditfd3retval4096 13)Nd“á„Ñq»!ùÏòNÌ	¢èNİË#Ï[†#Š‹ÏW<             ;²¸ËÍ¬…œ 13             ;şEãN¨æ«2D¨B4‹²¸ËÍ¬…œ 13             <ø\"ğœ²¸ËÍ¬…œ    bash
 errno0
 probe subjprocuuid@03fe45e34ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@174eddcb2306cf5b86238a188bcf573ccallaue_preadprovider
-auditfd3retval4096 13NİË#Ï[†#Š‹ÏW<             <²¸ËÍ¬…œ 13wúqÂtğEÑØò@®€$Ê	¸é             <şEãN¨æ«2D¨B4‹²¸ËÍ¬…œ 13             =ú\"ğœ²¸ËÍ¬…œ    bash
+auditfd3retval4096 13NİË#Ï[†#Š‹ÏW<             <²¸ËÍ¬…œ 13             <şEãN¨æ«2D¨B4‹²¸ËÍ¬…œ 13             =ú\"ğœ²¸ËÍ¬…œ    bash
 errno0
 probe subjprocuuid@03fe45e34ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@174eddcb2306cf5b86238a188bcf573ccallaue_preadprovider
@@ -27842,7 +27842,7 @@ errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventcallaue_open_rwtcmode438provider
 audit
-flags1538path&/usr/home/bob/helloretval3upath1&/usr/home/bob/hello 13       ÑûñÇ†gU             ¶øïéĞ¬…œ 13             ¶A±N¨æ«2D¨B4‹øïéĞ¬…œ 13             ·î^ ØœîşéĞ¬…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
+flags1538path&/usr/home/bob/helloretval3upath1&/usr/home/bob/hello 13?×î÷,]†³,ëö   &/usr/home/bob/hello  13       ÑûñÇ†gU             ¶øïéĞ¬…œ 13             ¶A±N¨æ«2D¨B4‹øïéĞ¬…œ 13             ·î^ ØœîşéĞ¬…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@2290610fdee2215ba2de1a77eb217137callaue_open_rwtcmode438provider
@@ -28156,7 +28156,8 @@ auditfd11retval4096 133ÖR!ó¤Q³!şÑ¤)              ›ëĞ¬…œ 13     
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
-auditfd11retval1679360 13             A±N¨æ«2D¨B4‹›ëĞ¬…œ 13             „`"Øœ›ëĞ¬…œ    ld
+auditfd11retval1679360 13             A±N¨æ«2D¨B4‹›ëĞ¬…œ 13)Nd“á„Ñq»!ùÏòN´
+Êè             „`"Øœ›ëĞ¬…œ    ld
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_readprovider
@@ -28164,8 +28165,7 @@ auditfd11retval3088 133ÖR!ó¤Q³!şÑ¤)             ›ëĞ¬…œ 13     
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
-auditfd11retval1675264 13wúqÂtğEÑØò@®€$º
-ªë             A±N¨æ«2D¨B4‹›ëĞ¬…œ 13             ˆ`"Øœ›ëĞ¬…œ    ld
+auditfd11retval1675264 13             A±N¨æ«2D¨B4‹›ëĞ¬…œ 13             ˆ`"Øœ›ëĞ¬…œ    ld
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_readprovider
@@ -28373,7 +28373,7 @@ auditfd3retval0 13             4A±N¨æ«2D¨B4‹„¨ìĞ¬…œ 13        
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3fd7eef790812c5d819086b39d2cebf6callaue_closeprovider
-auditfd3retval0 13?×î÷,]†³,ëö      13?×î÷,]†³,ëö             5„¨ìĞ¬…œ 13             5A±N¨æ«2D¨B4‹„¨ìĞ¬…œ 13             6ì`2Øœ„¨ìĞ¬…œ    ld
+auditfd3retval0 13?×î÷,]†³,ëö             5„¨ìĞ¬…œ 13             5A±N¨æ«2D¨B4‹„¨ìĞ¬…œ 13             6ì`2Øœ„¨ìĞ¬…œ    ld
 errno0
 probe subjprocuuid@060541b14ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
@@ -29056,7 +29056,7 @@ hello
 errno0
 probe subjprocuuid@060d84bf4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_mmapprovider
-auditfd3retval6451200 133ÖR!ó¤Q³!şÑ¤)             ×ÚğĞ¬…œ 13             ×„¿N¨æ«2D¨B4‹ÚğĞ¬…œ 13             Ø°cæœÚğĞ¬…œ    
+auditfd3retval6451200 13)Nd“á„Ñq»!ùÏòN˜	öé3ÖR!ó¤Q³!şÑ¤)             ×ÚğĞ¬…œ 13             ×„¿N¨æ«2D¨B4‹ÚğĞ¬…œ 13             Ø°cæœÚğĞ¬…œ    
 hello
 errno0
 probe subjprocuuid@060d84bf4ea811e6ab3244a842348b1cmodule
@@ -29066,7 +29066,7 @@ hello
 errno0
 probe subjprocuuid@060d84bf4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_mmapprovider
-auditfd3retval12251136 13wúqÂtğEÑØò@®€$˜	Àè3ÖR!ó¤Q³!şÑ¤)             ÙÚğĞ¬…œ 13             Ù„¿N¨æ«2D¨B4‹ÚğĞ¬…œ 13             Ú´c
+auditfd3retval12251136 133ÖR!ó¤Q³!şÑ¤)             ÙÚğĞ¬…œ 13             Ù„¿N¨æ«2D¨B4‹ÚğĞ¬…œ 13             Ú´c
 æœîéğĞ¬…œ    
 hello
 errno0
@@ -29963,12 +29963,12 @@ auditretval6 13             [§;N¨æ«2D¨B4‹À–¾Ù¬…œ 13             
 errno0
 probe subjprocuuid@0b5ba73b4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@0b6f114f4ea811e6ab3244a842348b1ccallaue_closeprovider
-auditfd6retval0 13oON¨æ«2D¨B4‹      13oON¨æ«2D¨B4‹             ‘À–¾Ù¬…œ 13             ‘[§;N¨æ«2D¨B4‹À–¾Ù¬…œ 13             ’¤f Øœ„£¾Ù¬…œ    sshdret_objuuid1@fd77de532c28de56a82c207f86de6f27
+auditfd6retval0 13)Nd“á„Ñq»!ùÏòNÈ	ŞèoON¨æ«2D¨B4‹      13oON¨æ«2D¨B4‹             ‘À–¾Ù¬…œ 13             ‘[§;N¨æ«2D¨B4‹À–¾Ù¬…œ 13             ’¤f Øœ„£¾Ù¬…œ    sshdret_objuuid1@fd77de532c28de56a82c207f86de6f27
 errno0
 probe subjprocuuid@0b5406774ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@fd77de532c28de56a82c207f86de6f27callaue_open_rwtcmode438provider
 audit
-flags1048576path/etc/protocolsretval4upath1/etc/protocols 13ıwŞS,(ŞV¨, †Şo'   /etc/protocols  13ıwŞS,(ŞV¨, †Şo'             ’„£¾Ù¬…œ 13wúqÂtğEÑØò@®€$Æ	¸è             ’TwN¨æ«2D¨B4‹„£¾Ù¬…œ 13             “¦f
+flags1048576path/etc/protocolsretval4upath1/etc/protocols 13ıwŞS,(ŞV¨, †Şo'   /etc/protocols  13ıwŞS,(ŞV¨, †Şo'             ’„£¾Ù¬…œ 13             ’TwN¨æ«2D¨B4‹„£¾Ù¬…œ 13             “¦f
 Øœ„£¾Ù¬…œ    sshd
 errno0
 probe subjprocuuid@0b5406774ea811e6ab3244a842348b1cmodule
@@ -30857,12 +30857,12 @@ flags1048576path./home/alice/.login_confretval9upath1./home/alice/.login_co
 errno0
 probe subjprocuuid@0b78e44c4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@efd9dd0c0543715c830515899c716fd8callaue_closeprovider
-auditfd9retval0 13ïÙİCq\ƒ‰œqoØ             YŒ¹ÆÙ¬…œ 13             YxäLN¨æ«2D¨B4‹Œ¹ÆÙ¬…œ 13             Z´i ÆœŒ¹ÆÙ¬…œ    sshdret_objuuid1@51adcbdffa0d77518dfa7f16b177e944
+auditfd9retval0 13)Nd“á„Ñq»!ùÏòN¼	†èïÙİCq\ƒ‰œqoØ             YŒ¹ÆÙ¬…œ 13             YxäLN¨æ«2D¨B4‹Œ¹ÆÙ¬…œ 13             Z´i ÆœŒ¹ÆÙ¬…œ    sshdret_objuuid1@51adcbdffa0d77518dfa7f16b177e944
 errno0
 probe subjprocuuid@0b78e44c4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@51adcbdffa0d77518dfa7f16b177e944callaue_open_rwtcmode0provider
 audit
-flags1048576path$/etc/login.conf.dbretval9upath1$/etc/login.conf.db 13Q­ËßúwQú±wéD   $/etc/login.conf.db  13Q­ËßúwQú±wéD             ZŒ¹ÆÙ¬…œ 13wúqÂtğEÑØò@®€$¾	Øì             ZxäLN¨æ«2D¨B4‹Œ¹ÆÙ¬…œ 13             [¶i"ÆœŒ¹ÆÙ¬…œ    sshd
+flags1048576path$/etc/login.conf.dbretval9upath1$/etc/login.conf.db 13Q­ËßúwQú±wéD   $/etc/login.conf.db  13Q­ËßúwQú±wéD             ZŒ¹ÆÙ¬…œ 13             ZxäLN¨æ«2D¨B4‹Œ¹ÆÙ¬…œ 13             [¶i"ÆœŒ¹ÆÙ¬…œ    sshd
 errno0
 probe subjprocuuid@0b78e44c4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@51adcbdffa0d77518dfa7f16b177e944callaue_preadprovider
@@ -31737,7 +31737,7 @@ auditfd1retval75 13Àæb¾{Z¾bo-º{ ‡     
 errno0
 probe subjprocuuid@0b8d510b4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@c0e6049062be7b5abe626f2dba7ba087callaue_writeprovider
-auditfd1retval74 13Àæb¾{Z¾bo-º{ ‡      13Àæb¾{Z¾bo-º{ ‡Àæb¾{Z¾bo-º{ ‡ Œ†×Ù¬…œ 13              Àæb¾{Z¾bo-º{ ‡Œ†×Ù¬…œ 13              QN¨æ«2D¨B4‹Œ†×Ù¬…œ 13             !ÂlHìœŒ†×Ù¬…œ    fortune
+auditfd1retval74 13Àæb¾{Z¾bo-º{ ‡      13Àæb¾{Z¾bo-º{ ‡Àæb¾{Z¾bo-º{ ‡ Œ†×Ù¬…œ 13              Àæb¾{Z¾bo-º{ ‡Œ†×Ù¬…œ 13)Nd“á„Ñq»!ùÏòNĞ	Ğè              QN¨æ«2D¨B4‹Œ†×Ù¬…œ 13             !ÂlHìœŒ†×Ù¬…œ    fortune
 errno0
 probe subjprocuuid@0b8d510b4ea811e6ab3244a842348b1cmodule
 eventcallaue_exitprovider
@@ -31750,7 +31750,7 @@ errno0
 probe fd-100subjprocuuid@0b8ab9944ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b8b3ed15545714569754cacfc614e8f9callaue_openat_rwtcmode0provider
 audit
-flags0path2/home/alice/.bash_historyretval3upath12/home/alice/.bash_history 13wúqÂtğEÑØò@®€$Ò	Æë¸³íTWV—TÊÏÆèù   2/home/alice/.bash_history  13¸³íTWV—TÊÏÆèù             #Ü•×Ù¬…œ 13             #Š¹”N¨æ«2D¨B4‹Ü•×Ù¬…œ 13             $Èl"Ü›Ü•×Ù¬…œ    bash
+flags0path2/home/alice/.bash_historyretval3upath12/home/alice/.bash_history 13¸³íTWV—TÊÏÆèù   2/home/alice/.bash_history  13¸³íTWV—TÊÏÆèù             #Ü•×Ù¬…œ 13             #Š¹”N¨æ«2D¨B4‹Ü•×Ù¬…œ 13             $Èl"Ü›Ü•×Ù¬…œ    bash
 errno0
 probe subjprocuuid@0b8ab9944ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b8b3ed15545714569754cacfc614e8f9callaue_readprovider
@@ -32097,7 +32097,7 @@ errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventcallaue_open_rwtcmode438provider
 audit
-flags1538path4/usr/home/alice/hello_testretval3upath14/usr/home/alice/hello_test 13       %“S!·³$             r¸–¹Ü¬…œ 13             rHmĞN¨æ«2D¨B4‹¸–¹Ü¬…œ 13             sæm øœ¸–¹Ü¬…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
+flags1538path4/usr/home/alice/hello_testretval3upath14/usr/home/alice/hello_test 13J3ÜPPŠöQŠP¤¡ö§À   4/usr/home/alice/hello_test  13       %“S!·³$             r¸–¹Ü¬…œ 13             rHmĞN¨æ«2D¨B4‹¸–¹Ü¬…œ 13             sæm øœ¸–¹Ü¬…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
 errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@2290610fdee2215ba2de1a77eb217137callaue_open_rwtcmode438provider
@@ -32598,7 +32598,8 @@ errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@a4ac875d2befdb51af2b909e91db9097callaue_open_rwtcmode438provider
 audit
-flags0path6/usr/lib/libssp_nonshared.aretval13upath16/usr/lib/libssp_nonshared.a 13¤¬‡]+ïÛQ¯+‘Û—   6/usr/lib/libssp_nonshared.a  13¤¬‡]+ïÛQ¯+‘Û—             ëà¿»Ü¬…œ 13             ëHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13             ìØo2øœà¿»Ü¬…œ    ld
+flags0path6/usr/lib/libssp_nonshared.aretval13upath16/usr/lib/libssp_nonshared.a 13¤¬‡]+ïÛQ¯+‘Û—   6/usr/lib/libssp_nonshared.a  13¤¬‡]+ïÛQ¯+‘Û—             ëà¿»Ü¬…œ 13             ëHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13)Nd“á„Ñq»!ùÏòNĞ
+®è             ìØo2øœà¿»Ü¬…œ    ld
 errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
@@ -32615,8 +32616,7 @@ errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@970f84d413d75a5c9713bb3e4c5a0ec8callaue_open_rwtcmode438provider
 audit
-flags0path"/usr/lib/libgcc.aretval14upath1"/usr/lib/libgcc.a 13wúqÂtğEÑØò@®€$Ö
-¢é—„Ô×Z\—»>LZÈ   "/usr/lib/libgcc.a  13—„Ô×Z\—»>LZÈ             ïà¿»Ü¬…œ 13             ïHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13             ğào2øœà¿»Ü¬…œ    ld
+flags0path"/usr/lib/libgcc.aretval14upath1"/usr/lib/libgcc.a 13—„Ô×Z\—»>LZÈ   "/usr/lib/libgcc.a  13—„Ô×Z\—»>LZÈ             ïà¿»Ü¬…œ 13             ïHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13             ğào2øœà¿»Ü¬…œ    ld
 errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
@@ -32625,7 +32625,7 @@ auditfd3retval0 13             ğHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13        
 errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@4a33dc50508af6518a50a47fa1f6a7c0callaue_closeprovider
-auditfd3retval0 13J3ÜPPŠöQŠP¤¡ö§À      13J3ÜPPŠöQŠP¤¡ö§À             ñà¿»Ü¬…œ 13             ñHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13             òäo2øœ˜Ï»Ü¬…œ    ld
+auditfd3retval0 13J3ÜPPŠöQŠP¤¡ö§À             ñà¿»Ü¬…œ 13             ñHmĞN¨æ«2D¨B4‹à¿»Ü¬…œ 13             òäo2øœ˜Ï»Ü¬…œ    ld
 errno0
 probe subjprocuuid@0d486dd04ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
@@ -33483,7 +33483,7 @@ errno0
 probe fd-100subjprocuuid@0b8ab9944ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b8b3ed15545714569754cacfc614e8f9callaue_openat_rwtcmode0provider
 audit
-flags9path2/home/alice/.bash_historyretval3upath12/home/alice/.bash_history 13¸³íTWV—TÊÏÆèù   2/home/alice/.bash_history  13¸³íTWV—TÊÏÆèù             ½˜¦åİ¬…œ 13             ½Š¹”N¨æ«2D¨B4‹˜¦åİ¬…œ 13             ¾ür*Ü›˜¦åİ¬…œ    bash
+flags9path2/home/alice/.bash_historyretval3upath12/home/alice/.bash_history 13¸³íTWV—TÊÏÆèù   2/home/alice/.bash_history  13¸³íTWV—TÊÏÆèù             ½˜¦åİ¬…œ 13)Nd“á„Ñq»!ùÏòN	ë             ½Š¹”N¨æ«2D¨B4‹˜¦åİ¬…œ 13             ¾ür*Ü›˜¦åİ¬…œ    bash
 errno0
 probe subjprocuuid@0b8ab9944ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b8b3ed15545714569754cacfc614e8f9callaue_writeprovider
@@ -33497,7 +33497,7 @@ errno0
 probe fd-100subjprocuuid@0b8ab9944ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b8b3ed15545714569754cacfc614e8f9callaue_openat_rwtcmode0provider
 audit
-flags0path2/home/alice/.bash_historyretval3upath12/home/alice/.bash_history 13wúqÂtğEÑØò@®€$œ	Úè¸³íTWV—TÊÏÆèù   2/home/alice/.bash_history  13¸³íTWV—TÊÏÆèù             Àúµåİ¬…œ 13             ÀŠ¹”N¨æ«2D¨B4‹úµåİ¬…œ 13             Á‚s"Ü›ÔÅåİ¬…œ    bash
+flags0path2/home/alice/.bash_historyretval3upath12/home/alice/.bash_history 13¸³íTWV—TÊÏÆèù   2/home/alice/.bash_history  13¸³íTWV—TÊÏÆèù             Àúµåİ¬…œ 13             ÀŠ¹”N¨æ«2D¨B4‹úµåİ¬…œ 13             Á‚s"Ü›ÔÅåİ¬…œ    bash
 errno0
 probe subjprocuuid@0b8ab9944ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b8b3ed15545714569754cacfc614e8f9callaue_readprovider
@@ -34360,7 +34360,7 @@ errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@b0aff6dfad1a0a5a9aad12efca0af754callaue_open_rwtcmode438provider
 audit
-flags0path:/etc/ssh/ssh_host_ed25519_keyretval3upath1:/etc/ssh/ssh_host_ed25519_key 13°¯öß­
+flags0path:/etc/ssh/ssh_host_ed25519_keyretval3upath1:/etc/ssh/ssh_host_ed25519_key 13)Nd“á„Ñq»!ùÏòN¾	‚è°¯öß­
 Zš­ïÊ
 ÷T   :/etc/ssh/ssh_host_ed25519_key  13°¯öß­
 Zš­ïÊ
@@ -34376,7 +34376,7 @@ errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@4a67c09336c85c5f88364cdcff5ca42ccallaue_open_rwtcmode438provider
 audit
-flags0pathB/etc/ssh/ssh_host_ed25519_key.pubretval3upath1B/etc/ssh/ssh_host_ed25519_key.pub 13JgÀ“6È\_ˆ6LÜÿ\¤,   B/etc/ssh/ssh_host_ed25519_key.pub  13JgÀ“6È\_ˆ6LÜÿ\¤,             w ¼ñá¬…œ 13wúqÂtğEÑØò@®€$Â	Îé             w«wKN¨æ«2D¨B4‹ ¼ñá¬…œ 13             xğu
+flags0pathB/etc/ssh/ssh_host_ed25519_key.pubretval3upath1B/etc/ssh/ssh_host_ed25519_key.pub 13JgÀ“6È\_ˆ6LÜÿ\¤,   B/etc/ssh/ssh_host_ed25519_key.pub  13JgÀ“6È\_ˆ6LÜÿ\¤,             w ¼ñá¬…œ 13             w«wKN¨æ«2D¨B4‹ ¼ñá¬…œ 13             xğu
 Øœ ¼ñá¬…œ    sshd
 errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
@@ -35265,7 +35265,7 @@ auditfd4retval0port1address192.168.1.1 13ÊPqN¨æ«2D¨B4‹      13
 errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@10ca50714ea811e6ab3244a842348b1ccallaue_closeprovider
-auditfd4retval0 13ÊPqN¨æ«2D¨B4‹             =Œ™‡â¬…œ 13             =«wKN¨æ«2D¨B4‹Œ™‡â¬…œ 13             >üx2ØœŒ™‡â¬…œ    sshdret_objuuid1@10ca5a1a4ea811e6ab3244a842348b1c
+auditfd4retval0 13)Nd“á„Ñq»!ùÏòNº	êêÊPqN¨æ«2D¨B4‹             =Œ™‡â¬…œ 13             =«wKN¨æ«2D¨B4‹Œ™‡â¬…œ 13             >üx2ØœŒ™‡â¬…œ    sshdret_objuuid1@10ca5a1a4ea811e6ab3244a842348b1c
 errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
 eventcallaue_socketprovider
@@ -35278,7 +35278,7 @@ auditfd4retval0port1address192.168.1.1 13ÊZN¨æ«2D¨B4‹      13
 errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@10ca5a1a4ea811e6ab3244a842348b1ccallaue_closeprovider
-auditfd4retval0 13wúqÂtğEÑØò@®€$¸	ÜìÊZN¨æ«2D¨B4‹             @Œ™‡â¬…œ 13             @«wKN¨æ«2D¨B4‹Œ™‡â¬…œ 13             A‚y2Øœ¨‡â¬…œ    sshdret_objuuid1@10ca661b4ea811e6ab3244a842348b1c
+auditfd4retval0 13ÊZN¨æ«2D¨B4‹             @Œ™‡â¬…œ 13             @«wKN¨æ«2D¨B4‹Œ™‡â¬…œ 13             A‚y2Øœ¨‡â¬…œ    sshdret_objuuid1@10ca661b4ea811e6ab3244a842348b1c
 errno0
 probe subjprocuuid@10ab774b4ea811e6ab3244a842348b1cmodule
 eventcallaue_socketprovider
@@ -36175,7 +36175,7 @@ auditfd3retval4096 13NİË#Ï[†#Š‹ÏW<             
 errno0
 probe subjprocuuid@10de73c34ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@174eddcb2306cf5b86238a188bcf573ccallaue_closeprovider
-auditfd3retval0 13NİË#Ï[†#Š‹ÏW<             Ü™â¬…œ 13             ŞsÃN¨æ«2D¨B4‹Ü™â¬…œ 13             ˜|2ìœÜ™â¬…œ    bash
+auditfd3retval0 13)Nd“á„Ñq»!ùÏòNÎ	°èNİË#Ï[†#Š‹ÏW<             Ü™â¬…œ 13             ŞsÃN¨æ«2D¨B4‹Ü™â¬…œ 13             ˜|2ìœÜ™â¬…œ    bash
 errno0
 probe subjprocuuid@10de73c34ea811e6ab3244a842348b1cmodule
 eventcallaue_dup2provider
@@ -36193,7 +36193,7 @@ errno0
 probe fd-100subjprocuuid@10de73c34ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@4bb49fbd20da4c509a200514504cc723callaue_openat_rwtcmode0provider
 audit
-flags0path/etc/profileretval3upath1/etc/profile 13wúqÂtğEÑØò@®€$Î	¾éK´Ÿ½ ÚLPš PLÇ#   /etc/profile  13K´Ÿ½ ÚLPš PLÇ#             Ü™â¬…œ 13             ŞsÃN¨æ«2D¨B4‹Ü™â¬…œ 13              |"ìœÜ™â¬…œ    bash
+flags0path/etc/profileretval3upath1/etc/profile 13K´Ÿ½ ÚLPš PLÇ#   /etc/profile  13K´Ÿ½ ÚLPš PLÇ#             Ü™â¬…œ 13             ŞsÃN¨æ«2D¨B4‹Ü™â¬…œ 13              |"ìœÜ™â¬…œ    bash
 errno0
 probe subjprocuuid@10de73c34ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@4bb49fbd20da4c509a200514504cc723callaue_readprovider
@@ -36698,7 +36698,7 @@ errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventcallaue_open_rwtcmode438provider
 audit
-flags1538path*/usr/home/eve/hello_2retval3upath1*/usr/home/eve/hello_2 13       {SPJ”í‹             ‚ô—ùä¬…œ 13             ‚˜q	N¨æ«2D¨B4‹ô—ùä¬…œ 13             ƒ†~ øœô—ùä¬…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
+flags1538path*/usr/home/eve/hello_2retval3upath1*/usr/home/eve/hello_2 13¬"çäH{T„H»•d{…û   */usr/home/eve/hello_2  13       {SPJ”í‹             ‚ô—ùä¬…œ 13             ‚˜q	N¨æ«2D¨B4‹ô—ùä¬…œ 13             ƒ†~ øœô—ùä¬…œ    ldret_objuuid1@2290610fdee2215ba2de1a77eb217137
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@2290610fdee2215ba2de1a77eb217137callaue_open_rwtcmode438provider
@@ -37028,7 +37028,8 @@ auditfd11retval4096 133ÖR!ó¤Q³!şÑ¤)             Ğğ´úä¬…œ 13     
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_readprovider
-auditfd11retval3088 133ÖR!ó¤Q³!şÑ¤)             Ñğ´úä¬…œ 13             Ñ˜q	N¨æ«2D¨B4‹ğ´úä¬…œ 13             Ò¤2øœğ´úä¬…œ    ld
+auditfd11retval3088 133ÖR!ó¤Q³!şÑ¤)             Ñğ´úä¬…œ 13             Ñ˜q	N¨æ«2D¨B4‹ğ´úä¬…œ 13)Nd“á„Ñq»!ùÏòN°
+Üè             Ò¤2øœğ´úä¬…œ    ld
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
@@ -37048,8 +37049,7 @@ auditfd11retval4096 133ÖR!ó¤Q³!şÑ¤)             Õğ´úä¬…œ 13     
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_readprovider
-auditfd11retval4096 13wúqÂtğEÑØò@®€$¸
-Æè3ÖR!ó¤Q³!şÑ¤)             Öğ´úä¬…œ 13             Ö˜q	N¨æ«2D¨B4‹ğ´úä¬…œ 13             ×®"øœ¤Äúä¬…œ    ld
+auditfd11retval4096 133ÖR!ó¤Q³!şÑ¤)             Öğ´úä¬…œ 13             Ö˜q	N¨æ«2D¨B4‹ğ´úä¬…œ 13             ×®"øœ¤Äúä¬…œ    ld
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_readprovider
@@ -37226,7 +37226,7 @@ auditfd3retval0 13               ˜q	N¨æ«2D¨B4‹¼Áûä¬…œ 13        
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@ac22e7e448047b548448bb95647b85fbcallaue_closeprovider
-auditfd3retval0 13¬"çäH{T„H»•d{…û      13¬"çäH{T„H»•d{…û              ¼Áûä¬…œ 13              ˜q	N¨æ«2D¨B4‹¼Áûä¬…œ 13              „€2øœ¼Áûä¬…œ    ld
+auditfd3retval0 13¬"çäH{T„H»•d{…û              ¼Áûä¬…œ 13              ˜q	N¨æ«2D¨B4‹¼Áûä¬…œ 13              „€2øœ¼Áûä¬…œ    ld
 errno0
 probe subjprocuuid@129871094ea811e6ab3244a842348b1cmodule
 eventcallaue_lseekprovider
@@ -37914,7 +37914,7 @@ auditfd3retval12251136 133ÖR!ó¤Q³!şÑ¤)              ¥Ìãÿä¬…œ 13  
 errno0
 probe subjprocuuid@12a095564ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@3317d65221f3a451b32112fed1a4298fcallaue_closeprovider
-auditfd3retval0 133ÖR!ó¤Q³!şÑ¤)              ¦Ìãÿä¬…œ 13              ¦ •VN¨æ«2D¨B4‹Ìãÿä¬…œ 13              §Î‚ æœšóÿä¬…œ    hello_2ret_objuuid1@2f03f4cf52f8d25fb8528f8befd23077
+auditfd3retval0 13)Nd“á„Ñq»!ùÏòNÖğê3ÖR!ó¤Q³!şÑ¤)              ¦Ìãÿä¬…œ 13              ¦ •VN¨æ«2D¨B4‹Ìãÿä¬…œ 13              §Î‚ æœšóÿä¬…œ    hello_2ret_objuuid1@2f03f4cf52f8d25fb8528f8befd23077
 errno0
 probe subjprocuuid@12a095564ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@2f03f4cf52f8d25fb8528f8befd23077callaue_open_rwtcmode438provider
@@ -37927,7 +37927,7 @@ auditfd1retval3 13Àæb¾{Z¾bo-º{ ‡     : 13Àæb¾{Z¾bo-º{ ‡Àæb¾{Z¾bo
 errno0
 probe subjprocuuid@12a095564ea811e6ab3244a842348b1cmodule
 eventarg_objuuid1@2f03f4cf52f8d25fb8528f8befd23077callaue_writeprovider
-auditfd3retval27 13/ôÏRøÒ_¸R‹ïÒ0w      13/ôÏRøÒ_¸R‹ïÒ0w/ôÏRøÒ_¸R‹ïÒ0w šóÿä¬…œ 13wúqÂtğEÑØò@®€$ºÚ×              ©/ôÏRøÒ_¸R‹ïÒ0wšóÿä¬…œ 13              © •VN¨æ«2D¨B4‹šóÿä¬…œ 13              ªÔ‚Hæœê‚€å¬…œ    hello_2
+auditfd3retval27 13/ôÏRøÒ_¸R‹ïÒ0w      13/ôÏRøÒ_¸R‹ïÒ0w/ôÏRøÒ_¸R‹ïÒ0w šóÿä¬…œ 13              ©/ôÏRøÒ_¸R‹ïÒ0wšóÿä¬…œ 13              © •VN¨æ«2D¨B4‹šóÿä¬…œ 13              ªÔ‚Hæœê‚€å¬…œ    hello_2
 errno0
 probe subjprocuuid@12a095564ea811e6ab3244a842348b1cmodule
 eventcallaue_exitprovider
@@ -38214,4 +38214,4 @@ auditfd6retval39 13ˆ†ÏÜN™æ«D¨B4‹              ëŒ¥óè¬…œ 13       
 errno0
 probe subjprocuuid@a8fa4abc4e9811e6ab0b44a842348b1cmodule
 eventarg_objuuid1@a8fa8d6c4e9811e6ab0b44a842348b1ccallaue_recvfromprovider
-auditfd4path/retval39address upath1/ 13¨úlN˜æ«D¨B4‹              ìŒ¥óè¬…œ 13              ì¨úJ¼N˜æ«D¨B4‹Œ¥óè¬…œ 13wúqÂtğEÑØò@®€$
+auditfd4path/retval39address upath1/ 13¨úlN˜æ«D¨B4‹              ìŒ¥óè¬…œ 13              ì¨úJ¼N˜æ«D¨B4‹Œ¥óè¬…œ 13)Nd“á„Ñq»!ùÏòN
