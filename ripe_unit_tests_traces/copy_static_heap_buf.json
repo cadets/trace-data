@@ -1,0 +1,4 @@
+[
+  {"event": "audit:event:aue_exit:", "time": 1470220732393895949, "pid": 3630, "ppid": 3629, "tid": 100144, "uid": 0, "exec": "copy_static_heap_bu", "subjprocuuid": "7828a8d4-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "a5066339-58d1-11e6-9377-44a8421f8dc6", "retval": 0}
+]
+

@@ -1,0 +1,6 @@
+[
+  {"event": "audit:event:aue_chmod:", "time": 1470220728540896600, "pid": 3605, "ppid": 3604, "tid": 100130, "uid": 0, "exec": "change_file_permiss", "subjprocuuid": "75cad46a-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "a729153a-58c4-11e6-9377-44a8421f8dc6", "arg_objuuid1": "9c67f518-a173-1255-b3a1-aa2ba512d13b", "upath1": "/usr/home/amanda/unit_tests/README", "mode": 439, "retval": 0}
+, {"event": "audit:event:aue_chmod:", "time": 1470220728541901977, "pid": 3605, "ppid": 3604, "tid": 100130, "uid": 0, "exec": "change_file_permiss", "subjprocuuid": "75cad46a-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "a729153a-58c4-11e6-9377-44a8421f8dc6", "arg_objuuid1": "9c67f518-a173-1255-b3a1-aa2ba512d13b", "upath1": "/usr/home/amanda/unit_tests/README", "mode": 438, "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1470220728541901977, "pid": 3605, "ppid": 3604, "tid": 100130, "uid": 0, "exec": "change_file_permiss", "subjprocuuid": "75cad46a-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "a729153a-58c4-11e6-9377-44a8421f8dc6", "retval": 0}
+]
+

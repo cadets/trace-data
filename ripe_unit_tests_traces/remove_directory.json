@@ -1,0 +1,5 @@
+[
+  {"event": "audit:event:aue_rmdir:", "time": 1470220734983897314, "pid": 3651, "ppid": 3650, "tid": 100145, "uid": 0, "exec": "remove_directory", "subjprocuuid": "79a60162-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "a506658a-58d1-11e6-9377-44a8421f8dc6", "arg_objuuid1": "1ed61de8-fca7-9f58-a7fc-a0ccc89f7f27", "upath1": "/usr/home/amanda/unit_tests/temporary", "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1470220734985042448, "pid": 3651, "ppid": 3650, "tid": 100145, "uid": 0, "exec": "remove_directory", "subjprocuuid": "79a60162-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "a506658a-58d1-11e6-9377-44a8421f8dc6", "retval": 0}
+]
+

@@ -1,0 +1,8 @@
+[
+  {"event": "audit:event:aue_fork:", "time": 1470220733639896044, "pid": 3640, "ppid": 3639, "tid": 100120, "uid": 0, "exec": "fork_process", "subjprocuuid": "78e4cc5f-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "9b70efbf-58c4-11e6-9377-44a8421f8dc6", "ret_objuuid1": "7934a4c8-5966-11e6-937b-44a8421f8dc6", "ret_objuuid2": "7934a4c8-5966-11e6-937b-44a8421f8dc6", "arg_pid": 3643, "retval": 3643}
+, {"event": "audit:event:aue_write:", "time": 1470220733640895476, "pid": 3643, "ppid": 3640, "tid": 100090, "uid": 0, "exec": "fork_process", "subjprocuuid": "7934a4c8-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "60ec4e39-58c4-11e6-9377-44a8421f8dc6", "arg_objuuid1": "6cdb1b4e-e3a6-2656-a6e3-0073f62640be", "fd": 1, "retval": 14}
+, {"event": "audit:event:aue_write:", "time": 1470220733640895476, "pid": 3640, "ppid": 3639, "tid": 100120, "uid": 0, "exec": "fork_process", "subjprocuuid": "78e4cc5f-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "9b70efbf-58c4-11e6-9377-44a8421f8dc6", "arg_objuuid1": "6cdb1b4e-e3a6-2656-a6e3-0073f62640be", "fd": 1, "retval": 15}
+, {"event": "audit:event:aue_exit:", "time": 1470220733640895476, "pid": 3643, "ppid": 3640, "tid": 100090, "uid": 0, "exec": "fork_process", "subjprocuuid": "7934a4c8-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "60ec4e39-58c4-11e6-9377-44a8421f8dc6", "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1470220733640895476, "pid": 3640, "ppid": 3639, "tid": 100120, "uid": 0, "exec": "fork_process", "subjprocuuid": "78e4cc5f-5966-11e6-937b-44a8421f8dc6", "subjthruuid": "9b70efbf-58c4-11e6-9377-44a8421f8dc6", "retval": 0}
+]
+
