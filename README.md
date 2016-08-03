@@ -110,6 +110,37 @@ For example:
 {"CDMVersion": "13", "datum": {"fromUuid": "000000000000000649883dfd38c0a873", "toUuid": "00000000000000030000000000000019", "properties": {}, "timestamp": 1469212271398110, "type": "EDGE_FILE_AFFECTS_EVENT"}}
 ```
 
+## Identifying Files
+
+Example:
+```json
+{"datum": {"timestampMicros": 1469039289690063, "uuid": "000000000000000300000000000000ef", "sequence": 1, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "programPoint": "ld", "type": "EVENT_OPEN", "properties": {"ret_objuuid1": "abcdef0123456789abcdef0123456789", "errno": "0", "probe": "", "subjprocuuid": "b5b79f214ea711e6ab3144a842348b1c", "module": "event", "arg_objuuid1": "abcdef0123456789abcdef0123456789", "call": "aue_open_rwtc", "mode": "438", "provider": "audit", "flags": "0", "path": "/tmp/hello-cf9520.o", "retval": "9", "upath1": "/tmp/hello-cf9520.o"}}, "CDMVersion": "13"}
+{"datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "abcdef0123456789abcdef0123456789", "url": "/tmp/hello-cf9520.o", "isPipe": false, "version": 0, "properties": {}}, "CDMVersion": "13"}
+{"datum": {"fromUuid": "abcdef0123456789abcdef0123456789", "toUuid": "000000000000000300000000000000ef", "properties": {}, "timestamp": 1469039289690063, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
+{"datum": {"timestampMicros": 1469039289691083, "uuid": "000000000000000300000000000000f2", "sequence": 2, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "programPoint": "ld", "type": "EVENT_READ", "properties": {"errno": "0", "probe": "", "subjprocuuid": "b5b79f214ea711e6ab3144a842348b1c", "module": "event", "arg_objuuid1": "abcdef0123456789abcdef0123456789", "call": "aue_read", "provider": "audit", "fd": "9", "retval": "1216"}}, "CDMVersion": "13"}
+{"datum": {"fromUuid": "abcdef0123456789abcdef0123456789", "toUuid": "000000000000000300000000000000f2", "properties": {}, "timestamp": 1469039289691083, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
+{"datum": {"timestampMicros": 1469039289691083, "uuid": "00000000000000030000000000000036", "sequence": 3, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "programPoint": "cc", "type": "EVENT_WRITE", "properties": {"errno": "0", "probe": "", "subjprocuuid": "b5b3fa284ea711e6ab3144a842348b1c", "module": "event", "arg_objuuid1": "abcdef0123456789abcdef0123456789", "call": "aue_write", "provider": "audit", "fd": "4", "retval": "1216"}}, "CDMVersion": "13"}
+{"datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "abcdef0123456789abcdef0123456789", "url": "", "isPipe": false, "version": 1, "properties": {}}, "CDMVersion": "13"}
+{"datum": {"fromUuid": "00000000000000030000000000000036", "toUuid": "abcdef0123456789abcdef0123456789", "properties": {}, "timestamp": 1469039289657058, "type": "EDGE_EVENT_AFFECTS_FILE"}, "CDMVersion": "13"}
+
+```
+
+When a file is opened in a CADETS trace, a version 0 (or -1 if the file has
+already been referenced) is created for the file. This version does not reflect
+a change to the file - it simply provides the path of the file. On reads and
+writes, the url is an empty string(""), since the url is not an optional field. 
+
+On opens, reads, and closes, an EDGE_FILE_AFFECTS_EVENT will be generated
+connecting the file and event. On writes, EDGE_EVENT_AFFECTS_FILE will be
+generated instead. On each write, the version is incremented, but the uuid does
+not change.
+
+Note that it is possible for two different paths to refer to the same uuid -
+these are still the same file. It is also possible to have two separate uuids
+for the same url. This can happen when a file is deleted and a new file with
+the same name is created.
+
+
 # Traces
 
 The current traces we are sharing include:
