@@ -1,957 +1,146 @@
-Objavro.schema’å{"doc": "* A record representing either a vertex or an edge. This is the top level record that allows\n     * us to easily mix the vertices and edges defined above on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "TCCDMDatum", "fields": [{"type": [{"doc": "* A provenance tag defines source dependence on specific data sources (inputs).\n     * A tag identifier is typically bound to a source and used by the tracking system to\n     * capture dependence on this source input.\n     * A provenance tag is represented as a tree. Each node in the tree has a value and\n     * a set of children nodes.", "namespace": "com.bbn.tc.schema.avro", "name": "ProvenanceTagNode", "fields": [{"doc": "*  the value of the node: can have the following types\n         *   int                 references another node by tagId\n         *   UUID                object uuid (source or sink for example)\n         *   TaOpCode            the opcode applied to the children nodes, see TaOpCode\n         *   IntegrityTag        an integrity tag\n         *   ConfidentialityTag  a confidentiality tag", "type": ["int", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "UUID", "size": 16}, {"symbols": ["TAG_OP_SEQUENCE", "TAG_OP_UNION", "TAG_OP_ENCODE", "TAG_OP_STRONG", "TAG_OP_MEDIUM", "TAG_OP_WEAK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "TagOpCode", "doc": "* The tag opcode describes the provenance relation i.e., how multiple sources are combined to\n     * produce the output. We identify the following provenance relations\n     *\n     *   TAG_OP_SEQUENCE       the output is derived from the specified inputs in order, sequentially\n     *   TAG_OP_UNION,         the output is the union of its inputs\n     *   TAG_OP_ENCODE         the output is some encoding of the input\n     *   TAG_OP_STRONG         this is more qualitative (coarse) saying there is strong dependence\n     *   TAG_OP_MEDIUM         this is more qualitative (coarse) saying there is medium dependence\n     *   TAG_OP_WEAK           this is more qualitative (coarse) saying there is weak   dependence"}, {"symbols": ["INTEGRITY_UNTRUSTED", "INTEGRITY_BENIGN", "INTEGRITY_INVULNERABLE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "IntegrityTag", "doc": "* The integrity tag may be used to specify the initial integrity of an entity,\n     * or to endorse its content after performing appropriate checking/sanitization."}, {"symbols": ["CONFIDENTIALITY_SECRET", "CONFIDENTIALITY_SENSITIVE", "CONFIDENTIALITY_PRIVATE", "CONFIDENTIALITY_PUBLIC"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ConfidentialityTag", "doc": "* The confidentiality tag may be used to specify the initial confidentiality of an entity,\n     * or to declassify its content after performing appropriate checking/sanitization."}], "name": "value"}, {"default": null, "doc": "the child nodes", "type": ["null", {"items": "com.bbn.tc.schema.avro.ProvenanceTagNode", "type": "array"}], "name": "children"}, {"default": null, "doc": "* the id to be assigned to this tag node\n         * typically set once when the node is first created, and used in value afterwards", "type": ["null", "int"], "name": "tagId"}, {"default": null, "doc": "Arbitrary key, value pairs associated with a tag node", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Subjects represent execution contexts and include mainly threads and processes. They can be more granular and\n     * can represent other execution boundaries such as functions and blocks if needed.", "namespace": "com.bbn.tc.schema.avro", "name": "Subject", "fields": [{"doc": "universally unique identifier for the subject", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "the subject type", "type": {"symbols": ["SUBJECT_PROCESS", "SUBJECT_THREAD", "SUBJECT_UNIT", "SUBJECT_BASIC_BLOCK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SubjectType", "doc": "* SUBJECT_PROCESS,    process\n     * SUBJECT_THREAD,     thread within a process\n     * SUBJECT_UNIT        so far we only know of TRACE BEEP using this"}, "name": "type"}, {"doc": "OS process id for type process and unit id for a unit (Optional)", "type": "int", "name": "pid"}, {"doc": "OS parent process id for type process and pid for type unit (Optional)", "type": "int", "name": "ppid"}, {"doc": "Where it came from, see InstrumentationSource", "type": {"symbols": ["SOURCE_LINUX_AUDIT_TRACE", "SOURCE_LINUX_PROC_TRACE", "SOURCE_LINUX_BEEP_TRACE", "SOURCE_FREEBSD_OPENBSM_TRACE", "SOURCE_ANDROID_JAVA_CLEARSCOPE", "SOURCE_ANDROID_NATIVE_CLEARSCOPE", "SOURCE_FREEBSD_DTRACE_CADETS", "SOURCE_FREEBSD_TESLA_CADETS", "SOURCE_FREEBSD_LOOM_CADETS", "SOURCE_FREEBSD_MACIF_CADETS", "SOURCE_WINDOWS_DIFT_FAROS", "SOURCE_LINUX_THEIA", "SOURCE_WINDOWS_FIVEDIRECTIONS"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "InstrumentationSource", "doc": "* SOURCE_LINUX_AUDIT_TRACE,          from Linux /dev/audit\n     * SOURCE_LINUX_PROC_TRACE,           from Linux's /proc\n     * SOURCE_LINUX_BEEP_TRACE,           from BEEP instrumentation\n     * SOURCE_FREEBSD_OPENBSM_TRACE,      from FreeBSD openBSM\n     * SOURCE_ANDROID_JAVA_CLEARSCOPE,    from android java instrumentation\n     * SOURCE_ANDROID_NATIVE_CLEARSCOPE,  from android's native instrumentation\n     * SOURCE_FREEBSD_DTRACE_CADETS, SOURCE_FREEBSD_TESLA_CADETS  for CADETS freebsd instrumentation\n     * SOURCE_FREEBSD_LOOM_CADETS, SOURCE_FREEBSD_MACIF_CADETS    for CADETS freebsd instrumentation\n     * SOURCE_LINUX_THEIA                 from the GATech THEIA instrumentation source\n     * SOURCE_WINDOWS_FIVEDIRECTIONS      for the fivedirections windows events"}, "name": "source"}, {"default": null, "doc": "* The start time of the subject\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         * (Optional)", "type": ["null", "long"], "name": "startTimestampMicros"}, {"default": null, "doc": "unit id for unit based instrumentation (Optional)", "type": ["null", "int"], "name": "unitId"}, {"default": null, "doc": "The end time of the subject (Optional)", "type": ["null", "long"], "name": "endTimestampMicros"}, {"default": null, "doc": "Process command line arguments including process name (Optional)", "type": ["null", "string"], "name": "cmdLine"}, {"default": null, "doc": "imported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "importedLibraries"}, {"default": null, "doc": "exported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "exportedLibraries"}, {"default": null, "doc": "additional process information, such portable execution (PE) info in windows (Optional)", "type": ["null", "string"], "name": "pInfo"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Events represent actions executed on behalf of subjects. Events could include system calls,\n     * function calls, instruction executions, or even more abstract notions representing a blind execution\n     * such as black boxes that are not instrumented (more shortly). Events are the core entity in the model\n     * and they are the main abstraction for representing information flow between data objects, and subjects.\n     * Events are atomic and immutable.", "namespace": "com.bbn.tc.schema.avro", "name": "Event", "fields": [{"doc": "A universally unique identifier for the event", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": 0, "doc": "A logical sequence number for ordering events relative to each other within a subject's execution context", "type": "long", "name": "sequence"}, {"doc": "The type of the event", "type": {"symbols": ["EVENT_ACCEPT", "EVENT_BIND", "EVENT_CHANGE_PRINCIPAL", "EVENT_CHECK_FILE_ATTRIBUTES", "EVENT_CLONE", "EVENT_CLOSE", "EVENT_CONNECT", "EVENT_CREATE_OBJECT", "EVENT_CREATE_THREAD", "EVENT_EXECUTE", "EVENT_FORK", "EVENT_LINK", "EVENT_UNLINK", "EVENT_MMAP", "EVENT_MODIFY_FILE_ATTRIBUTES", "EVENT_MPROTECT", "EVENT_OPEN", "EVENT_READ", "EVENT_RECVFROM", "EVENT_RECVMSG", "EVENT_RENAME", "EVENT_WRITE", "EVENT_SIGNAL", "EVENT_TRUNCATE", "EVENT_WAIT", "EVENT_OS_UNKNOWN", "EVENT_KERNEL_UNKNOWN", "EVENT_APP_UNKNOWN", "EVENT_UI_UNKNOWN", "EVENT_UNKNOWN", "EVENT_BLIND", "EVENT_UNIT", "EVENT_UPDATE", "EVENT_SENDTO", "EVENT_SENDMSG", "EVENT_SHM", "EVENT_EXIT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EventType", "doc": "* These event types correspond to the common system calls. Note that we added blind, unit, and update events\n     *   EVENT_ACCEPT                     accept a connection on an object\n     *   EVENT_BIND                       bind to a network endpoint object\n     *   EVENT_CHANGE_PRINCIPAL           change the principal associated with the process\n     *   EVENT_CHECK_FILE_ATTRIBUTES      check the file attributes such as permissions\n     *   EVENT_CLONE                      clone a subject\n     *   EVENT_CLOSE                      close an object\n     *   EVENT_CONNECT                    connect to an object\n     *   EVENT_CREATE_OBJECT              create an object\n     *   EVENT_CREATE_THREAD              create a thread subject\n     *   EVENT_EXECUTE                    execute an object\n     *   EVENT_FORK                       fork a process subject\n     *   EVENT_LINK                       link an object to a new name\n     *   EVENT_UNLINK                     unlink a name from an object\n     *   EVENT_MMAP                       memory map an object\n     *   EVENT_MODIFY_FILE_ATTRIBUTES     modify the attributes of a file object\n     *   EVENT_MPROTECT                   change permissions of a memory object\n     *   EVENT_OPEN                       open an object\n     *   EVENT_READ                       read from an object (file or socket)\n     *   EVENT_RECVFROM                   receive message from a socket\n     *   EVENT_RECVMSG                    receive message from a socket\n     *   EVENT_RENAME                     rename an object\n     *   EVENT_WRITE                      write to an object (file or socket)\n     *   EVENT_SIGNAL                     signal another subject\n     *   EVENT_TRUNCATE                   truncate an object\n     *   EVENT_WAIT                       wait on another subject\n     *   EVENT_KERNEL_UNKNOWN             some kernel event\n     *   EVENT_OS_UNKNOWN                 some OS layer event\n     *   EVENT_APP_UNKNOWN                some application layer event\n     *   EVENT_UI_UNKNOWN                 some UI layer event\n     *   EVENT_UNKNOWN                    some event (we don't know what layer)\n     *   EVENT_BLIND                      blind event for a black boxes that are not instrumented\n     *   EVENT_UNIT                       create a BEEP unit\n     *   EVENT_UPDATE                     update an object\n     *   EVENT_SENDTO                     send through socket\n     *   EVENT_SENDMSG                    send message through socket\n     *   EVENT_SHM                        share memory between processes\n     *   EVENT_EXIT                       process exit"}, "name": "type"}, {"doc": "The thread id to which this event belongs", "type": "int", "name": "threadId"}, {"doc": "What source system generated this event, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "* The time at which the event occurred. Timestamps allow reasoning about order of events\n         *  on a host when the same clock is used.\n         * TODO When different clocks are used on a host or across hosts, we need to also define a clock source\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Event name (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "Event parameters represented as values, see Value (Optional)", "type": ["null", {"items": {"doc": "* Values represent transient data, mainly parameters to events. Values are created and used once within an\n     * event's execution and are relevant mainly during fine-grained tracking (such as with tag/taint propagation).\n     * Values have tags describing their provenance. Sometimes the actual value's value is reported in addition to\n     * the value's metadata\n     *\n     * The size of the value is the number of elements of type valueDataType. This should be 0 for primitive or\n     * complex types or the size of the array for arrays i.e., if size>0, then this value is an array.\n     * A complex value (such as an object) can contain other values (primitives of other complex values) within it, as\n     * components.\n     *\n     * isNull indicates whether a complex value is null. runtimeDataType indicates the runtime datatype. E.g., <br>\n     *  e.g., an integer will have size=0 and valueDataType=INT, and valueBytes.length=4 bytes <br>\n     *  e.g., an int[4] will have  size=4 and valueDataType=INT, and valueBytes.length=16 bytes (4*4) <br>\n     *  e.g., a string s=\"abc\" has size=3 and valueDataType=CHAR, and valueBytes.length=6 bytes (treated as char[]) <br>\n     *  e.g., an MyClass obj has size=0, valueDataType=COMPLEX, runtimeDataType=\"MyClass\", valueBytes=<pointer> <br>", "namespace": "com.bbn.tc.schema.avro", "name": "Value", "fields": [{"default": 0, "doc": "The size of the value: the number of elements of type valueDataType; 0 for primitives", "type": "int", "name": "size"}, {"doc": "The type of the value whether input or return", "type": {"symbols": ["VALUE_TYPE_IN", "VALUE_TYPE_OUT", "VALUE_TYPE_INOUT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueType", "doc": "* A value type is either in, out, or in/out\n     * This is for event parameters to distinguish inputs vs return values\n     *\n     *   VALUE_TYPE_IN       An input value to the event\n     *   VALUE_TYPE_OUT      An output value from the event (return value)\n     *   VALUE_TYPE_INOUT    Adding this for completeness"}, "name": "type"}, {"doc": "The actual datatype of the value elements, e.g., int, double, byte, etc. (Optional)\n         *  Strings are treated as char[] so type=CHAR\n         *  String[] is a COMPLEX value whose components are the string values (each modeled as a char[])\n         *  Complex composite objects comprising of primitive values use the COMPLEX type", "type": {"symbols": ["VALUE_DATA_TYPE_BYTE", "VALUE_DATA_TYPE_BOOL", "VALUE_DATA_TYPE_CHAR", "VALUE_DATA_TYPE_SHORT", "VALUE_DATA_TYPE_INT", "VALUE_DATA_TYPE_FLOAT", "VALUE_DATA_TYPE_LONG", "VALUE_DATA_TYPE_DOUBLE", "VALUE_DATA_TYPE_COMPLEX"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueDataType", "doc": "* A value data type is one of the primitive data types. A string is treated as a char array"}, "name": "valueDataType"}, {"default": false, "doc": "Whether this value is null, needed to indicate null objects (default: false)", "type": "boolean", "name": "isNull"}, {"default": null, "doc": "the name of the Value, string. (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "The runtime data type of the value (Optional); For example, an object of dataType=COMPLEX, can have\n         *  a runtime data type of say \"MyClass\"", "type": ["null", "string"], "name": "runtimeDataType"}, {"default": null, "doc": "The actual bytes of the value in Big Endian format, e.g., an int is converted to a 4 byte buffer (Optional)", "type": ["null", "bytes"], "name": "valueBytes"}, {"default": null, "doc": "* The value's tag expression describing its provenance (Optional)\n         * Since value could be an array, the tag can use run length encoding if needed. The format of the array is:\n         *   {<numElements:int>, <tagId:int>}*\n         * For example, to assign a tag 0 (unknown) to elements 0-3, 1 to elements 4-7 and 2 to elements 8-15 of\n         * an int[16] value, this would be represented using the following tag array\n         *  {4, 0, 4, 1, 8, 2} meaning the first 4 elements have tag 0, next 4 have tag 1, next 8 have tag 2\n         * Note that 4 elements of the array correspond to 16 bytes in the valueBytes buffer\n         * Note that tagId had to be defined/emitted earlier (see ProvenanceTagNode)\n         * before it can be assigned to a value", "type": ["null", {"items": "int", "type": "array"}], "name": "tag"}, {"default": null, "doc": "A complex value might comprise other component values if needed (Optional)", "type": ["null", {"items": "com.bbn.tc.schema.avro.Value", "type": "array"}], "name": "components"}], "type": "record"}, "type": "array"}], "name": "parameters"}, {"default": null, "doc": "Location refers to the location of the data affecting the event\n         *  (e.g., the read offset in the file for the read system call event (Optional)", "type": ["null", "long"], "name": "location"}, {"default": null, "doc": "Size refers to the size of the data affecting the event\n         *  (e.g., the number of bytes read from the file for the read system call event (Optional)", "type": ["null", "long"], "name": "size"}, {"default": null, "doc": "The program point where the event was triggered (e.g., executable and line number), (Optional)", "type": ["null", "string"], "name": "programPoint"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a network flow object. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "NetFlowObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": {"doc": "*  Objects, in general, represent data sources and sinks which could include sockets, files,\n     *  memory, and any data in general that can be an input and/or output to an event.\n     *  This record is intended to be abstract i.e., one should not instantiate an Object\n     *  but rather instantiate one of its sub types File, NetFlow, of Memory", "namespace": "com.bbn.tc.schema.avro", "name": "AbstractObject", "fields": [{"doc": "The source that emitted the object, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Permission bits defined over the object (Optional)", "type": ["null", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "SHORT", "size": 2}], "name": "permission"}, {"default": null, "doc": "* The timestamp when the object was last modified (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "lastTimestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, "name": "baseObject"}, {"doc": "The ip address of the source host for this flow", "type": "string", "name": "srcAddress"}, {"doc": "The network port on the source host for this flow", "type": "int", "name": "srcPort"}, {"doc": "The ip address of the destination host for this flow", "type": "string", "name": "destAddress"}, {"doc": "The network port on the destination host for this flow", "type": "int", "name": "destPort"}, {"default": null, "doc": "The IP protocol number e.g., TCP=6", "type": ["null", "int"], "name": "ipProtocol"}], "type": "record"}, {"doc": "* Represents a file on the file system. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "FileObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location of the file absolute path or remote url", "type": "string", "name": "url"}, {"default": false, "doc": "Whether the file is a Unix pipe", "type": "boolean", "name": "isPipe"}, {"default": 1, "doc": "The file version incremented every time the file changes", "type": "int", "name": "version"}, {"default": null, "doc": "The file size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}, {"doc": "* Represents a generic source or sink on the host device that is can be a file, memory, or netflow.\n     * This is the most basic representation of a source or sink, basically specifying its type only.", "namespace": "com.bbn.tc.schema.avro", "name": "SrcSinkObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The type of the object", "type": {"symbols": ["SOURCE_ACCELEROMETER", "SOURCE_TEMPERATURE", "SOURCE_GYROSCOPE", "SOURCE_MAGNETIC_FIELD", "SOURCE_HEART_RATE", "SOURCE_LIGHT", "SOURCE_PROXIMITY", "SOURCE_PRESSURE", "SOURCE_RELATIVE_HUMIDITY", "SOURCE_LINEAR_ACCELERATION", "SOURCE_MOTION", "SOURCE_STEP_DETECTOR", "SOURCE_STEP_COUNTER", "SOURCE_TILT_DETECTOR", "SOURCE_ROTATION_VECTOR", "SOURCE_GRAVITY", "SOURCE_GEOMAGNETIC_ROTATION_VECTOR", "SOURCE_CAMERA", "SOURCE_GPS", "SOURCE_AUDIO", "SOURCE_SYSTEM_PROPERTY", "SOURCE_ENV_VARIABLE", "SOURCE_SINK_IPC", "SOURCE_UNKNOWN"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SrcSinkType", "doc": "* There are many types of sources such as sensors\n     * The type of a sensor could be base (close to hardware) or composite\n     * See https://source.android.com/devices/sensors/index.html for details\n     * TODO: camera and GPS ideally should be modeled separately to match the Android model. These are rich subsystems"}, "name": "type"}], "type": "record"}, {"doc": "* Represents a page in memory. Instantiates an AbstractObject.\n     * TODO: is memory really an object (with permissions and so on) or is it a transient data?", "namespace": "com.bbn.tc.schema.avro", "name": "MemoryObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location in memory", "type": "long", "name": "memoryAddress"}, {"default": null, "doc": "The memory page number", "type": ["null", "long"], "name": "pageNumber"}], "type": "record"}, {"doc": "* A principal is a local user\n    * TODO: extend for second evaluation to include remote principals\n    * TODO: what happens when the user information changes (are we tracking versions?)\n    * TODO: Authentication mechanisms: are TA1s providing that information and how?", "namespace": "com.bbn.tc.schema.avro", "name": "Principal", "fields": [{"doc": "A unique id for the principal", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": "PRINCIPAL_LOCAL", "doc": "The type of the principal, local by default", "type": {"symbols": ["PRINCIPAL_LOCAL", "PRINCIPAL_REMOTE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "PrincipalType", "doc": "* The type of principal may be local to the host, or remote users/systems."}, "name": "type"}, {"doc": "The operating system identifier associated with the user", "type": "string", "name": "userId"}, {"doc": "The ids of the groups which this user is part of", "type": {"items": "string", "type": "array"}, "name": "groupIds"}, {"doc": "The source that emitted the Principal record, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* The purpose of a TagEntity is to be able to assign one or more tags to the objects/subjects/events\n     * at a later point in time after the objects/subjects/events have been emitted.\n     * As the name indicates, TagEntity wraps a tag (ProvenanceTagNode) with an entity i.e. assign a uuid\n     * to the tag to allow adding an edge from the object/subject/event to the TagEntity.", "namespace": "com.bbn.tc.schema.avro", "name": "TagEntity", "fields": [{"doc": "A unique ID for the entity", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The provenance tag", "type": "com.bbn.tc.schema.avro.ProvenanceTagNode", "name": "tag"}, {"default": null, "doc": "* The timestamp when the tag was created (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Edges in the CDM only connect the entities and do not have attributes of their own.\n     *  In order to make the streaming efficient, the edge specification does not require\n     *  the objects on both ends every time it is streamed/serialized. Instead, we defined\n     *  the edge to be simple, it has a type and it connects two entities each identified by\n     *  a uid each.\n     * Since the different edge types in the current model do not have different properties\n     *  (actually no properties at all), we do not define the different edges as separate\n     *  records at this time.\n     * For example, when streaming a large number of edges having the same from node, the\n     *  from node in all these edges will be represented using the node id instead of having\n     *  to replicate the full node object on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "SimpleEdge", "fields": [{"doc": "A unique id of the From entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "fromUuid"}, {"doc": "The id of the To entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "toUuid"}, {"doc": "The type of the edge, see EdgeType", "type": {"symbols": ["EDGE_EVENT_AFFECTS_MEMORY", "EDGE_EVENT_AFFECTS_FILE", "EDGE_EVENT_AFFECTS_NETFLOW", "EDGE_EVENT_AFFECTS_SUBJECT", "EDGE_EVENT_AFFECTS_SRCSINK", "EDGE_EVENT_HASPARENT_EVENT", "EDGE_EVENT_CAUSES_EVENT", "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "EDGE_SUBJECT_AFFECTS_EVENT", "EDGE_SUBJECT_HASPARENT_SUBJECT", "EDGE_SUBJECT_HASLOCALPRINCIPAL", "EDGE_SUBJECT_RUNSON", "EDGE_FILE_AFFECTS_EVENT", "EDGE_NETFLOW_AFFECTS_EVENT", "EDGE_MEMORY_AFFECTS_EVENT", "EDGE_SRCSINK_AFFECTS_EVENT", "EDGE_OBJECT_PREV_VERSION", "EDGE_FILE_HAS_TAG", "EDGE_NETFLOW_HAS_TAG", "EDGE_MEMORY_HAS_TAG", "EDGE_SRCSINK_HAS_TAG", "EDGE_SUBJECT_HAS_TAG", "EDGE_EVENT_HAS_TAG", "EDGE_EVENT_AFFECTS_REGISTRYKEY", "EDGE_REGISTRYKEY_AFFECTS_EVENT", "EDGE_REGISTRYKEY_HAS_TAG"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EdgeType", "doc": "* The different types of simple edges in the CDM\n     *   EDGE_EVENT_AFFECTS_MEMORY          an event affects a memory object (such as updating a memory location)\n     *   EDGE_EVENT_AFFECTS_FILE            an event affects a file object (such as writing to a file)\n     *   EDGE_EVENT_AFFECTS_REGISTRYKEY     an event affects a registry value (such as writing to a registry key)\n     *   EDGE_EVENT_AFFECTS_NETFLOW         an event affects a netflow object (such as writing to socket)\n     *   EDGE_EVENT_AFFECTS_SUBJECT         an event affects a subject (such as forking a process)\n     *   EDGE_EVENT_AFFECTS_SRCSINK         an event affects a generic src/sink object\n     *   EDGE_EVENT_HASPARENT_EVENT         a metaevent that represents a set of child atomic events\n     *   EDGE_EVENT_CAUSES_EVENT            an event caused/triggered another event\n     *   EDGE_EVENT_ISGENERATEDBY_SUBJECT   an event is generated by a subject (every event is)\n     *   EDGE_SUBJECT_AFFECTS_EVENT         a subject affects an event (such as when killing a process)\n     *   EDGE_SUBJECT_HASPARENT_SUBJECT     a subject has a parent subject (such as thread has parent process)\n     *   EDGE_SUBJECT_HASPRINCIPAL          a subject has a principal (such as a process owned by a user)\n     *   EDGE_SUBJECT_RUNSON                a subject runs on a host (TODO: host not yet modeled)\n     *   EDGE_FILE_AFFECTS_EVENT            an event reads from a file\n     *   EDGE_REGISTRYKEY_AFFECTS_EVENT     an event reads values from a registry key\n     *   EDGE_NETFLOW_AFFECTS_EVENT         an event reads from a network flow\n     *   EDGE_MEMORY_AFFECTS_EVENT          an event reads from a memory object\n     *   EDGE_SRCSINK_AFFECTS_EVENT         a generic source/sink object affects an event\n     *   EDGE_OBJECT_PREV_VERSION           the previous version of an object, typically used for file versioning\n     *   EDGE_FILE_HAS_TAG                  attach a tag to a file object\n     *   EDGE_REGISTRYKEY_HAS_TAG           attach a tag to a registrykey object\n     *   EDGE_NETFLOW_HAS_TAG               attach a tag to a netflow object\n     *   EDGE_MEMORY_HAS_TAG                attach a tag to a memory object\n     *   EDGE_SRCSINK_HAS_TAG               attach a tag to a srcsink object\n     *   EDGE_SUBJECT_HAS_TAG               attach a tag to a subject\n     *   EDGE_EVENT_HAS_TAG                 attach a tag to an event\n     *"}, "name": "type"}, {"doc": "* When the edge was created.\n        * Timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": "long", "name": "timestamp"}, {"default": null, "doc": "Arbitrary key, value pairs describing the edge", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a registry key. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "RegistryKeyObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The registry key/path", "type": "string", "name": "key"}, {"default": 1, "doc": "The version incremented every time the entry changes", "type": "int", "name": "version"}, {"default": null, "doc": "The entry size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}], "name": "datum"}, {"default": "13", "type": "string", "name": "CDMVersion"}], "type": "record"}avro.codecnull 2:T‚“·NšLg40­¸”è                 0  13z‡Yfæ“{D¨BÆ 99        13z‡Yfæ“{D¨BÆ                €Ú«‹Êœ 13                àœ€Ú«‹Êœ    $download_with_wgetarg_pid3659
-probe module
-eventcallaue_vforkprovider
-auditretval3659 13               z‡Yfæ“{D¨BÆ€Ú«‹Êœ 13z—ıŠYfæ“{D¨BÆ –99        13z—ıŠYfæ“{D¨BÆz‡Yfæ“{D¨BÆ€Ú«‹Êœ 13               z—ıŠYfæ“{D¨BÆ€Ú«‹Êœ 13              ’œÎé«‹Êœ    $download_with_wget
-probe module
-eventcallaue_execveprovider
-auditretval0upath1/bin/sh 13‹ú1Àfø S¸f²ã àG   /bin/sh  13‹ú1Àfø S¸f²ã àG              Îé«‹Êœ 13              z—ıŠYfæ“{D¨BÆÎé«‹Êœ 13‹ú1Àfø S¸f²ã àG              Îé«‹Êœ 13z—ıŠYfæ“{D¨BÆ                Îé«‹Êœ 13               ’œÎé«‹Êœ    sh
-probe 
-flags1048576module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1 /etc/libmap.conf 13?TÎÅ!š<Rš!ŞD<
+Objavro.schema’å{"doc": "* A record representing either a vertex or an edge. This is the top level record that allows\n     * us to easily mix the vertices and edges defined above on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "TCCDMDatum", "fields": [{"type": [{"doc": "* A provenance tag defines source dependence on specific data sources (inputs).\n     * A tag identifier is typically bound to a source and used by the tracking system to\n     * capture dependence on this source input.\n     * A provenance tag is represented as a tree. Each node in the tree has a value and\n     * a set of children nodes.", "namespace": "com.bbn.tc.schema.avro", "name": "ProvenanceTagNode", "fields": [{"doc": "*  the value of the node: can have the following types\n         *   int                 references another node by tagId\n         *   UUID                object uuid (source or sink for example)\n         *   TaOpCode            the opcode applied to the children nodes, see TaOpCode\n         *   IntegrityTag        an integrity tag\n         *   ConfidentialityTag  a confidentiality tag", "type": ["int", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "UUID", "size": 16}, {"symbols": ["TAG_OP_SEQUENCE", "TAG_OP_UNION", "TAG_OP_ENCODE", "TAG_OP_STRONG", "TAG_OP_MEDIUM", "TAG_OP_WEAK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "TagOpCode", "doc": "* The tag opcode describes the provenance relation i.e., how multiple sources are combined to\n     * produce the output. We identify the following provenance relations\n     *\n     *   TAG_OP_SEQUENCE       the output is derived from the specified inputs in order, sequentially\n     *   TAG_OP_UNION,         the output is the union of its inputs\n     *   TAG_OP_ENCODE         the output is some encoding of the input\n     *   TAG_OP_STRONG         this is more qualitative (coarse) saying there is strong dependence\n     *   TAG_OP_MEDIUM         this is more qualitative (coarse) saying there is medium dependence\n     *   TAG_OP_WEAK           this is more qualitative (coarse) saying there is weak   dependence"}, {"symbols": ["INTEGRITY_UNTRUSTED", "INTEGRITY_BENIGN", "INTEGRITY_INVULNERABLE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "IntegrityTag", "doc": "* The integrity tag may be used to specify the initial integrity of an entity,\n     * or to endorse its content after performing appropriate checking/sanitization."}, {"symbols": ["CONFIDENTIALITY_SECRET", "CONFIDENTIALITY_SENSITIVE", "CONFIDENTIALITY_PRIVATE", "CONFIDENTIALITY_PUBLIC"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ConfidentialityTag", "doc": "* The confidentiality tag may be used to specify the initial confidentiality of an entity,\n     * or to declassify its content after performing appropriate checking/sanitization."}], "name": "value"}, {"default": null, "doc": "the child nodes", "type": ["null", {"items": "com.bbn.tc.schema.avro.ProvenanceTagNode", "type": "array"}], "name": "children"}, {"default": null, "doc": "* the id to be assigned to this tag node\n         * typically set once when the node is first created, and used in value afterwards", "type": ["null", "int"], "name": "tagId"}, {"default": null, "doc": "Arbitrary key, value pairs associated with a tag node", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Subjects represent execution contexts and include mainly threads and processes. They can be more granular and\n     * can represent other execution boundaries such as functions and blocks if needed.", "namespace": "com.bbn.tc.schema.avro", "name": "Subject", "fields": [{"doc": "universally unique identifier for the subject", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "the subject type", "type": {"symbols": ["SUBJECT_PROCESS", "SUBJECT_THREAD", "SUBJECT_UNIT", "SUBJECT_BASIC_BLOCK"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SubjectType", "doc": "* SUBJECT_PROCESS,    process\n     * SUBJECT_THREAD,     thread within a process\n     * SUBJECT_UNIT        so far we only know of TRACE BEEP using this"}, "name": "type"}, {"doc": "OS process id for type process and unit id for a unit (Optional)", "type": "int", "name": "pid"}, {"doc": "OS parent process id for type process and pid for type unit (Optional)", "type": "int", "name": "ppid"}, {"doc": "Where it came from, see InstrumentationSource", "type": {"symbols": ["SOURCE_LINUX_AUDIT_TRACE", "SOURCE_LINUX_PROC_TRACE", "SOURCE_LINUX_BEEP_TRACE", "SOURCE_FREEBSD_OPENBSM_TRACE", "SOURCE_ANDROID_JAVA_CLEARSCOPE", "SOURCE_ANDROID_NATIVE_CLEARSCOPE", "SOURCE_FREEBSD_DTRACE_CADETS", "SOURCE_FREEBSD_TESLA_CADETS", "SOURCE_FREEBSD_LOOM_CADETS", "SOURCE_FREEBSD_MACIF_CADETS", "SOURCE_WINDOWS_DIFT_FAROS", "SOURCE_LINUX_THEIA", "SOURCE_WINDOWS_FIVEDIRECTIONS"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "InstrumentationSource", "doc": "* SOURCE_LINUX_AUDIT_TRACE,          from Linux /dev/audit\n     * SOURCE_LINUX_PROC_TRACE,           from Linux's /proc\n     * SOURCE_LINUX_BEEP_TRACE,           from BEEP instrumentation\n     * SOURCE_FREEBSD_OPENBSM_TRACE,      from FreeBSD openBSM\n     * SOURCE_ANDROID_JAVA_CLEARSCOPE,    from android java instrumentation\n     * SOURCE_ANDROID_NATIVE_CLEARSCOPE,  from android's native instrumentation\n     * SOURCE_FREEBSD_DTRACE_CADETS, SOURCE_FREEBSD_TESLA_CADETS  for CADETS freebsd instrumentation\n     * SOURCE_FREEBSD_LOOM_CADETS, SOURCE_FREEBSD_MACIF_CADETS    for CADETS freebsd instrumentation\n     * SOURCE_LINUX_THEIA                 from the GATech THEIA instrumentation source\n     * SOURCE_WINDOWS_FIVEDIRECTIONS      for the fivedirections windows events"}, "name": "source"}, {"default": null, "doc": "* The start time of the subject\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         * (Optional)", "type": ["null", "long"], "name": "startTimestampMicros"}, {"default": null, "doc": "unit id for unit based instrumentation (Optional)", "type": ["null", "int"], "name": "unitId"}, {"default": null, "doc": "The end time of the subject (Optional)", "type": ["null", "long"], "name": "endTimestampMicros"}, {"default": null, "doc": "Process command line arguments including process name (Optional)", "type": ["null", "string"], "name": "cmdLine"}, {"default": null, "doc": "imported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "importedLibraries"}, {"default": null, "doc": "exported libraries (static or dynamic), (Optional)", "type": ["null", {"items": "string", "type": "array"}], "name": "exportedLibraries"}, {"default": null, "doc": "additional process information, such portable execution (PE) info in windows (Optional)", "type": ["null", "string"], "name": "pInfo"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Events represent actions executed on behalf of subjects. Events could include system calls,\n     * function calls, instruction executions, or even more abstract notions representing a blind execution\n     * such as black boxes that are not instrumented (more shortly). Events are the core entity in the model\n     * and they are the main abstraction for representing information flow between data objects, and subjects.\n     * Events are atomic and immutable.", "namespace": "com.bbn.tc.schema.avro", "name": "Event", "fields": [{"doc": "A universally unique identifier for the event", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": 0, "doc": "A logical sequence number for ordering events relative to each other within a subject's execution context", "type": "long", "name": "sequence"}, {"doc": "The type of the event", "type": {"symbols": ["EVENT_ACCEPT", "EVENT_BIND", "EVENT_CHANGE_PRINCIPAL", "EVENT_CHECK_FILE_ATTRIBUTES", "EVENT_CLONE", "EVENT_CLOSE", "EVENT_CONNECT", "EVENT_CREATE_OBJECT", "EVENT_CREATE_THREAD", "EVENT_EXECUTE", "EVENT_FORK", "EVENT_LINK", "EVENT_UNLINK", "EVENT_MMAP", "EVENT_MODIFY_FILE_ATTRIBUTES", "EVENT_MPROTECT", "EVENT_OPEN", "EVENT_READ", "EVENT_RECVFROM", "EVENT_RECVMSG", "EVENT_RENAME", "EVENT_WRITE", "EVENT_SIGNAL", "EVENT_TRUNCATE", "EVENT_WAIT", "EVENT_OS_UNKNOWN", "EVENT_KERNEL_UNKNOWN", "EVENT_APP_UNKNOWN", "EVENT_UI_UNKNOWN", "EVENT_UNKNOWN", "EVENT_BLIND", "EVENT_UNIT", "EVENT_UPDATE", "EVENT_SENDTO", "EVENT_SENDMSG", "EVENT_SHM", "EVENT_EXIT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EventType", "doc": "* These event types correspond to the common system calls. Note that we added blind, unit, and update events\n     *   EVENT_ACCEPT                     accept a connection on an object\n     *   EVENT_BIND                       bind to a network endpoint object\n     *   EVENT_CHANGE_PRINCIPAL           change the principal associated with the process\n     *   EVENT_CHECK_FILE_ATTRIBUTES      check the file attributes such as permissions\n     *   EVENT_CLONE                      clone a subject\n     *   EVENT_CLOSE                      close an object\n     *   EVENT_CONNECT                    connect to an object\n     *   EVENT_CREATE_OBJECT              create an object\n     *   EVENT_CREATE_THREAD              create a thread subject\n     *   EVENT_EXECUTE                    execute an object\n     *   EVENT_FORK                       fork a process subject\n     *   EVENT_LINK                       link an object to a new name\n     *   EVENT_UNLINK                     unlink a name from an object\n     *   EVENT_MMAP                       memory map an object\n     *   EVENT_MODIFY_FILE_ATTRIBUTES     modify the attributes of a file object\n     *   EVENT_MPROTECT                   change permissions of a memory object\n     *   EVENT_OPEN                       open an object\n     *   EVENT_READ                       read from an object (file or socket)\n     *   EVENT_RECVFROM                   receive message from a socket\n     *   EVENT_RECVMSG                    receive message from a socket\n     *   EVENT_RENAME                     rename an object\n     *   EVENT_WRITE                      write to an object (file or socket)\n     *   EVENT_SIGNAL                     signal another subject\n     *   EVENT_TRUNCATE                   truncate an object\n     *   EVENT_WAIT                       wait on another subject\n     *   EVENT_KERNEL_UNKNOWN             some kernel event\n     *   EVENT_OS_UNKNOWN                 some OS layer event\n     *   EVENT_APP_UNKNOWN                some application layer event\n     *   EVENT_UI_UNKNOWN                 some UI layer event\n     *   EVENT_UNKNOWN                    some event (we don't know what layer)\n     *   EVENT_BLIND                      blind event for a black boxes that are not instrumented\n     *   EVENT_UNIT                       create a BEEP unit\n     *   EVENT_UPDATE                     update an object\n     *   EVENT_SENDTO                     send through socket\n     *   EVENT_SENDMSG                    send message through socket\n     *   EVENT_SHM                        share memory between processes\n     *   EVENT_EXIT                       process exit"}, "name": "type"}, {"doc": "The thread id to which this event belongs", "type": "int", "name": "threadId"}, {"doc": "What source system generated this event, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "* The time at which the event occurred. Timestamps allow reasoning about order of events\n         *  on a host when the same clock is used.\n         * TODO When different clocks are used on a host or across hosts, we need to also define a clock source\n         * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Event name (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "Event parameters represented as values, see Value (Optional)", "type": ["null", {"items": {"doc": "* Values represent transient data, mainly parameters to events. Values are created and used once within an\n     * event's execution and are relevant mainly during fine-grained tracking (such as with tag/taint propagation).\n     * Values have tags describing their provenance. Sometimes the actual value's value is reported in addition to\n     * the value's metadata\n     *\n     * The size of the value is the number of elements of type valueDataType. This should be 0 for primitive or\n     * complex types or the size of the array for arrays i.e., if size>0, then this value is an array.\n     * A complex value (such as an object) can contain other values (primitives of other complex values) within it, as\n     * components.\n     *\n     * isNull indicates whether a complex value is null. runtimeDataType indicates the runtime datatype. E.g., <br>\n     *  e.g., an integer will have size=0 and valueDataType=INT, and valueBytes.length=4 bytes <br>\n     *  e.g., an int[4] will have  size=4 and valueDataType=INT, and valueBytes.length=16 bytes (4*4) <br>\n     *  e.g., a string s=\"abc\" has size=3 and valueDataType=CHAR, and valueBytes.length=6 bytes (treated as char[]) <br>\n     *  e.g., an MyClass obj has size=0, valueDataType=COMPLEX, runtimeDataType=\"MyClass\", valueBytes=<pointer> <br>", "namespace": "com.bbn.tc.schema.avro", "name": "Value", "fields": [{"default": 0, "doc": "The size of the value: the number of elements of type valueDataType; 0 for primitives", "type": "int", "name": "size"}, {"doc": "The type of the value whether input or return", "type": {"symbols": ["VALUE_TYPE_IN", "VALUE_TYPE_OUT", "VALUE_TYPE_INOUT"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueType", "doc": "* A value type is either in, out, or in/out\n     * This is for event parameters to distinguish inputs vs return values\n     *\n     *   VALUE_TYPE_IN       An input value to the event\n     *   VALUE_TYPE_OUT      An output value from the event (return value)\n     *   VALUE_TYPE_INOUT    Adding this for completeness"}, "name": "type"}, {"doc": "The actual datatype of the value elements, e.g., int, double, byte, etc. (Optional)\n         *  Strings are treated as char[] so type=CHAR\n         *  String[] is a COMPLEX value whose components are the string values (each modeled as a char[])\n         *  Complex composite objects comprising of primitive values use the COMPLEX type", "type": {"symbols": ["VALUE_DATA_TYPE_BYTE", "VALUE_DATA_TYPE_BOOL", "VALUE_DATA_TYPE_CHAR", "VALUE_DATA_TYPE_SHORT", "VALUE_DATA_TYPE_INT", "VALUE_DATA_TYPE_FLOAT", "VALUE_DATA_TYPE_LONG", "VALUE_DATA_TYPE_DOUBLE", "VALUE_DATA_TYPE_COMPLEX"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "ValueDataType", "doc": "* A value data type is one of the primitive data types. A string is treated as a char array"}, "name": "valueDataType"}, {"default": false, "doc": "Whether this value is null, needed to indicate null objects (default: false)", "type": "boolean", "name": "isNull"}, {"default": null, "doc": "the name of the Value, string. (Optional)", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "The runtime data type of the value (Optional); For example, an object of dataType=COMPLEX, can have\n         *  a runtime data type of say \"MyClass\"", "type": ["null", "string"], "name": "runtimeDataType"}, {"default": null, "doc": "The actual bytes of the value in Big Endian format, e.g., an int is converted to a 4 byte buffer (Optional)", "type": ["null", "bytes"], "name": "valueBytes"}, {"default": null, "doc": "* The value's tag expression describing its provenance (Optional)\n         * Since value could be an array, the tag can use run length encoding if needed. The format of the array is:\n         *   {<numElements:int>, <tagId:int>}*\n         * For example, to assign a tag 0 (unknown) to elements 0-3, 1 to elements 4-7 and 2 to elements 8-15 of\n         * an int[16] value, this would be represented using the following tag array\n         *  {4, 0, 4, 1, 8, 2} meaning the first 4 elements have tag 0, next 4 have tag 1, next 8 have tag 2\n         * Note that 4 elements of the array correspond to 16 bytes in the valueBytes buffer\n         * Note that tagId had to be defined/emitted earlier (see ProvenanceTagNode)\n         * before it can be assigned to a value", "type": ["null", {"items": "int", "type": "array"}], "name": "tag"}, {"default": null, "doc": "A complex value might comprise other component values if needed (Optional)", "type": ["null", {"items": "com.bbn.tc.schema.avro.Value", "type": "array"}], "name": "components"}], "type": "record"}, "type": "array"}], "name": "parameters"}, {"default": null, "doc": "Location refers to the location of the data affecting the event\n         *  (e.g., the read offset in the file for the read system call event (Optional)", "type": ["null", "long"], "name": "location"}, {"default": null, "doc": "Size refers to the size of the data affecting the event\n         *  (e.g., the number of bytes read from the file for the read system call event (Optional)", "type": ["null", "long"], "name": "size"}, {"default": null, "doc": "The program point where the event was triggered (e.g., executable and line number), (Optional)", "type": ["null", "string"], "name": "programPoint"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a network flow object. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "NetFlowObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": {"doc": "*  Objects, in general, represent data sources and sinks which could include sockets, files,\n     *  memory, and any data in general that can be an input and/or output to an event.\n     *  This record is intended to be abstract i.e., one should not instantiate an Object\n     *  but rather instantiate one of its sub types File, NetFlow, of Memory", "namespace": "com.bbn.tc.schema.avro", "name": "AbstractObject", "fields": [{"doc": "The source that emitted the object, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Permission bits defined over the object (Optional)", "type": ["null", {"namespace": "com.bbn.tc.schema.avro", "type": "fixed", "name": "SHORT", "size": 2}], "name": "permission"}, {"default": null, "doc": "* The timestamp when the object was last modified (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "lastTimestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, "name": "baseObject"}, {"doc": "The ip address of the source host for this flow", "type": "string", "name": "srcAddress"}, {"doc": "The network port on the source host for this flow", "type": "int", "name": "srcPort"}, {"doc": "The ip address of the destination host for this flow", "type": "string", "name": "destAddress"}, {"doc": "The network port on the destination host for this flow", "type": "int", "name": "destPort"}, {"default": null, "doc": "The IP protocol number e.g., TCP=6", "type": ["null", "int"], "name": "ipProtocol"}], "type": "record"}, {"doc": "* Represents a file on the file system. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "FileObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location of the file absolute path or remote url", "type": "string", "name": "url"}, {"default": false, "doc": "Whether the file is a Unix pipe", "type": "boolean", "name": "isPipe"}, {"default": 1, "doc": "The file version incremented every time the file changes", "type": "int", "name": "version"}, {"default": null, "doc": "The file size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}, {"doc": "* Represents a generic source or sink on the host device that is can be a file, memory, or netflow.\n     * This is the most basic representation of a source or sink, basically specifying its type only.", "namespace": "com.bbn.tc.schema.avro", "name": "SrcSinkObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The type of the object", "type": {"symbols": ["SOURCE_ACCELEROMETER", "SOURCE_TEMPERATURE", "SOURCE_GYROSCOPE", "SOURCE_MAGNETIC_FIELD", "SOURCE_HEART_RATE", "SOURCE_LIGHT", "SOURCE_PROXIMITY", "SOURCE_PRESSURE", "SOURCE_RELATIVE_HUMIDITY", "SOURCE_LINEAR_ACCELERATION", "SOURCE_MOTION", "SOURCE_STEP_DETECTOR", "SOURCE_STEP_COUNTER", "SOURCE_TILT_DETECTOR", "SOURCE_ROTATION_VECTOR", "SOURCE_GRAVITY", "SOURCE_GEOMAGNETIC_ROTATION_VECTOR", "SOURCE_CAMERA", "SOURCE_GPS", "SOURCE_AUDIO", "SOURCE_SYSTEM_PROPERTY", "SOURCE_ENV_VARIABLE", "SOURCE_SINK_IPC", "SOURCE_UNKNOWN"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "SrcSinkType", "doc": "* There are many types of sources such as sensors\n     * The type of a sensor could be base (close to hardware) or composite\n     * See https://source.android.com/devices/sensors/index.html for details\n     * TODO: camera and GPS ideally should be modeled separately to match the Android model. These are rich subsystems"}, "name": "type"}], "type": "record"}, {"doc": "* Represents a page in memory. Instantiates an AbstractObject.\n     * TODO: is memory really an object (with permissions and so on) or is it a transient data?", "namespace": "com.bbn.tc.schema.avro", "name": "MemoryObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The location in memory", "type": "long", "name": "memoryAddress"}, {"default": null, "doc": "The memory page number", "type": ["null", "long"], "name": "pageNumber"}], "type": "record"}, {"doc": "* A principal is a local user\n    * TODO: extend for second evaluation to include remote principals\n    * TODO: what happens when the user information changes (are we tracking versions?)\n    * TODO: Authentication mechanisms: are TA1s providing that information and how?", "namespace": "com.bbn.tc.schema.avro", "name": "Principal", "fields": [{"doc": "A unique id for the principal", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"default": "PRINCIPAL_LOCAL", "doc": "The type of the principal, local by default", "type": {"symbols": ["PRINCIPAL_LOCAL", "PRINCIPAL_REMOTE"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "PrincipalType", "doc": "* The type of principal may be local to the host, or remote users/systems."}, "name": "type"}, {"doc": "The operating system identifier associated with the user", "type": "string", "name": "userId"}, {"doc": "The ids of the groups which this user is part of", "type": {"items": "string", "type": "array"}, "name": "groupIds"}, {"doc": "The source that emitted the Principal record, see InstrumentationSource", "type": "com.bbn.tc.schema.avro.InstrumentationSource", "name": "source"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* The purpose of a TagEntity is to be able to assign one or more tags to the objects/subjects/events\n     * at a later point in time after the objects/subjects/events have been emitted.\n     * As the name indicates, TagEntity wraps a tag (ProvenanceTagNode) with an entity i.e. assign a uuid\n     * to the tag to allow adding an edge from the object/subject/event to the TagEntity.", "namespace": "com.bbn.tc.schema.avro", "name": "TagEntity", "fields": [{"doc": "A unique ID for the entity", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The provenance tag", "type": "com.bbn.tc.schema.avro.ProvenanceTagNode", "name": "tag"}, {"default": null, "doc": "* The timestamp when the tag was created (Optional).\n        * A timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": ["null", "long"], "name": "timestampMicros"}, {"default": null, "doc": "Arbitrary key, value pairs describing the entity", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Edges in the CDM only connect the entities and do not have attributes of their own.\n     *  In order to make the streaming efficient, the edge specification does not require\n     *  the objects on both ends every time it is streamed/serialized. Instead, we defined\n     *  the edge to be simple, it has a type and it connects two entities each identified by\n     *  a uid each.\n     * Since the different edge types in the current model do not have different properties\n     *  (actually no properties at all), we do not define the different edges as separate\n     *  records at this time.\n     * For example, when streaming a large number of edges having the same from node, the\n     *  from node in all these edges will be represented using the node id instead of having\n     *  to replicate the full node object on the wire.", "namespace": "com.bbn.tc.schema.avro", "name": "SimpleEdge", "fields": [{"doc": "A unique id of the From entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "fromUuid"}, {"doc": "The id of the To entity on the edge", "type": "com.bbn.tc.schema.avro.UUID", "name": "toUuid"}, {"doc": "The type of the edge, see EdgeType", "type": {"symbols": ["EDGE_EVENT_AFFECTS_MEMORY", "EDGE_EVENT_AFFECTS_FILE", "EDGE_EVENT_AFFECTS_NETFLOW", "EDGE_EVENT_AFFECTS_SUBJECT", "EDGE_EVENT_AFFECTS_SRCSINK", "EDGE_EVENT_HASPARENT_EVENT", "EDGE_EVENT_CAUSES_EVENT", "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "EDGE_SUBJECT_AFFECTS_EVENT", "EDGE_SUBJECT_HASPARENT_SUBJECT", "EDGE_SUBJECT_HASLOCALPRINCIPAL", "EDGE_SUBJECT_RUNSON", "EDGE_FILE_AFFECTS_EVENT", "EDGE_NETFLOW_AFFECTS_EVENT", "EDGE_MEMORY_AFFECTS_EVENT", "EDGE_SRCSINK_AFFECTS_EVENT", "EDGE_OBJECT_PREV_VERSION", "EDGE_FILE_HAS_TAG", "EDGE_NETFLOW_HAS_TAG", "EDGE_MEMORY_HAS_TAG", "EDGE_SRCSINK_HAS_TAG", "EDGE_SUBJECT_HAS_TAG", "EDGE_EVENT_HAS_TAG", "EDGE_EVENT_AFFECTS_REGISTRYKEY", "EDGE_REGISTRYKEY_AFFECTS_EVENT", "EDGE_REGISTRYKEY_HAS_TAG"], "namespace": "com.bbn.tc.schema.avro", "type": "enum", "name": "EdgeType", "doc": "* The different types of simple edges in the CDM\n     *   EDGE_EVENT_AFFECTS_MEMORY          an event affects a memory object (such as updating a memory location)\n     *   EDGE_EVENT_AFFECTS_FILE            an event affects a file object (such as writing to a file)\n     *   EDGE_EVENT_AFFECTS_REGISTRYKEY     an event affects a registry value (such as writing to a registry key)\n     *   EDGE_EVENT_AFFECTS_NETFLOW         an event affects a netflow object (such as writing to socket)\n     *   EDGE_EVENT_AFFECTS_SUBJECT         an event affects a subject (such as forking a process)\n     *   EDGE_EVENT_AFFECTS_SRCSINK         an event affects a generic src/sink object\n     *   EDGE_EVENT_HASPARENT_EVENT         a metaevent that represents a set of child atomic events\n     *   EDGE_EVENT_CAUSES_EVENT            an event caused/triggered another event\n     *   EDGE_EVENT_ISGENERATEDBY_SUBJECT   an event is generated by a subject (every event is)\n     *   EDGE_SUBJECT_AFFECTS_EVENT         a subject affects an event (such as when killing a process)\n     *   EDGE_SUBJECT_HASPARENT_SUBJECT     a subject has a parent subject (such as thread has parent process)\n     *   EDGE_SUBJECT_HASPRINCIPAL          a subject has a principal (such as a process owned by a user)\n     *   EDGE_SUBJECT_RUNSON                a subject runs on a host (TODO: host not yet modeled)\n     *   EDGE_FILE_AFFECTS_EVENT            an event reads from a file\n     *   EDGE_REGISTRYKEY_AFFECTS_EVENT     an event reads values from a registry key\n     *   EDGE_NETFLOW_AFFECTS_EVENT         an event reads from a network flow\n     *   EDGE_MEMORY_AFFECTS_EVENT          an event reads from a memory object\n     *   EDGE_SRCSINK_AFFECTS_EVENT         a generic source/sink object affects an event\n     *   EDGE_OBJECT_PREV_VERSION           the previous version of an object, typically used for file versioning\n     *   EDGE_FILE_HAS_TAG                  attach a tag to a file object\n     *   EDGE_REGISTRYKEY_HAS_TAG           attach a tag to a registrykey object\n     *   EDGE_NETFLOW_HAS_TAG               attach a tag to a netflow object\n     *   EDGE_MEMORY_HAS_TAG                attach a tag to a memory object\n     *   EDGE_SRCSINK_HAS_TAG               attach a tag to a srcsink object\n     *   EDGE_SUBJECT_HAS_TAG               attach a tag to a subject\n     *   EDGE_EVENT_HAS_TAG                 attach a tag to an event\n     *"}, "name": "type"}, {"doc": "* When the edge was created.\n        * Timestamp stores the number of microseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.", "type": "long", "name": "timestamp"}, {"default": null, "doc": "Arbitrary key, value pairs describing the edge", "type": ["null", {"type": "map", "values": "string"}], "name": "properties"}], "type": "record"}, {"doc": "* Represents a registry key. Instantiates an AbstractObject.", "namespace": "com.bbn.tc.schema.avro", "name": "RegistryKeyObject", "fields": [{"doc": "Universally unique identifier for the object", "type": "com.bbn.tc.schema.avro.UUID", "name": "uuid"}, {"doc": "The base object attributes", "type": "com.bbn.tc.schema.avro.AbstractObject", "name": "baseObject"}, {"doc": "The registry key/path", "type": "string", "name": "key"}, {"default": 1, "doc": "The version incremented every time the entry changes", "type": "int", "name": "version"}, {"default": null, "doc": "The entry size in bytes (Optional)", "type": ["null", "long"], "name": "size"}], "type": "record"}], "name": "datum"}, {"default": "13", "type": "string", "name": "CDMVersion"}], "type": "record"}avro.codecnull ÔW£ËÏ¶`ÊÀ¦¦ú[úÊ¸¼ë                 0  13z‡Yfæ“{D¨BÆ 99        13z‡Yfæ“{D¨BÆ                €Ú«‹Êœ 13                àœ€Ú«‹Êœ     retval3659callaue_vforkarg_pid3659exec$download_with_wget 13               z‡Yfæ“{D¨BÆ€Ú«‹Êœ 13z—ıŠYfæ“{D¨BÆ –99        13z—ıŠYfæ“{D¨BÆz‡Yfæ“{D¨BÆ€Ú«‹Êœ 13               z—ıŠYfæ“{D¨BÆ€Ú«‹Êœ 13              ’œÎé«‹Êœ     retval0upath1/bin/shcallaue_execveexec$download_with_wget 13‹ú1Àfø S¸f²ã àG   /bin/sh  13‹ú1Àfø S¸f²ã àG              Îé«‹Êœ 13              z—ıŠYfæ“{D¨BÆÎé«‹Êœ 13‹ú1Àfø S¸f²ã àG              Îé«‹Êœ 13z—ıŠYfæ“{D¨BÆ                Îé«‹Êœ 13               ’œÎé«‹Êœ     callaue_openat_rwtcexecsh
+flags1048576mode0fd-100retval3upath1 /etc/libmap.conf 13?TÎÅ!š<Rš!ŞD<
 *    /etc/libmap.conf  13?TÎÅ!š<Rš!ŞD<
-*              Îé«‹Êœ 13              z—ıŠYfæ“{D¨BÆÎé«‹Êœ 13              ’œÎé«‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6598656 13?TÎÅ!š<Rš!ŞD<
+*              Îé«‹Êœ 13              z—ıŠYfæ“{D¨BÆÎé«‹Êœ 13              ’œÎé«‹Êœ     retval6598656fd3callaue_mmapexecsh 13?TÎÅ!š<Rš!ŞD<
 *              Îé«‹Êœ 13              z—ıŠYfæ“{D¨BÆÎé«‹Êœ 13              
-’œÎé«‹Êœ    sh
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13?TÎÅ!š<Rš!ŞD<
+’œÎé«‹Êœ     retval0fd3callaue_closeexecsh 13?TÎÅ!š<Rš!ŞD<
 *              Îé«‹Êœ 13              z—ıŠYfæ“{D¨BÆÎé«‹Êœ 13              
- ’œù«‹Êœ    sh
-probe 
-flags1048576module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath10/var/run/ld-elf.so.hints 13.¿Û¤¦ºşTº¦ßk¤şÕ   0/var/run/ld-elf.so.hints  13.¿Û¤¦ºşTº¦ßk¤şÕ              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              "’œù«‹Êœ    sh
-probe module
-eventcallaue_readprovider
-auditfd3retval128 13.¿Û¤¦ºşTº¦ßk¤şÕ              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              2’œù«‹Êœ    sh
-probe module
-eventfd3provider
-auditcallaue_lseekretval128 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              "’œù«‹Êœ    sh
-probe module
-eventcallaue_readprovider
-auditfd3retval113 13.¿Û¤¦ºşTº¦ßk¤şÕ              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              	
-’œù«‹Êœ    sh
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13.¿Û¤¦ºşTº¦ßk¤şÕ              	ù«‹Êœ 13              	z—ıŠYfæ“{D¨BÆù«‹Êœ 13              
- ’œù«‹Êœ    sh
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1"/lib/libedit.so.7 13ËáeJ¾ğY¾JÜb™ğéı   "/lib/libedit.so.7  13ËáeJ¾ğY¾JÜb™ğéı              
+ ’œù«‹Êœ     callaue_openat_rwtcexecsh
+flags1048576mode0fd-100retval3upath10/var/run/ld-elf.so.hints 13.¿Û¤¦ºşTº¦ßk¤şÕ   0/var/run/ld-elf.so.hints  13.¿Û¤¦ºşTº¦ßk¤şÕ              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              "’œù«‹Êœ     retval128fd3callaue_readexecsh 13.¿Û¤¦ºşTº¦ßk¤şÕ              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              2’œù«‹Êœ     fd3callaue_lseekretval128execsh 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              "’œù«‹Êœ     retval113fd3callaue_readexecsh 13.¿Û¤¦ºşTº¦ßk¤şÕ              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              	
+’œù«‹Êœ     retval0fd3callaue_closeexecsh 13.¿Û¤¦ºşTº¦ßk¤şÕ              	ù«‹Êœ 13              	z—ıŠYfæ“{D¨BÆù«‹Êœ 13              
+ ’œù«‹Êœ     callaue_openat_rwtcexecsh
+flags3145728mode0fd-100retval3upath1"/lib/libedit.so.7 13ËáeJ¾ğY¾JÜb™ğéı   "/lib/libedit.so.7  13ËáeJ¾ğY¾JÜb™ğéı              
 ù«‹Êœ 13              
-z—ıŠYfæ“{D¨BÆù«‹Êœ 13              ’œù«‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6598656 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              ’œù«‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval8671232 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              ’œù«‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval10981376 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              
-’œù«‹Êœ    sh
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13               ’œ„Š¬‹Êœ    sh
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1/lib/libc.so.7 13ôJhrŠ39U³ŠÙ&Õ9$f   /lib/libc.so.7  13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13               ’œ„Š¬‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6598656 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              "’œ„Š¬‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval11005952 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              $’œ„Š¬‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval14733312 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              &
-’œ„Š¬‹Êœ    sh
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              ( ’œÚ˜¬‹Êœ    sh
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1*/lib/libncursesw.so.8 13Áª„¨ÿú;Tºÿ4˜„;S;   */lib/libncursesw.so.8  13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              *’œÚ˜¬‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6598656 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              ,’œÚ˜¬‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval14888960 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              .’œÚ˜¬‹Êœ    sh
-probe module
-eventcallaue_mmapprovider
-auditfd3retval17338368 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              0
-’œÚ˜¬‹Êœ    sh
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              2’œ¨¬‹Êœ    sh
-probe module
-eventcallaue_execveprovider
-auditretval0upath1&/usr/local/bin/wget 13+¹rîçT®rr„ç 
+z—ıŠYfæ“{D¨BÆù«‹Êœ 13              ’œù«‹Êœ     retval6598656fd3callaue_mmapexecsh 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              ’œù«‹Êœ     retval8671232fd3callaue_mmapexecsh 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              ’œù«‹Êœ     retval10981376fd3callaue_mmapexecsh 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13              
+’œù«‹Êœ     retval0fd3callaue_closeexecsh 13ËáeJ¾ğY¾JÜb™ğéı              ù«‹Êœ 13              z—ıŠYfæ“{D¨BÆù«‹Êœ 13               ’œ„Š¬‹Êœ     callaue_openat_rwtcexecsh
+flags3145728mode0fd-100retval3upath1/lib/libc.so.7 13ôJhrŠ39U³ŠÙ&Õ9$f   /lib/libc.so.7  13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13               ’œ„Š¬‹Êœ     retval6598656fd3callaue_mmapexecsh 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              "’œ„Š¬‹Êœ     retval11005952fd3callaue_mmapexecsh 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              $’œ„Š¬‹Êœ     retval14733312fd3callaue_mmapexecsh 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              &
+’œ„Š¬‹Êœ     retval0fd3callaue_closeexecsh 13ôJhrŠ39U³ŠÙ&Õ9$f              „Š¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ„Š¬‹Êœ 13              ( ’œÚ˜¬‹Êœ     callaue_openat_rwtcexecsh
+flags3145728mode0fd-100retval3upath1*/lib/libncursesw.so.8 13Áª„¨ÿú;Tºÿ4˜„;S;   */lib/libncursesw.so.8  13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              *’œÚ˜¬‹Êœ     retval6598656fd3callaue_mmapexecsh 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              ,’œÚ˜¬‹Êœ     retval14888960fd3callaue_mmapexecsh 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              .’œÚ˜¬‹Êœ     retval17338368fd3callaue_mmapexecsh 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              0
+’œÚ˜¬‹Êœ     retval0fd3callaue_closeexecsh 13Áª„¨ÿú;Tºÿ4˜„;S;              Ú˜¬‹Êœ 13              z—ıŠYfæ“{D¨BÆÚ˜¬‹Êœ 13              2’œ¨¬‹Êœ     retval0upath1&/usr/local/bin/wgetcallaue_execveexecsh 13+¹rîçT®rr„ç 
    &/usr/local/bin/wget  13+¹rîçT®rr„ç 
               ¨¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ¨¬‹Êœ 13+¹rîçT®rr„ç 
-              ¨¬‹Êœ 13z—ıŠYfæ“{D¨BÆ                ¨¬‹Êœ 13              4 ’œ¨¬‹Êœ    wget
-probe 
-flags1048576module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1 /etc/libmap.conf 13?TÎÅ!š<Rš!ŞD<
+              ¨¬‹Êœ 13z—ıŠYfæ“{D¨BÆ                ¨¬‹Êœ 13              4 ’œ¨¬‹Êœ     callaue_openat_rwtcexecwget
+flags1048576mode0fd-100retval3upath1 /etc/libmap.conf 13?TÎÅ!š<Rš!ŞD<
 *    /etc/libmap.conf  13?TÎÅ!š<Rš!ŞD<
-*              ¨¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ¨¬‹Êœ 13              6’œ¨¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13?TÎÅ!š<Rš!ŞD<
+*              ¨¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ¨¬‹Êœ 13              6’œ¨¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13?TÎÅ!š<Rš!ŞD<
 *              ¨¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ¨¬‹Êœ 13              8
-’œ¨¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13?TÎÅ!š<Rš!ŞD<
-*              ¨¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ¨¬‹Êœ 13              : ’œŞ·¬‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath16/usr/local/lib/libintl.so.8 13€Ş¾pÏ•QpÕ4Á•vñ   6/usr/local/lib/libintl.so.8  13€Ş¾pÏ•QpÕ4Á•vñ              Ş·¬‹Êœ 13              z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              <’œŞ·¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13€Ş¾pÏ•QpÕ4Á•vñ              Ş·¬‹Êœ 13              z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              >’œŞ·¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval9043968 13€Ş¾pÏ•QpÕ4Á•vñ              Ş·¬‹Êœ 13              z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13               @’œŞ·¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval11177984 13€Ş¾pÏ•QpÕ4Á•vñ               Ş·¬‹Êœ 13               z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              !B
-’œŞ·¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13€Ş¾pÏ•QpÕ4Á•vñ              !Ş·¬‹Êœ 13              !z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              "D ’œŞ·¬‹Êœ    wget
-probe 
-flags1048576module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath10/var/run/ld-elf.so.hints 13.¿Û¤¦ºşTº¦ßk¤şÕ   0/var/run/ld-elf.so.hints  13.¿Û¤¦ºşTº¦ßk¤şÕ              "Ş·¬‹Êœ 13              "z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              #F"’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval128 13.¿Û¤¦ºşTº¦ßk¤şÕ              #ÊÈ¬‹Êœ 13              #z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              $H2’œÊÈ¬‹Êœ    wget
-probe module
-eventfd3provider
-auditcallaue_lseekretval128 13              $z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              %J"’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval113 13.¿Û¤¦ºşTº¦ßk¤şÕ              %ÊÈ¬‹Êœ 13              %z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              &L
-’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13.¿Û¤¦ºşTº¦ßk¤şÕ              &ÊÈ¬‹Êœ 13              &z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              'N ’œÊÈ¬‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1(/usr/lib/libssl.so.8 13š`2¤Ù_š¤ZüÏÙX3   (/usr/lib/libssl.so.8  13š`2¤Ù_š¤ZüÏÙX3              'ÊÈ¬‹Êœ 13              'z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              (P’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13š`2¤Ù_š¤ZüÏÙX3              (ÊÈ¬‹Êœ 13              (z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              )R’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval11182080 13š`2¤Ù_š¤ZüÏÙX3              )ÊÈ¬‹Êœ 13              )z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              *T’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval13692928 13š`2¤Ù_š¤ZüÏÙX3              *ÊÈ¬‹Êœ 13              *z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              +V
-’œÊÈ¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13š`2¤Ù_š¤ZüÏÙX3              +ÊÈ¬‹Êœ 13              +z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              ,X ’œÜ×¬‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1&/lib/libcrypto.so.8 13§ù3ÈöwR¶Èê¯wè3   &/lib/libcrypto.so.8  13§ù3ÈöwR¶Èê¯wè3              ,Ü×¬‹Êœ 13              ,z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              -Z’œÜ×¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13§ù3ÈöwR¶Èê¯wè3              -Ü×¬‹Êœ 13              -z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              .\’œÜ×¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval14680064 13§ù3ÈöwR¶Èê¯wè3              .Ü×¬‹Êœ 13              .z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              /^’œÜ×¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval19136512 13§ù3ÈöwR¶Èê¯wè3              /Ü×¬‹Êœ 13              /z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              0`
-’œÜ×¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13§ù3ÈöwR¶Èê¯wè3              0Ü×¬‹Êœ 13              0z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              1b ’œĞæ¬‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1/lib/libz.so.6 13w.'Ïñy\±Ï5<ysû   /lib/libz.so.6  13w.'Ïñy\±Ï5<ysû              1Ğæ¬‹Êœ 13              1z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              2d’œĞæ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13w.'Ïñy\±Ï5<ysû              2Ğæ¬‹Êœ 13              2z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              3f’œĞæ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval19316736 13w.'Ïñy\±Ï5<ysû              3Ğæ¬‹Êœ 13              3z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              4h’œĞæ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval21504000 13w.'Ïñy\±Ï5<ysû              4Ğæ¬‹Êœ 13              4z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              5j
-’œĞæ¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13w.'Ïñy\±Ï5<ysû              5Ğæ¬‹Êœ 13              5z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              6l ’œĞæ¬‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath16/usr/local/lib/libidn.so.11 13k­˜ŒrçS˜r¨½Óç^Á   6/usr/local/lib/libidn.so.11  13k­˜ŒrçS˜r¨½Óç^Á              6Ğæ¬‹Êœ 13              6z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              7n’œĞæ¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13k­˜ŒrçS˜r¨½Óç^Á              7Ğæ¬‹Êœ 13              7z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              8p’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval21508096 13k­˜ŒrçS˜r¨½Óç^Á              8œ÷¬‹Êœ 13              8z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              9r’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval23814144 13k­˜ŒrçS˜r¨½Óç^Á              9œ÷¬‹Êœ 13              9z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              :t
-’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13k­˜ŒrçS˜r¨½Óç^Á              :œ÷¬‹Êœ 13              :z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              ;v ’œœ÷¬‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1/lib/libc.so.7 13ôJhrŠ39U³ŠÙ&Õ9$f   /lib/libc.so.7  13ôJhrŠ39U³ŠÙ&Õ9$f              ;œ÷¬‹Êœ 13              ;z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              <x’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval6971392 13ôJhrŠ39U³ŠÙ&Õ9$f              <œ÷¬‹Êœ 13              <z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              =z’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval23818240 13ôJhrŠ39U³ŠÙ&Õ9$f              =œ÷¬‹Êœ 13              =z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              >|’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval27545600 13ôJhrŠ39U³ŠÙ&Õ9$f              >œ÷¬‹Êœ 13              >z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              ?~
-’œœ÷¬‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13ôJhrŠ39U³ŠÙ&Õ9$f              ?œ÷¬‹Êœ 13              ?z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              @€ ’œÀ•­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-32896provider
-audit
-flags1179652retval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              @À•­‹Êœ 13              @z—ıŠYfæ“{D¨BÆÀ•­‹Êœ 13              A‚
-’œÀ•­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13U÷vzM£UzÄ¨%£"              AÀ•­‹Êœ 13              Az—ıŠYfæ“{D¨BÆÀ•­‹Êœ 13              B„ ’œÀ•­‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1>/usr/lib/i18n/libiconv_std.so.4 13©}†ã¯¬æR¬¯›°¢æ[Æ   >/usr/lib/i18n/libiconv_std.so.4  13©}†ã¯¬æR¬¯›°¢æ[Æ              BÀ•­‹Êœ 13              Bz—ıŠYfæ“{D¨BÆÀ•­‹Êœ 13              C†’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13©}†ã¯¬æR¬¯›°¢æ[Æ              C¸¦­‹Êœ 13              Cz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              Dˆ’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval33554432 13©}†ã¯¬æR¬¯›°¢æ[Æ              D¸¦­‹Êœ 13              Dz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              EŠ’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval35655680 13©}†ã¯¬æR¬¯›°¢æ[Æ              E¸¦­‹Êœ 13              Ez—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              FŒ
-’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13©}†ã¯¬æR¬¯›°¢æ[Æ              F¸¦­‹Êœ 13              Fz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              G ’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-50776provider
-audit
-flags1048576retval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              G¸¦­‹Êœ 13              Gz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              H’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13m²œ2VøÏT¸V*Ï(              H¸¦­‹Êœ 13              Hz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              I’
-’œ¸¦­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13m²œ2VøÏT¸V*Ï(              I¸¦­‹Êœ 13              Iz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              J” ’œ¸µ­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-50776provider
-audit
-flags1048576retval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              J¸µ­‹Êœ 13              Jz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              K–’œ¸µ­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13b@/Ì¦k³]«¦ùî­³–î              K¸µ­‹Êœ 13              Kz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              L˜
-’œ¸µ­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13b@/Ì¦k³]«¦ùî­³–î              L¸µ­‹Êœ 13              Lz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              Mš ’œ¸µ­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-51976provider
-audit
-flags1048576retval3upath1T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb 13Îïë.µm¾U­µc®Õ¾ï   T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb  13Îïë.µm¾U­µc®Õ¾ï              M¸µ­‹Êœ 13              Mz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              Nœ’œ¸µ­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13Îïë.µm¾U­µc®Õ¾ï              N¸µ­‹Êœ 13              Nz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              O
-’œ¸µ­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13Îïë.µm¾U­µc®Õ¾ï              O¸µ­‹Êœ 13              Oz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              P  ’œÎÄ­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-50776provider
-audit
-flags1048576retval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              PÎÄ­‹Êœ 13              Pz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              Q¢’œÎÄ­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13m²œ2VøÏT¸V*Ï(              QÎÄ­‹Êœ 13              Qz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              R¤
-’œÎÄ­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13m²œ2VøÏT¸V*Ï(              RÎÄ­‹Êœ 13              Rz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              S¦ ’œÎÄ­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-50776provider
-audit
-flags1048576retval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              SÎÄ­‹Êœ 13              Sz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              T¨’œÎÄ­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13b@/Ì¦k³]«¦ùî­³–î              TÎÄ­‹Êœ 13              Tz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              Uª
-’œÎÄ­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13b@/Ì¦k³]«¦ùî­³–î              UÎÄ­‹Êœ 13              Uz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              V¬ ’œ€Ô­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-51976provider
-audit
-flags1048576retval3upath1F/usr/share/i18n/esdb/UTF/UTF-8.esdb 13™€54>~]¾4y°~ÕE   F/usr/share/i18n/esdb/UTF/UTF-8.esdb  13™€54>~]¾4y°~ÕE              V€Ô­‹Êœ 13              Vz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              W®’œ€Ô­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13™€54>~]¾4y°~ÕE              W€Ô­‹Êœ 13              Wz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              X°
-’œ€Ô­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13™€54>~]¾4y°~ÕE              X€Ô­‹Êœ 13              Xz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              Y² ’œ€Ô­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-38547provider
-audit
-flags1179652retval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              Y€Ô­‹Êœ 13              Yz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              Z´
-’œ€Ô­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13U÷vzM£UzÄ¨%£"              Z€Ô­‹Êœ 13              Zz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              [¶ ’œÒã­‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath14/usr/lib/i18n/libUTF8.so.4 13…Èã:õù«Z¹õK†z«tİ   4/usr/lib/i18n/libUTF8.so.4  13…Èã:õù«Z¹õK†z«tİ              [Òã­‹Êœ 13              [z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              \¸’œÒã­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13…Èã:õù«Z¹õK†z«tİ              \Òã­‹Êœ 13              \z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              ]º’œÒã­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval35659776 13…Èã:õù«Z¹õK†z«tİ              ]Òã­‹Êœ 13              ]z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              ^¼’œÒã­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval37761024 13…Èã:õù«Z¹õK†z«tİ              ^Òã­‹Êœ 13              ^z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              _¾
-’œÒã­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13…Èã:õù«Z¹õK†z«tİ              _Òã­‹Êœ 13              _z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              `À ’œÒã­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-44696provider
-audit
-flags1048576retval3upath1F/usr/share/i18n/csmapper/mapper.dir 13¾Bñn/®T¯nÃµ´®;n   F/usr/share/i18n/csmapper/mapper.dir  13¾Bñn/®T¯nÃµ´®;n              `Òã­‹Êœ 13              `z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              aÂ’œÒã­‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13¾Bñn/®T¯nÃµ´®;n              aÒã­‹Êœ 13              az—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              bÄ
-’œ²ô­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13¾Bñn/®T¯nÃµ´®;n              b²ô­‹Êœ 13              bz—ıŠYfæ“{D¨BÆ²ô­‹Êœ 13              cÆ ’œ²ô­‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-32896provider
-audit
-flags1179652retval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              c²ô­‹Êœ 13              cz—ıŠYfæ“{D¨BÆ²ô­‹Êœ 13              dÈ
-’œ²ô­‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13U÷vzM£UzÄ¨%£"              d²ô­‹Êœ 13              dz—ıŠYfæ“{D¨BÆ²ô­‹Êœ 13              eÊ ’œğ‚®‹Êœ    wget
-probe 
-flags3145728module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval3upath1@/usr/lib/i18n/libmapper_646.so.4 13‚%ÏëeâB[¢ená{BAF   @/usr/lib/i18n/libmapper_646.so.4  13‚%ÏëeâB[¢ená{BAF              eğ‚®‹Êœ 13              ez—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              fÌ’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13‚%ÏëeâB[¢ená{BAF              fğ‚®‹Êœ 13              fz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              gÎ’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval37765120 13‚%ÏëeâB[¢ená{BAF              gğ‚®‹Êœ 13              gz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              hĞ’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval39866368 13‚%ÏëeâB[¢ená{BAF              hğ‚®‹Êœ 13              hz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              iÒ
-’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13‚%ÏëeâB[¢ená{BAF              iğ‚®‹Êœ 13              iz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              jÔ ’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-42360provider
-audit
-flags1048576retval3upath1b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646 13š˜‚ ùß[¹ A{;ßOz   b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646  13š˜‚ ùß[¹ A{;ßOz              jğ‚®‹Êœ 13              jz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              kÖ’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13š˜‚ ùß[¹ A{;ßOz              kğ‚®‹Êœ 13              kz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              lØ
-’œğ‚®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13š˜‚ ùß[¹ A{;ßOz              lğ‚®‹Êœ 13              lz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              mÚ ’œÀ’®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode0provider
-audit
-flags0retval3upath1./usr/share/zoneinfo/UTC 13Î<U·$Â`U‚$4›…`İ1   ./usr/share/zoneinfo/UTC  13Î<U·$Â`U‚$4›…`İ1              mÀ’®‹Êœ 13              mz—ıŠYfæ“{D¨BÆÀ’®‹Êœ 13              nÜ"’œ¢®‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval118 13Î<U·$Â`U‚$4›…`İ1              n¢®‹Êœ 13              nz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              oŞ
-’œ¢®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13Î<U·$Â`U‚$4›…`İ1              o¢®‹Êœ 13              oz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              pà ’œ¢®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode0provider
-audit
-flags0retval3upath1</usr/share/zoneinfo/posixrules 13âùZãY£T	ë*   </usr/share/zoneinfo/posixrules  13âùZãY£T	ë*              p¢®‹Êœ 13              pz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              qâ"’œ¢®‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval3519 13âùZãY£T	ë*              q¢®‹Êœ 13              qz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              rä
-’œ¢®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13âùZãY£T	ë*              r¢®‹Êœ 13              rz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              sæ*’œ¢®‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval58 13dîK“…fçQ¦…ƒíáçn      13              sdîK“…fçQ¦…ƒíáçn¢®‹Êœ 13              sz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              tè ’œ¢®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-32896provider
-audit
-flags1179652retval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              t¢®‹Êœ 13              tz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              uê
-’œŞ±®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13U÷vzM£UzÄ¨%£"              uŞ±®‹Êœ 13              uz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              vì ’œŞ±®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-48408provider
-audit
-flags1048576retval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              vŞ±®‹Êœ 13              vz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              wî’œŞ±®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13m²œ2VøÏT¸V*Ï(              wŞ±®‹Êœ 13              wz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              xğ
-’œŞ±®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13m²œ2VøÏT¸V*Ï(              xŞ±®‹Êœ 13              xz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              yò ’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-48408provider
-audit
-flags1048576retval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              y°Á®‹Êœ 13              yz—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              zô’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13b@/Ì¦k³]«¦ùî­³–î              z°Á®‹Êœ 13              zz—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              {ö
-’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13b@/Ì¦k³]«¦ùî­³–î              {°Á®‹Êœ 13              {z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              |ø ’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-49608provider
-audit
-flags1048576retval3upath1F/usr/share/i18n/esdb/UTF/UTF-8.esdb 13™€54>~]¾4y°~ÕE   F/usr/share/i18n/esdb/UTF/UTF-8.esdb  13™€54>~]¾4y°~ÕE              |°Á®‹Êœ 13              |z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              }ú’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13™€54>~]¾4y°~ÕE              }°Á®‹Êœ 13              }z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              ~ü
-’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13™€54>~]¾4y°~ÕE              ~°Á®‹Êœ 13              ~z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              ş ’œ°Á®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-48408provider
-audit
-flags1048576retval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              °Á®‹Êœ 13              z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              €€’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13m²œ2VøÏT¸V*Ï(              €şĞ®‹Êœ 13              €z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ‚
-’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13m²œ2VøÏT¸V*Ï(              şĞ®‹Êœ 13              z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ‚„ ’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-48408provider
-audit
-flags1048576retval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              ‚şĞ®‹Êœ 13              ‚z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ƒ†’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13b@/Ì¦k³]«¦ùî­³–î              ƒşĞ®‹Êœ 13              ƒz—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              „ˆ
-’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13b@/Ì¦k³]«¦ùî­³–î              „şĞ®‹Êœ 13              „z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              …Š ’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-49608provider
-audit
-flags1048576retval3upath1T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb 13Îïë.µm¾U­µc®Õ¾ï   T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb  13Îïë.µm¾U­µc®Õ¾ï              …şĞ®‹Êœ 13              …z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              †Œ’œşĞ®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13Îïë.µm¾U­µc®Õ¾ï              †şĞ®‹Êœ 13              †z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ‡
-’œÎà®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13Îïë.µm¾U­µc®Õ¾ï              ‡Îà®‹Êœ 13              ‡z—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              ˆ ’œÎà®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-38547provider
-audit
-flags1179652retval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              ˆÎà®‹Êœ 13              ˆz—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              ‰’
-’œÎà®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13U÷vzM£UzÄ¨%£"              ‰Îà®‹Êœ 13              ‰z—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              Š” ’œÎà®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-42328provider
-audit
-flags1048576retval3upath1F/usr/share/i18n/csmapper/mapper.dir 13¾Bñn/®T¯nÃµ´®;n   F/usr/share/i18n/csmapper/mapper.dir  13¾Bñn/®T¯nÃµ´®;n              ŠÎà®‹Êœ 13              Šz—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              ‹–’œÎà®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13¾Bñn/®T¯nÃµ´®;n              ‹Îà®‹Êœ 13              ‹z—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              Œ˜
-’œğ®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13¾Bñn/®T¯nÃµ´®;n              Œğ®‹Êœ 13              Œz—ıŠYfæ“{D¨BÆğ®‹Êœ 13              š ’œğ®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-32896provider
-audit
-flags1179652retval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              ğ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğ®‹Êœ 13              œ
-’œğ®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13U÷vzM£UzÄ¨%£"              ğ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğ®‹Êœ 13               ’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode
-39992provider
-audit
-flags1048576retval3upath1b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646 13š˜‚ ùß[¹ A{;ßOz   b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646  13š˜‚ ùß[¹ A{;ßOz              ğÿ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13               ’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_mmapprovider
-auditfd3retval7106560 13š˜‚ ùß[¹ A{;ßOz              ğÿ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              ‘¢
-’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13š˜‚ ùß[¹ A{;ßOz              ‘ğÿ®‹Êœ 13              ‘z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              ’¤*’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval45 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ğÿ®‹Êœ 13              ’dîK“…fçQ¦…ƒíáçnğÿ®‹Êœ 13              ’z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              “¦ ’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode438provider
-audit
-flags1048576retval3upath1$/etc/nsswitch.conf 13K øˆãXˆøxèã8   $/etc/nsswitch.conf  13K øˆãXˆøxèã8              “ğÿ®‹Êœ 13              “z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              ”¨"’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval272 13K øˆãXˆøxèã8              ”ğÿ®‹Êœ 13              ”z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              •ª"’œğÿ®‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval0 13K øˆãXˆøxèã8              •ğÿ®‹Êœ 13              •z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              –¬
-’œÀ¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13K øˆãXˆøxèã8              –À¯‹Êœ 13              –z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              —® ’œÀ¯‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode438provider
-audit
-flags1048576retval3upath1/etc/hosts 13Â ag©Sg47£©£ÿ   /etc/hosts  13Â ag©Sg47£©£ÿ              —À¯‹Êœ 13              —z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              ˜°"’œÀ¯‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval1031 13Â ag©Sg47£©£ÿ              ˜À¯‹Êœ 13              ˜z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              ™²"’œÀ¯‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval0 13Â ag©Sg47£©£ÿ              ™À¯‹Êœ 13              ™z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              š´
-’œÀ¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13Â ag©Sg47£©£ÿ              šÀ¯‹Êœ 13              šz—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              ›¶ ’œüŸ¯‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode438provider
-audit
-flags1048576retval3upath1 /etc/resolv.conf 13Š'…oÊùPŠo™ù0ùĞ    /etc/resolv.conf  13Š'…oÊùPŠo™ù0ùĞ              ›üŸ¯‹Êœ 13              ›z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              œ¸"’œüŸ¯‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval75 13Š'…oÊùPŠo™ù0ùĞ              œüŸ¯‹Êœ 13              œz—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              º"’œüŸ¯‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval0 13Š'…oÊùPŠo™ù0ùĞ              üŸ¯‹Êœ 13              z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              ¼
-’œüŸ¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13Š'…oÊùPŠo™ù0ùĞ              üŸ¯‹Êœ 13              z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              Ÿ¾2’œüŸ¯‹Êœ    wget
-retval3
-probe callaue_socketmodule
-eventprovider
-audit 13              Ÿz—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13               À’œüŸ¯‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress192.168.1.1fd3retval0port53 13                  localhost192.168.1.1j 13                              üŸ¯‹Êœ 13               z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              ¡ÂB’œüŸ¯‹Êœ    wget
-probe module
-eventcallaue_sendtoprovider
-auditfd3retval32 13              ¡z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              ¢Ä$’œüŸ¯‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_recvfromaddress192.168.1.1fd3retval48port53 13                 localhost192.168.1.1j 13              ¢              üŸ¯‹Êœ 13              ¢z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              £Æ
-’œŞ®¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13zœ`ÿYfæ“{D¨BÆ      13zœ`ÿYfæ“{D¨BÆ              £Ş®¯‹Êœ 13              £z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¤È2’œŞ®¯‹Êœ    wget
-retval3
-probe callaue_socketmodule
-eventprovider
-audit 13              ¤z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¥Ê’œŞ®¯‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress192.168.1.1fd3retval0port53 13                 localhost192.168.1.1j 13              ¥              Ş®¯‹Êœ 13              ¥z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¦ÌB’œŞ®¯‹Êœ    wget
-probe module
-eventcallaue_sendtoprovider
-auditfd3retval32 13              ¦z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              §Î$’œŞ®¯‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_recvfromaddress192.168.1.1fd3retval60port53 13                 localhost192.168.1.1j 13              §              Ş®¯‹Êœ 13              §z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¨Ğ
-’œŞ®¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13zœx¾Yfæ“{D¨BÆ      13zœx¾Yfæ“{D¨BÆ              ¨Ş®¯‹Êœ 13              ¨z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ©Ò2’œŞ®¯‹Êœ    wget
-retval3
-probe callaue_socketmodule
-eventprovider
-audit 13              ©z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ªÔ
-’œŞ®¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13zœtYfæ“{D¨BÆ      13zœtYfæ“{D¨BÆ              ªŞ®¯‹Êœ 13              ªz—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              «Ö2’œŞ®¯‹Êœ    wget
-retval3
-probe callaue_socketmodule
-eventprovider
-audit 13              «z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¬Ø’œŞ®¯‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress172.217.4.196fd3retval0port1 13                 localhost172.217.4.196 13              ¬              Ş®¯‹Êœ 13              ¬z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ­Ú
-’œ®¾¯‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13zœ•aYfæ“{D¨BÆ      13zœ•aYfæ“{D¨BÆ              ­®¾¯‹Êœ 13              ­z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ®Ü*’œ®¾¯‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval13 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ®dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ®z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ¯Ş*’œ®¾¯‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval2 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ¯dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ¯z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              °à*’œ®¾¯‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval24 13dîK“…fçQ¦…ƒíáçn     
- 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              °dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              °z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ±â*’œ®¾¯‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ±dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ±z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ²ä*’œ®¾¯‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval67 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ²dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ²z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ³æ2’œ®¾¯‹Êœ    wget
-retval3
-probe callaue_socketmodule
-eventprovider
-audit 13              ³z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ´è’œÌÔµ‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress172.217.4.196fd3retval0port80 13                 localhost172.217.4.196  13              ´              ÌÔµ‹Êœ 13              ´z—ıŠYfæ“{D¨BÆÌÔµ‹Êœ 13              µê*’œÌÔµ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval11 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÌÔµ‹Êœ 13              µdîK“…fçQ¦…ƒíáçnÌÔµ‹Êœ 13              µz—ıŠYfæ“{D¨BÆÌÔµ‹Êœ 13              ¶ì*’œÌÔµ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd3retval153 13zœ±Yfæ“{D¨BÆ      13              ¶zœ±Yfæ“{D¨BÆÌÔµ‹Êœ 13              ¶z—ıŠYfæ“{D¨BÆÌÔµ‹Êœ 13              ·î*’œ¢Üµ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval40 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¢Üµ‹Êœ 13              ·dîK“…fçQ¦…ƒíáçn¢Üµ‹Êœ 13              ·z—ıŠYfæ“{D¨BÆ¢Üµ‹Êœ 13              ¸ğ$’œ¾è»‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd3retval491 13              ¸z—ıŠYfæ“{D¨BÆ¾è»‹Êœ 13              ¹ò"’œø»‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval223 13zœ±Yfæ“{D¨BÆ              ¹ø»‹Êœ 13              ¹z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ºô*’œø»‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval10 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ø»‹Êœ 13              ºdîK“…fçQ¦…ƒíáçnø»‹Êœ 13              ºz—ıŠYfæ“{D¨BÆø»‹Êœ 13              »ö*’œø»‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval90 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ø»‹Êœ 13              »dîK“…fçQ¦…ƒíáçnø»‹Êœ 13              »z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ¼ø"’œø»‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd3retval268 13zœ±Yfæ“{D¨BÆ              ¼ø»‹Êœ 13              ¼z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ½ú*’œø»‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval93 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ø»‹Êœ 13              ½dîK“…fçQ¦…ƒíáçnø»‹Êœ 13              ½z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ¾ü*’œŞ‡¼‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval43 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn Ş‡¼‹Êœ 13              ¾dîK“…fçQ¦…ƒíáçnŞ‡¼‹Êœ 13              ¾z—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              ¿ş ’œŞ‡¼‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode438provider
-audit
-flags1048576retval4upath1/etc/hosts 13Â ag©Sg47£©£ÿ   /etc/hosts  13Â ag©Sg47£©£ÿ              ¿Ş‡¼‹Êœ 13              ¿z—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              À€"’œŞ‡¼‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval1031 13Â ag©Sg47£©£ÿ              ÀŞ‡¼‹Êœ 13              Àz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Á‚"’œŞ‡¼‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval0 13Â ag©Sg47£©£ÿ              ÁŞ‡¼‹Êœ 13              Áz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Â„
-’œŞ‡¼‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd4retval0 13Â ag©Sg47£©£ÿ              ÂŞ‡¼‹Êœ 13              Âz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Ã†2’œŞ‡¼‹Êœ    wget
-retval4
-probe callaue_socketmodule
-eventprovider
-audit 13              Ãz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Äˆ’œŞ‡¼‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress192.168.1.1fd4retval0port53 13                 localhost192.168.1.1j 13              Ä              Ş‡¼‹Êœ 13              Äz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              ÅŠB’œŞ‡¼‹Êœ    wget
-probe module
-eventcallaue_sendtoprovider
-auditfd4retval31 13              Åz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              ÆŒ$’œ®—¼‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_recvfromaddress192.168.1.1fd4retval47port53 13                 localhost192.168.1.1j 13              Æ              ®—¼‹Êœ 13              Æz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ç
-’œ®—¼‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd4retval0 13z¬q5Yfæ“{D¨BÆ      13z¬q5Yfæ“{D¨BÆ              Ç®—¼‹Êœ 13              Çz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              È2’œ®—¼‹Êœ    wget
-retval4
-probe callaue_socketmodule
-eventprovider
-audit 13              Èz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              É’’œ®—¼‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress192.168.1.1fd4retval0port53 13                 localhost192.168.1.1j 13              É              ®—¼‹Êœ 13              Éz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ê”B’œ®—¼‹Êœ    wget
-probe module
-eventcallaue_sendtoprovider
-auditfd4retval31 13              Êz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ë–$’œ®—¼‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_recvfromaddress192.168.1.1fd4retval59port53 13              	   localhost192.168.1.1j 13              Ë              	®—¼‹Êœ 13              Ëz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ì˜
-’œ®—¼‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd4retval0 13z¬ˆÁYfæ“{D¨BÆ      13z¬ˆÁYfæ“{D¨BÆ              Ì®—¼‹Êœ 13              Ìz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Íš2’œ®—¼‹Êœ    wget
-retval4
-probe callaue_socketmodule
-eventprovider
-audit 13              Íz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Îœ
-’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd4retval0 13z¬ŸYfæ“{D¨BÆ      13z¬ŸYfæ“{D¨BÆ              Îş¦¼‹Êœ 13              Îz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ï2’œş¦¼‹Êœ    wget
-retval4
-probe callaue_socketmodule
-eventprovider
-audit 13              Ïz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ğ ’œş¦¼‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress172.217.4.195fd4retval0port1 13              
+’œ¨¬‹Êœ     retval0fd3callaue_closeexecwget 13?TÎÅ!š<Rš!ŞD<
+*              ¨¬‹Êœ 13              z—ıŠYfæ“{D¨BÆ¨¬‹Êœ 13              : ’œŞ·¬‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath16/usr/local/lib/libintl.so.8 13€Ş¾pÏ•QpÕ4Á•vñ   6/usr/local/lib/libintl.so.8  13€Ş¾pÏ•QpÕ4Á•vñ              Ş·¬‹Êœ 13              z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              <’œŞ·¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13€Ş¾pÏ•QpÕ4Á•vñ              Ş·¬‹Êœ 13              z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              >’œŞ·¬‹Êœ     retval9043968fd3callaue_mmapexecwget 13€Ş¾pÏ•QpÕ4Á•vñ              Ş·¬‹Êœ 13              z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13               @’œŞ·¬‹Êœ     retval11177984fd3callaue_mmapexecwget 13€Ş¾pÏ•QpÕ4Á•vñ               Ş·¬‹Êœ 13               z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              !B
+’œŞ·¬‹Êœ     retval0fd3callaue_closeexecwget 13€Ş¾pÏ•QpÕ4Á•vñ              !Ş·¬‹Êœ 13              !z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              "D ’œŞ·¬‹Êœ     callaue_openat_rwtcexecwget
+flags1048576mode0fd-100retval3upath10/var/run/ld-elf.so.hints 13.¿Û¤¦ºşTº¦ßk¤şÕ   0/var/run/ld-elf.so.hints  13.¿Û¤¦ºşTº¦ßk¤şÕ              "Ş·¬‹Êœ 13              "z—ıŠYfæ“{D¨BÆŞ·¬‹Êœ 13              #F"’œÊÈ¬‹Êœ     retval128fd3callaue_readexecwget 13.¿Û¤¦ºşTº¦ßk¤şÕ              #ÊÈ¬‹Êœ 13              #z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              $H2’œÊÈ¬‹Êœ     fd3callaue_lseekretval128execwget 13              $z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              %J"’œÊÈ¬‹Êœ     retval113fd3callaue_readexecwget 13.¿Û¤¦ºşTº¦ßk¤şÕ              %ÊÈ¬‹Êœ 13              %z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              &L
+’œÊÈ¬‹Êœ     retval0fd3callaue_closeexecwget 13.¿Û¤¦ºşTº¦ßk¤şÕ              &ÊÈ¬‹Êœ 13              &z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              'N ’œÊÈ¬‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath1(/usr/lib/libssl.so.8 13š`2¤Ù_š¤ZüÏÙX3   (/usr/lib/libssl.so.8  13š`2¤Ù_š¤ZüÏÙX3              'ÊÈ¬‹Êœ 13              'z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              (P’œÊÈ¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13š`2¤Ù_š¤ZüÏÙX3              (ÊÈ¬‹Êœ 13              (z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              )R’œÊÈ¬‹Êœ     retval11182080fd3callaue_mmapexecwget 13š`2¤Ù_š¤ZüÏÙX3              )ÊÈ¬‹Êœ 13              )z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              *T’œÊÈ¬‹Êœ     retval13692928fd3callaue_mmapexecwget 13š`2¤Ù_š¤ZüÏÙX3              *ÊÈ¬‹Êœ 13              *z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              +V
+’œÊÈ¬‹Êœ     retval0fd3callaue_closeexecwget 13š`2¤Ù_š¤ZüÏÙX3              +ÊÈ¬‹Êœ 13              +z—ıŠYfæ“{D¨BÆÊÈ¬‹Êœ 13              ,X ’œÜ×¬‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath1&/lib/libcrypto.so.8 13§ù3ÈöwR¶Èê¯wè3   &/lib/libcrypto.so.8  13§ù3ÈöwR¶Èê¯wè3              ,Ü×¬‹Êœ 13              ,z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              -Z’œÜ×¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13§ù3ÈöwR¶Èê¯wè3              -Ü×¬‹Êœ 13              -z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              .\’œÜ×¬‹Êœ     retval14680064fd3callaue_mmapexecwget 13§ù3ÈöwR¶Èê¯wè3              .Ü×¬‹Êœ 13              .z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              /^’œÜ×¬‹Êœ     retval19136512fd3callaue_mmapexecwget 13§ù3ÈöwR¶Èê¯wè3              /Ü×¬‹Êœ 13              /z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              0`
+’œÜ×¬‹Êœ     retval0fd3callaue_closeexecwget 13§ù3ÈöwR¶Èê¯wè3              0Ü×¬‹Êœ 13              0z—ıŠYfæ“{D¨BÆÜ×¬‹Êœ 13              1b ’œĞæ¬‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath1/lib/libz.so.6 13w.'Ïñy\±Ï5<ysû   /lib/libz.so.6  13w.'Ïñy\±Ï5<ysû              1Ğæ¬‹Êœ 13              1z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              2d’œĞæ¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13w.'Ïñy\±Ï5<ysû              2Ğæ¬‹Êœ 13              2z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              3f’œĞæ¬‹Êœ     retval19316736fd3callaue_mmapexecwget 13w.'Ïñy\±Ï5<ysû              3Ğæ¬‹Êœ 13              3z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              4h’œĞæ¬‹Êœ     retval21504000fd3callaue_mmapexecwget 13w.'Ïñy\±Ï5<ysû              4Ğæ¬‹Êœ 13              4z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              5j
+’œĞæ¬‹Êœ     retval0fd3callaue_closeexecwget 13w.'Ïñy\±Ï5<ysû              5Ğæ¬‹Êœ 13              5z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              6l ’œĞæ¬‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath16/usr/local/lib/libidn.so.11 13k­˜ŒrçS˜r¨½Óç^Á   6/usr/local/lib/libidn.so.11  13k­˜ŒrçS˜r¨½Óç^Á              6Ğæ¬‹Êœ 13              6z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              7n’œĞæ¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13k­˜ŒrçS˜r¨½Óç^Á              7Ğæ¬‹Êœ 13              7z—ıŠYfæ“{D¨BÆĞæ¬‹Êœ 13              8p’œœ÷¬‹Êœ     retval21508096fd3callaue_mmapexecwget 13k­˜ŒrçS˜r¨½Óç^Á              8œ÷¬‹Êœ 13              8z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              9r’œœ÷¬‹Êœ     retval23814144fd3callaue_mmapexecwget 13k­˜ŒrçS˜r¨½Óç^Á              9œ÷¬‹Êœ 13              9z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              :t
+’œœ÷¬‹Êœ     retval0fd3callaue_closeexecwget 13k­˜ŒrçS˜r¨½Óç^Á              :œ÷¬‹Êœ 13              :z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              ;v ’œœ÷¬‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath1/lib/libc.so.7 13ôJhrŠ39U³ŠÙ&Õ9$f   /lib/libc.so.7  13ôJhrŠ39U³ŠÙ&Õ9$f              ;œ÷¬‹Êœ 13              ;z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              <x’œœ÷¬‹Êœ     retval6971392fd3callaue_mmapexecwget 13ôJhrŠ39U³ŠÙ&Õ9$f              <œ÷¬‹Êœ 13              <z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              =z’œœ÷¬‹Êœ     retval23818240fd3callaue_mmapexecwget 13ôJhrŠ39U³ŠÙ&Õ9$f              =œ÷¬‹Êœ 13              =z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              >|’œœ÷¬‹Êœ     retval27545600fd3callaue_mmapexecwget 13ôJhrŠ39U³ŠÙ&Õ9$f              >œ÷¬‹Êœ 13              >z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              ?~
+’œœ÷¬‹Êœ     retval0fd3callaue_closeexecwget 13ôJhrŠ39U³ŠÙ&Õ9$f              ?œ÷¬‹Êœ 13              ?z—ıŠYfæ“{D¨BÆœ÷¬‹Êœ 13              @€ ’œÀ•­‹Êœ     execwget
+flags1179652mode
+32896callaue_open_rwtcretval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              @À•­‹Êœ 13              @z—ıŠYfæ“{D¨BÆÀ•­‹Êœ 13              A‚
+’œÀ•­‹Êœ     retval0fd3callaue_closeexecwget 13U÷vzM£UzÄ¨%£"              AÀ•­‹Êœ 13              Az—ıŠYfæ“{D¨BÆÀ•­‹Êœ 13              B„ ’œÀ•­‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath1>/usr/lib/i18n/libiconv_std.so.4 13©}†ã¯¬æR¬¯›°¢æ[Æ   >/usr/lib/i18n/libiconv_std.so.4  13©}†ã¯¬æR¬¯›°¢æ[Æ              BÀ•­‹Êœ 13              Bz—ıŠYfæ“{D¨BÆÀ•­‹Êœ 13              C†’œ¸¦­‹Êœ     retval7106560fd3callaue_mmapexecwget 13©}†ã¯¬æR¬¯›°¢æ[Æ              C¸¦­‹Êœ 13              Cz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              Dˆ’œ¸¦­‹Êœ     retval33554432fd3callaue_mmapexecwget 13©}†ã¯¬æR¬¯›°¢æ[Æ              D¸¦­‹Êœ 13              Dz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              EŠ’œ¸¦­‹Êœ     retval35655680fd3callaue_mmapexecwget 13©}†ã¯¬æR¬¯›°¢æ[Æ              E¸¦­‹Êœ 13              Ez—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              FŒ
+’œ¸¦­‹Êœ     retval0fd3callaue_closeexecwget 13©}†ã¯¬æR¬¯›°¢æ[Æ              F¸¦­‹Êœ 13              Fz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              G ’œ¸¦­‹Êœ     execwget
+flags1048576mode
+50776callaue_open_rwtcretval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              G¸¦­‹Êœ 13              Gz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              H’œ¸¦­‹Êœ     retval7106560fd3callaue_mmapexecwget 13m²œ2VøÏT¸V*Ï(              H¸¦­‹Êœ 13              Hz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              I’
+’œ¸¦­‹Êœ     retval0fd3callaue_closeexecwget 13m²œ2VøÏT¸V*Ï(              I¸¦­‹Êœ 13              Iz—ıŠYfæ“{D¨BÆ¸¦­‹Êœ 13              J” ’œ¸µ­‹Êœ     execwget
+flags1048576mode
+50776callaue_open_rwtcretval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              J¸µ­‹Êœ 13              Jz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              K–’œ¸µ­‹Êœ     retval7106560fd3callaue_mmapexecwget 13b@/Ì¦k³]«¦ùî­³–î              K¸µ­‹Êœ 13              Kz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              L˜
+’œ¸µ­‹Êœ     retval0fd3callaue_closeexecwget 13b@/Ì¦k³]«¦ùî­³–î              L¸µ­‹Êœ 13              Lz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              Mš ’œ¸µ­‹Êœ     execwget
+flags1048576mode
+51976callaue_open_rwtcretval3upath1T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb 13Îïë.µm¾U­µc®Õ¾ï   T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb  13Îïë.µm¾U­µc®Õ¾ï              M¸µ­‹Êœ 13              Mz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              Nœ’œ¸µ­‹Êœ     retval7106560fd3callaue_mmapexecwget 13Îïë.µm¾U­µc®Õ¾ï              N¸µ­‹Êœ 13              Nz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              O
+’œ¸µ­‹Êœ     retval0fd3callaue_closeexecwget 13Îïë.µm¾U­µc®Õ¾ï              O¸µ­‹Êœ 13              Oz—ıŠYfæ“{D¨BÆ¸µ­‹Êœ 13              P  ’œÎÄ­‹Êœ     execwget
+flags1048576mode
+50776callaue_open_rwtcretval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              PÎÄ­‹Êœ 13              Pz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              Q¢’œÎÄ­‹Êœ     retval7106560fd3callaue_mmapexecwget 13m²œ2VøÏT¸V*Ï(              QÎÄ­‹Êœ 13              Qz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              R¤
+’œÎÄ­‹Êœ     retval0fd3callaue_closeexecwget 13m²œ2VøÏT¸V*Ï(              RÎÄ­‹Êœ 13              Rz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              S¦ ’œÎÄ­‹Êœ     execwget
+flags1048576mode
+50776callaue_open_rwtcretval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              SÎÄ­‹Êœ 13              Sz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              T¨’œÎÄ­‹Êœ     retval7106560fd3callaue_mmapexecwget 13b@/Ì¦k³]«¦ùî­³–î              TÎÄ­‹Êœ 13              Tz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              Uª
+’œÎÄ­‹Êœ     retval0fd3callaue_closeexecwget 13b@/Ì¦k³]«¦ùî­³–î              UÎÄ­‹Êœ 13              Uz—ıŠYfæ“{D¨BÆÎÄ­‹Êœ 13              V¬ ’œ€Ô­‹Êœ     execwget
+flags1048576mode
+51976callaue_open_rwtcretval3upath1F/usr/share/i18n/esdb/UTF/UTF-8.esdb 13™€54>~]¾4y°~ÕE   F/usr/share/i18n/esdb/UTF/UTF-8.esdb  13™€54>~]¾4y°~ÕE              V€Ô­‹Êœ 13              Vz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              W®’œ€Ô­‹Êœ     retval7106560fd3callaue_mmapexecwget 13™€54>~]¾4y°~ÕE              W€Ô­‹Êœ 13              Wz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              X°
+’œ€Ô­‹Êœ     retval0fd3callaue_closeexecwget 13™€54>~]¾4y°~ÕE              X€Ô­‹Êœ 13              Xz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              Y² ’œ€Ô­‹Êœ     execwget
+flags1179652mode
+38547callaue_open_rwtcretval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              Y€Ô­‹Êœ 13              Yz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              Z´
+’œ€Ô­‹Êœ     retval0fd3callaue_closeexecwget 13U÷vzM£UzÄ¨%£"              Z€Ô­‹Êœ 13              Zz—ıŠYfæ“{D¨BÆ€Ô­‹Êœ 13              [¶ ’œÒã­‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath14/usr/lib/i18n/libUTF8.so.4 13…Èã:õù«Z¹õK†z«tİ   4/usr/lib/i18n/libUTF8.so.4  13…Èã:õù«Z¹õK†z«tİ              [Òã­‹Êœ 13              [z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              \¸’œÒã­‹Êœ     retval7106560fd3callaue_mmapexecwget 13…Èã:õù«Z¹õK†z«tİ              \Òã­‹Êœ 13              \z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              ]º’œÒã­‹Êœ     retval35659776fd3callaue_mmapexecwget 13…Èã:õù«Z¹õK†z«tİ              ]Òã­‹Êœ 13              ]z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              ^¼’œÒã­‹Êœ     retval37761024fd3callaue_mmapexecwget 13…Èã:õù«Z¹õK†z«tİ              ^Òã­‹Êœ 13              ^z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              _¾
+’œÒã­‹Êœ     retval0fd3callaue_closeexecwget 13…Èã:õù«Z¹õK†z«tİ              _Òã­‹Êœ 13              _z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              `À ’œÒã­‹Êœ     execwget
+flags1048576mode
+44696callaue_open_rwtcretval3upath1F/usr/share/i18n/csmapper/mapper.dir 13¾Bñn/®T¯nÃµ´®;n   F/usr/share/i18n/csmapper/mapper.dir  13¾Bñn/®T¯nÃµ´®;n              `Òã­‹Êœ 13              `z—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              aÂ’œÒã­‹Êœ     retval7106560fd3callaue_mmapexecwget 13¾Bñn/®T¯nÃµ´®;n              aÒã­‹Êœ 13              az—ıŠYfæ“{D¨BÆÒã­‹Êœ 13              bÄ
+’œ²ô­‹Êœ     retval0fd3callaue_closeexecwget 13¾Bñn/®T¯nÃµ´®;n              b²ô­‹Êœ 13              bz—ıŠYfæ“{D¨BÆ²ô­‹Êœ 13              cÆ ’œ²ô­‹Êœ     execwget
+flags1179652mode
+32896callaue_open_rwtcretval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              c²ô­‹Êœ 13              cz—ıŠYfæ“{D¨BÆ²ô­‹Êœ 13              dÈ
+’œ²ô­‹Êœ     retval0fd3callaue_closeexecwget 13U÷vzM£UzÄ¨%£"              d²ô­‹Êœ 13              dz—ıŠYfæ“{D¨BÆ²ô­‹Êœ 13              eÊ ’œğ‚®‹Êœ     callaue_openat_rwtcexecwget
+flags3145728mode0fd-100retval3upath1@/usr/lib/i18n/libmapper_646.so.4 13‚%ÏëeâB[¢ená{BAF   @/usr/lib/i18n/libmapper_646.so.4  13‚%ÏëeâB[¢ená{BAF              eğ‚®‹Êœ 13              ez—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              fÌ’œğ‚®‹Êœ     retval7106560fd3callaue_mmapexecwget 13‚%ÏëeâB[¢ená{BAF              fğ‚®‹Êœ 13              fz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              gÎ’œğ‚®‹Êœ     retval37765120fd3callaue_mmapexecwget 13‚%ÏëeâB[¢ená{BAF              gğ‚®‹Êœ 13              gz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              hĞ’œğ‚®‹Êœ     retval39866368fd3callaue_mmapexecwget 13‚%ÏëeâB[¢ená{BAF              hğ‚®‹Êœ 13              hz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              iÒ
+’œğ‚®‹Êœ     retval0fd3callaue_closeexecwget 13‚%ÏëeâB[¢ená{BAF              iğ‚®‹Êœ 13              iz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              jÔ ’œğ‚®‹Êœ     execwget
+flags1048576mode
+42360callaue_open_rwtcretval3upath1b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646 13š˜‚ ùß[¹ A{;ßOz   b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646  13š˜‚ ùß[¹ A{;ßOz              jğ‚®‹Êœ 13              jz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              kÖ’œğ‚®‹Êœ     retval7106560fd3callaue_mmapexecwget 13š˜‚ ùß[¹ A{;ßOz              kğ‚®‹Êœ 13              kz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              lØ
+’œğ‚®‹Êœ     retval0fd3callaue_closeexecwget 13š˜‚ ùß[¹ A{;ßOz              lğ‚®‹Êœ 13              lz—ıŠYfæ“{D¨BÆğ‚®‹Êœ 13              mÚ ’œÀ’®‹Êœ     execwget
+flags0mode0callaue_open_rwtcretval3upath1./usr/share/zoneinfo/UTC 13Î<U·$Â`U‚$4›…`İ1   ./usr/share/zoneinfo/UTC  13Î<U·$Â`U‚$4›…`İ1              mÀ’®‹Êœ 13              mz—ıŠYfæ“{D¨BÆÀ’®‹Êœ 13              nÜ"’œ¢®‹Êœ     retval118fd3callaue_readexecwget 13Î<U·$Â`U‚$4›…`İ1              n¢®‹Êœ 13              nz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              oŞ
+’œ¢®‹Êœ     retval0fd3callaue_closeexecwget 13Î<U·$Â`U‚$4›…`İ1              o¢®‹Êœ 13              oz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              pà ’œ¢®‹Êœ     execwget
+flags0mode0callaue_open_rwtcretval3upath1</usr/share/zoneinfo/posixrules 13âùZãY£T	ë*   </usr/share/zoneinfo/posixrules  13âùZãY£T	ë*              p¢®‹Êœ 13              pz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              qâ"’œ¢®‹Êœ     retval3519fd3callaue_readexecwget 13âùZãY£T	ë*              q¢®‹Êœ 13              qz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              rä
+’œ¢®‹Êœ     retval0fd3callaue_closeexecwget 13âùZãY£T	ë*              r¢®‹Êœ 13              rz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              sæ*’œ¢®‹Êœ     retval58fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13              sdîK“…fçQ¦…ƒíáçn¢®‹Êœ 13              sz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              tè ’œ¢®‹Êœ     execwget
+flags1179652mode
+32896callaue_open_rwtcretval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              t¢®‹Êœ 13              tz—ıŠYfæ“{D¨BÆ¢®‹Êœ 13              uê
+’œŞ±®‹Êœ     retval0fd3callaue_closeexecwget 13U÷vzM£UzÄ¨%£"              uŞ±®‹Êœ 13              uz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              vì ’œŞ±®‹Êœ     execwget
+flags1048576mode
+48408callaue_open_rwtcretval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              vŞ±®‹Êœ 13              vz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              wî’œŞ±®‹Êœ     retval7106560fd3callaue_mmapexecwget 13m²œ2VøÏT¸V*Ï(              wŞ±®‹Êœ 13              wz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              xğ
+’œŞ±®‹Êœ     retval0fd3callaue_closeexecwget 13m²œ2VøÏT¸V*Ï(              xŞ±®‹Êœ 13              xz—ıŠYfæ“{D¨BÆŞ±®‹Êœ 13              yò ’œ°Á®‹Êœ     execwget
+flags1048576mode
+48408callaue_open_rwtcretval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              y°Á®‹Êœ 13              yz—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              zô’œ°Á®‹Êœ     retval7106560fd3callaue_mmapexecwget 13b@/Ì¦k³]«¦ùî­³–î              z°Á®‹Êœ 13              zz—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              {ö
+’œ°Á®‹Êœ     retval0fd3callaue_closeexecwget 13b@/Ì¦k³]«¦ùî­³–î              {°Á®‹Êœ 13              {z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              |ø ’œ°Á®‹Êœ     execwget
+flags1048576mode
+49608callaue_open_rwtcretval3upath1F/usr/share/i18n/esdb/UTF/UTF-8.esdb 13™€54>~]¾4y°~ÕE   F/usr/share/i18n/esdb/UTF/UTF-8.esdb  13™€54>~]¾4y°~ÕE              |°Á®‹Êœ 13              |z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              }ú’œ°Á®‹Êœ     retval7106560fd3callaue_mmapexecwget 13™€54>~]¾4y°~ÕE              }°Á®‹Êœ 13              }z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              ~ü
+’œ°Á®‹Êœ     retval0fd3callaue_closeexecwget 13™€54>~]¾4y°~ÕE              ~°Á®‹Êœ 13              ~z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              ş ’œ°Á®‹Êœ     execwget
+flags1048576mode
+48408callaue_open_rwtcretval3upath1D/usr/share/i18n/esdb/esdb.alias.db 13m²œ2VøÏT¸V*Ï(   D/usr/share/i18n/esdb/esdb.alias.db  13m²œ2VøÏT¸V*Ï(              °Á®‹Êœ 13              z—ıŠYfæ“{D¨BÆ°Á®‹Êœ 13              €€’œşĞ®‹Êœ     retval7106560fd3callaue_mmapexecwget 13m²œ2VøÏT¸V*Ï(              €şĞ®‹Êœ 13              €z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ‚
+’œşĞ®‹Êœ     retval0fd3callaue_closeexecwget 13m²œ2VøÏT¸V*Ï(              şĞ®‹Êœ 13              z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ‚„ ’œşĞ®‹Êœ     execwget
+flags1048576mode
+48408callaue_open_rwtcretval3upath1@/usr/share/i18n/esdb/esdb.dir.db 13b@/Ì¦k³]«¦ùî­³–î   @/usr/share/i18n/esdb/esdb.dir.db  13b@/Ì¦k³]«¦ùî­³–î              ‚şĞ®‹Êœ 13              ‚z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ƒ†’œşĞ®‹Êœ     retval7106560fd3callaue_mmapexecwget 13b@/Ì¦k³]«¦ùî­³–î              ƒşĞ®‹Êœ 13              ƒz—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              „ˆ
+’œşĞ®‹Êœ     retval0fd3callaue_closeexecwget 13b@/Ì¦k³]«¦ùî­³–î              „şĞ®‹Êœ 13              „z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              …Š ’œşĞ®‹Êœ     execwget
+flags1048576mode
+49608callaue_open_rwtcretval3upath1T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb 13Îïë.µm¾U­µc®Õ¾ï   T/usr/share/i18n/esdb/ISO646/ISO646-US.esdb  13Îïë.µm¾U­µc®Õ¾ï              …şĞ®‹Êœ 13              …z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              †Œ’œşĞ®‹Êœ     retval7106560fd3callaue_mmapexecwget 13Îïë.µm¾U­µc®Õ¾ï              †şĞ®‹Êœ 13              †z—ıŠYfæ“{D¨BÆşĞ®‹Êœ 13              ‡
+’œÎà®‹Êœ     retval0fd3callaue_closeexecwget 13Îïë.µm¾U­µc®Õ¾ï              ‡Îà®‹Êœ 13              ‡z—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              ˆ ’œÎà®‹Êœ     execwget
+flags1179652mode
+38547callaue_open_rwtcretval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              ˆÎà®‹Êœ 13              ˆz—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              ‰’
+’œÎà®‹Êœ     retval0fd3callaue_closeexecwget 13U÷vzM£UzÄ¨%£"              ‰Îà®‹Êœ 13              ‰z—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              Š” ’œÎà®‹Êœ     execwget
+flags1048576mode
+42328callaue_open_rwtcretval3upath1F/usr/share/i18n/csmapper/mapper.dir 13¾Bñn/®T¯nÃµ´®;n   F/usr/share/i18n/csmapper/mapper.dir  13¾Bñn/®T¯nÃµ´®;n              ŠÎà®‹Êœ 13              Šz—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              ‹–’œÎà®‹Êœ     retval7106560fd3callaue_mmapexecwget 13¾Bñn/®T¯nÃµ´®;n              ‹Îà®‹Êœ 13              ‹z—ıŠYfæ“{D¨BÆÎà®‹Êœ 13              Œ˜
+’œğ®‹Êœ     retval0fd3callaue_closeexecwget 13¾Bñn/®T¯nÃµ´®;n              Œğ®‹Êœ 13              Œz—ıŠYfæ“{D¨BÆğ®‹Êœ 13              š ’œğ®‹Êœ     execwget
+flags1179652mode
+32896callaue_open_rwtcretval3upath1/usr/lib/i18n 13U÷vzM£UzÄ¨%£"   /usr/lib/i18n  13U÷vzM£UzÄ¨%£"              ğ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğ®‹Êœ 13              œ
+’œğ®‹Êœ     retval0fd3callaue_closeexecwget 13U÷vzM£UzÄ¨%£"              ğ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğ®‹Êœ 13               ’œğÿ®‹Êœ     execwget
+flags1048576mode
+39992callaue_open_rwtcretval3upath1b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646 13š˜‚ ùß[¹ A{;ßOz   b/usr/share/i18n/csmapper/ISO646/ISO646-US%UCS.646  13š˜‚ ùß[¹ A{;ßOz              ğÿ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13               ’œğÿ®‹Êœ     retval7106560fd3callaue_mmapexecwget 13š˜‚ ùß[¹ A{;ßOz              ğÿ®‹Êœ 13              z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              ‘¢
+’œğÿ®‹Êœ     retval0fd3callaue_closeexecwget 13š˜‚ ùß[¹ A{;ßOz              ‘ğÿ®‹Êœ 13              ‘z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              ’¤*’œğÿ®‹Êœ     retval45fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ğÿ®‹Êœ 13              ’dîK“…fçQ¦…ƒíáçnğÿ®‹Êœ 13              ’z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              “¦ ’œğÿ®‹Êœ     execwget
+flags1048576mode438callaue_open_rwtcretval3upath1$/etc/nsswitch.conf 13K øˆãXˆøxèã8   $/etc/nsswitch.conf  13K øˆãXˆøxèã8              “ğÿ®‹Êœ 13              “z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              ”¨"’œğÿ®‹Êœ     retval272fd3callaue_readexecwget 13K øˆãXˆøxèã8              ”ğÿ®‹Êœ 13              ”z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              •ª"’œğÿ®‹Êœ     retval0fd3callaue_readexecwget 13K øˆãXˆøxèã8              •ğÿ®‹Êœ 13              •z—ıŠYfæ“{D¨BÆğÿ®‹Êœ 13              –¬
+’œÀ¯‹Êœ     retval0fd3callaue_closeexecwget 13K øˆãXˆøxèã8              –À¯‹Êœ 13              –z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              —® ’œÀ¯‹Êœ     execwget
+flags1048576mode438callaue_open_rwtcretval3upath1/etc/hosts 13Â ag©Sg47£©£ÿ   /etc/hosts  13Â ag©Sg47£©£ÿ              —À¯‹Êœ 13              —z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              ˜°"’œÀ¯‹Êœ     retval1031fd3callaue_readexecwget 13Â ag©Sg47£©£ÿ              ˜À¯‹Êœ 13              ˜z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              ™²"’œÀ¯‹Êœ     retval0fd3callaue_readexecwget 13Â ag©Sg47£©£ÿ              ™À¯‹Êœ 13              ™z—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              š´
+’œÀ¯‹Êœ     retval0fd3callaue_closeexecwget 13Â ag©Sg47£©£ÿ              šÀ¯‹Êœ 13              šz—ıŠYfæ“{D¨BÆÀ¯‹Êœ 13              ›¶ ’œüŸ¯‹Êœ     execwget
+flags1048576mode438callaue_open_rwtcretval3upath1 /etc/resolv.conf 13Š'…oÊùPŠo™ù0ùĞ    /etc/resolv.conf  13Š'…oÊùPŠo™ù0ùĞ              ›üŸ¯‹Êœ 13              ›z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              œ¸"’œüŸ¯‹Êœ     retval75fd3callaue_readexecwget 13Š'…oÊùPŠo™ù0ùĞ              œüŸ¯‹Êœ 13              œz—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              º"’œüŸ¯‹Êœ     retval0fd3callaue_readexecwget 13Š'…oÊùPŠo™ù0ùĞ              üŸ¯‹Êœ 13              z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              ¼
+’œüŸ¯‹Êœ     retval0fd3callaue_closeexecwget 13Š'…oÊùPŠo™ù0ùĞ              üŸ¯‹Êœ 13              z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              Ÿ¾2’œüŸ¯‹Êœ     retval3callaue_socketexecwget 13              Ÿz—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13               À’œüŸ¯‹Êœ     execwgetcallaue_connectaddress192.168.1.1fd3retval0port53 13                  localhost192.168.1.1j 13                              üŸ¯‹Êœ 13               z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              ¡ÂB’œüŸ¯‹Êœ     retval32fd3callaue_sendtoexecwget 13              ¡z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              ¢Ä$’œüŸ¯‹Êœ     execwgetcallaue_recvfromaddress192.168.1.1fd3retval48port53 13                 localhost192.168.1.1j 13              ¢              üŸ¯‹Êœ 13              ¢z—ıŠYfæ“{D¨BÆüŸ¯‹Êœ 13              £Æ
+’œŞ®¯‹Êœ     retval0fd3callaue_closeexecwget 13zœ`ÿYfæ“{D¨BÆ      13zœ`ÿYfæ“{D¨BÆ              £Ş®¯‹Êœ 13              £z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¤È2’œŞ®¯‹Êœ     retval3callaue_socketexecwget 13              ¤z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¥Ê’œŞ®¯‹Êœ     execwgetcallaue_connectaddress192.168.1.1fd3retval0port53 13                 localhost192.168.1.1j 13              ¥              Ş®¯‹Êœ 13              ¥z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¦ÌB’œŞ®¯‹Êœ     retval32fd3callaue_sendtoexecwget 13              ¦z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              §Î$’œŞ®¯‹Êœ     execwgetcallaue_recvfromaddress192.168.1.1fd3retval60port53 13                 localhost192.168.1.1j 13              §              Ş®¯‹Êœ 13              §z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¨Ğ
+’œŞ®¯‹Êœ     retval0fd3callaue_closeexecwget 13zœx¾Yfæ“{D¨BÆ      13zœx¾Yfæ“{D¨BÆ              ¨Ş®¯‹Êœ 13              ¨z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ©Ò2’œŞ®¯‹Êœ     retval3callaue_socketexecwget 13              ©z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ªÔ
+’œŞ®¯‹Êœ     retval0fd3callaue_closeexecwget 13zœtYfæ“{D¨BÆ      13zœtYfæ“{D¨BÆ              ªŞ®¯‹Êœ 13              ªz—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              «Ö2’œŞ®¯‹Êœ     retval3callaue_socketexecwget 13              «z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ¬Ø’œŞ®¯‹Êœ     execwgetcallaue_connectaddress172.217.4.196fd3retval0port1 13                 localhost172.217.4.196 13              ¬              Ş®¯‹Êœ 13              ¬z—ıŠYfæ“{D¨BÆŞ®¯‹Êœ 13              ­Ú
+’œ®¾¯‹Êœ     retval0fd3callaue_closeexecwget 13zœ•aYfæ“{D¨BÆ      13zœ•aYfæ“{D¨BÆ              ­®¾¯‹Êœ 13              ­z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ®Ü*’œ®¾¯‹Êœ     retval13fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ®dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ®z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ¯Ş*’œ®¾¯‹Êœ     retval2fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ¯dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ¯z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              °à*’œ®¾¯‹Êœ     retval24fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     
+ 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              °dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              °z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ±â*’œ®¾¯‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ±dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ±z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ²ä*’œ®¾¯‹Êœ     retval67fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ®¾¯‹Êœ 13              ²dîK“…fçQ¦…ƒíáçn®¾¯‹Êœ 13              ²z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ³æ2’œ®¾¯‹Êœ     retval3callaue_socketexecwget 13              ³z—ıŠYfæ“{D¨BÆ®¾¯‹Êœ 13              ´è’œÌÔµ‹Êœ     execwgetcallaue_connectaddress172.217.4.196fd3retval0port80 13                 localhost172.217.4.196  13              ´              ÌÔµ‹Êœ 13              ´z—ıŠYfæ“{D¨BÆÌÔµ‹Êœ 13              µê*’œÌÔµ‹Êœ     retval11fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÌÔµ‹Êœ 13              µdîK“…fçQ¦…ƒíáçnÌÔµ‹Êœ 13              µz—ıŠYfæ“{D¨BÆÌÔµ‹Êœ 13              ¶ì*’œÌÔµ‹Êœ     retval153fd3callaue_writeexecwget 13zœ±Yfæ“{D¨BÆ      13              ¶zœ±Yfæ“{D¨BÆÌÔµ‹Êœ 13              ¶z—ıŠYfæ“{D¨BÆÌÔµ‹Êœ 13              ·î*’œ¢Üµ‹Êœ     retval40fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¢Üµ‹Êœ 13              ·dîK“…fçQ¦…ƒíáçn¢Üµ‹Êœ 13              ·z—ıŠYfæ“{D¨BÆ¢Üµ‹Êœ 13              ¸ğ$’œ¾è»‹Êœ     retval491fd3callaue_recvfromexecwget 13              ¸z—ıŠYfæ“{D¨BÆ¾è»‹Êœ 13              ¹ò"’œø»‹Êœ     retval223fd3callaue_readexecwget 13zœ±Yfæ“{D¨BÆ              ¹ø»‹Êœ 13              ¹z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ºô*’œø»‹Êœ     retval10fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ø»‹Êœ 13              ºdîK“…fçQ¦…ƒíáçnø»‹Êœ 13              ºz—ıŠYfæ“{D¨BÆø»‹Êœ 13              »ö*’œø»‹Êœ     retval90fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ø»‹Êœ 13              »dîK“…fçQ¦…ƒíáçnø»‹Êœ 13              »z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ¼ø"’œø»‹Êœ     retval268fd3callaue_readexecwget 13zœ±Yfæ“{D¨BÆ              ¼ø»‹Êœ 13              ¼z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ½ú*’œø»‹Êœ     retval93fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ø»‹Êœ 13              ½dîK“…fçQ¦…ƒíáçnø»‹Êœ 13              ½z—ıŠYfæ“{D¨BÆø»‹Êœ 13              ¾ü*’œŞ‡¼‹Êœ     retval43fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn Ş‡¼‹Êœ 13              ¾dîK“…fçQ¦…ƒíáçnŞ‡¼‹Êœ 13              ¾z—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              ¿ş ’œŞ‡¼‹Êœ     execwget
+flags1048576mode438callaue_open_rwtcretval4upath1/etc/hosts 13Â ag©Sg47£©£ÿ   /etc/hosts  13Â ag©Sg47£©£ÿ              ¿Ş‡¼‹Êœ 13              ¿z—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              À€"’œŞ‡¼‹Êœ     retval1031fd4callaue_readexecwget 13Â ag©Sg47£©£ÿ              ÀŞ‡¼‹Êœ 13              Àz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Á‚"’œŞ‡¼‹Êœ     retval0fd4callaue_readexecwget 13Â ag©Sg47£©£ÿ              ÁŞ‡¼‹Êœ 13              Áz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Â„
+’œŞ‡¼‹Êœ     retval0fd4callaue_closeexecwget 13Â ag©Sg47£©£ÿ              ÂŞ‡¼‹Êœ 13              Âz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Ã†2’œŞ‡¼‹Êœ     retval4callaue_socketexecwget 13              Ãz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              Äˆ’œŞ‡¼‹Êœ     execwgetcallaue_connectaddress192.168.1.1fd4retval0port53 13                 localhost192.168.1.1j 13              Ä              Ş‡¼‹Êœ 13              Äz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              ÅŠB’œŞ‡¼‹Êœ     retval31fd4callaue_sendtoexecwget 13              Åz—ıŠYfæ“{D¨BÆŞ‡¼‹Êœ 13              ÆŒ$’œ®—¼‹Êœ     execwgetcallaue_recvfromaddress192.168.1.1fd4retval47port53 13                 localhost192.168.1.1j 13              Æ              ®—¼‹Êœ 13              Æz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ç
+’œ®—¼‹Êœ     retval0fd4callaue_closeexecwget 13z¬q5Yfæ“{D¨BÆ      13z¬q5Yfæ“{D¨BÆ              Ç®—¼‹Êœ 13              Çz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              È2’œ®—¼‹Êœ     retval4callaue_socketexecwget 13              Èz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              É’’œ®—¼‹Êœ     execwgetcallaue_connectaddress192.168.1.1fd4retval0port53 13                 localhost192.168.1.1j 13              É              ®—¼‹Êœ 13              Éz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ê”B’œ®—¼‹Êœ     retval31fd4callaue_sendtoexecwget 13              Êz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ë–$’œ®—¼‹Êœ     execwgetcallaue_recvfromaddress192.168.1.1fd4retval59port53 13              	   localhost192.168.1.1j 13              Ë              	®—¼‹Êœ 13              Ëz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Ì˜
+’œ®—¼‹Êœ     retval0fd4callaue_closeexecwget 13z¬ˆÁYfæ“{D¨BÆ      13z¬ˆÁYfæ“{D¨BÆ              Ì®—¼‹Êœ 13              Ìz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Íš2’œ®—¼‹Êœ     retval4callaue_socketexecwget 13              Íz—ıŠYfæ“{D¨BÆ®—¼‹Êœ 13              Îœ
+’œş¦¼‹Êœ     retval0fd4callaue_closeexecwget 13z¬ŸYfæ“{D¨BÆ      13z¬ŸYfæ“{D¨BÆ              Îş¦¼‹Êœ 13              Îz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ï2’œş¦¼‹Êœ     retval4callaue_socketexecwget 13              Ïz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ğ ’œş¦¼‹Êœ     execwgetcallaue_connectaddress172.217.4.195fd4retval0port1 13              
    localhost172.217.4.195 13              Ğ              
 ş¦¼‹Êœ 13              Ğz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ñ¢
-’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd4retval0 13z¬¥÷Yfæ“{D¨BÆ      13z¬¥÷Yfæ“{D¨BÆ              Ñş¦¼‹Êœ 13              Ñz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ò¤*’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval13 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÒdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Òz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ó¦*’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval2 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÓdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Óz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ô¨*’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval24 13dîK“…fçQ¦…ƒíáçn       13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÔdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Ôz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Õª*’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn     " 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÕdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Õz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ö¬*’œş¦¼‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval65 13dîK“…fçQ¦…ƒíáçn     $ 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÖdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Öz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              ×®2’œş¦¼‹Êœ    wget
-retval4
-probe callaue_socketmodule
-eventprovider
-audit 13              ×z—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ø°’œöÈÂ‹Êœ    wget
-probe provider
-auditmodule
-eventcallaue_connectaddress172.217.4.195fd4retval0port80 13                 localhost172.217.4.195  13              Ø              öÈÂ‹Êœ 13              Øz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Ù²*’œöÈÂ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval11 13dîK“…fçQ¦…ƒíáçn     & 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn öÈÂ‹Êœ 13              ÙdîK“…fçQ¦…ƒíáçnöÈÂ‹Êœ 13              Ùz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Ú´*’œöÈÂ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd4retval188 13z¬ÁUYfæ“{D¨BÆ      13              Úz¬ÁUYfæ“{D¨BÆöÈÂ‹Êœ 13              Úz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Û¶*’œöÈÂ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval40 13dîK“…fçQ¦…ƒíáçn     ( 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn öÈÂ‹Êœ 13              ÛdîK“…fçQ¦…ƒíáçnöÈÂ‹Êœ 13              Ûz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Ü¸$’œ€¨Í‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd4retval511 13              Üz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              İº"’œ€¨Í‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval511 13z¬ÁUYfæ“{D¨BÆ              İ€¨Í‹Êœ 13              İz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              Ş¼$’œ€¨Í‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd4retval512 13              Şz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              ß¾"’œ€¨Í‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval126 13z¬ÁUYfæ“{D¨BÆ              ß€¨Í‹Êœ 13              ßz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              àÀ*’œ€¨Í‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval7 13dîK“…fçQ¦…ƒíáçn     * 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn €¨Í‹Êœ 13              àdîK“…fçQ¦…ƒíáçn€¨Í‹Êœ 13              àz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              áÂ ’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode0provider
-audit
-flags0retval5upath1./usr/share/zoneinfo/UTC 13Î<U·$Â`U‚$4›…`İ1   ./usr/share/zoneinfo/UTC  13Î<U·$Â`U‚$4›…`İ1              á¶³Í‹Êœ 13              áz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              âÄ"’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd5retval118 13Î<U·$Â`U‚$4›…`İ1              â¶³Í‹Êœ 13              âz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              ãÆ
-’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd5retval0 13Î<U·$Â`U‚$4›…`İ1              ã¶³Í‹Êœ 13              ãz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              äÈ ’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_open_rwtcmode0provider
-audit
-flags0retval5upath1</usr/share/zoneinfo/posixrules 13âùZãY£T	ë*   </usr/share/zoneinfo/posixrules  13âùZãY£T	ë*              ä¶³Í‹Êœ 13              äz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              åÊ"’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd5retval3519 13âùZãY£T	ë*              å¶³Í‹Êœ 13              åz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              æÌ
-’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd5retval0 13âùZãY£T	ë*              æ¶³Í‹Êœ 13              æz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              çÎ
-’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13zœ±Yfæ“{D¨BÆ              ç¶³Í‹Êœ 13              çz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              èĞ*’œ¶³Í‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval8 13dîK“…fçQ¦…ƒíáçn     , 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¶³Í‹Êœ 13              èdîK“…fçQ¦…ƒíáçn¶³Í‹Êœ 13              èz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              éÒ*’œ”ÂÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval11 13dîK“…fçQ¦…ƒíáçn     . 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ”ÂÍ‹Êœ 13              édîK“…fçQ¦…ƒíáçn”ÂÍ‹Êœ 13              éz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              êÔ*’œ”ÂÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval13 13dîK“…fçQ¦…ƒíáçn     0 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ”ÂÍ‹Êœ 13              êdîK“…fçQ¦…ƒíáçn”ÂÍ‹Êœ 13              êz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              ëÖ ’œ”ÂÍ‹Êœ    wget
-probe module
-event
-flags1537mode438provider
-auditcallaue_open_rwtcretval3upath1P/usr/home/amanda/unit_tests/index.html.1 13)CÛ«¨._¨«øÈO.Îû   P/usr/home/amanda/unit_tests/index.html.1  13)CÛ«¨._¨«øÈO.Îû              ë”ÂÍ‹Êœ 13              ëz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              ìØ ’œ”ÂÍ‹Êœ    wget
-probe 
-flags256module
-eventcallaue_openat_rwtcmode0provider
-auditfd-100retval5upath18/usr/local/lib/charset.alias 13w»ƒ—Ï&—T¦Ïüt—úy   8/usr/local/lib/charset.alias  13w»ƒ—Ï&—T¦Ïüt—úy              ì”ÂÍ‹Êœ 13              ìz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              íÚ2’œ”ÂÍ‹Êœ    wget
-retval0
-probe callaue_fcntlmodule
-eventprovider
-audit 13              íz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              îÜ"’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd5retval643 13w»ƒ—Ï&—T¦Ïüt—úy              îÔÒÍ‹Êœ 13              îz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ïŞ"’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd5retval0 13w»ƒ—Ï&—T¦Ïüt—úy              ïÔÒÍ‹Êœ 13              ïz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ğà
-’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd5retval0 13w»ƒ—Ï&—T¦Ïüt—úy              ğÔÒÍ‹Êœ 13              ğz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ñâ*’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval26 13dîK“…fçQ¦…ƒíáçn     2 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              ñdîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              ñz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              òä*’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn     4 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              òdîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              òz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              óæ*’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn     6 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              ódîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              óz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ôè*’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval235 13dîK“…fçQ¦…ƒíáçn     8 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              ôdîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              ôz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              õê$’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd4retval127 13              õz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              öì"’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval6 13z¬ÁUYfæ“{D¨BÆ              öÔÒÍ‹Êœ 13              öz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ÷î"’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval8192 13z¬ÁUYfæ“{D¨BÆ              ÷ÔÒÍ‹Êœ 13              ÷z—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              øğ*’œÔÒÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd3retval4096 13)CÛ«¨._¨«øÈO.Îû      13)CÛ«¨._¨«øÈO.Îû)CÛ«¨._¨«øÈO.Îû ÔÒÍ‹Êœ 13              ø)CÛ«¨._¨«øÈO.ÎûÔÒÍ‹Êœ 13              øz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ùò*’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd3retval4096 13)CÛ«¨._¨«øÈO.Îû      13)CÛ«¨._¨«øÈO.Îû)CÛ«¨._¨«øÈO.Îû ¼âÍ‹Êœ 13              ù)CÛ«¨._¨«øÈO.Îû¼âÍ‹Êœ 13              ùz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              úô"’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval2220 13z¬ÁUYfæ“{D¨BÆ              ú¼âÍ‹Êœ 13              úz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              ûö*’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd3retval2220 13)CÛ«¨._¨«øÈO.Îû      13)CÛ«¨._¨«øÈO.Îû)CÛ«¨._¨«øÈO.Îû ¼âÍ‹Êœ 13              û)CÛ«¨._¨«øÈO.Îû¼âÍ‹Êœ 13              ûz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              üø$’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd4retval7 13              üz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              ıú"’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval2 13z¬ÁUYfæ“{D¨BÆ              ı¼âÍ‹Êœ 13              ız—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              şü$’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd4retval5 13              şz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              ÿş"’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval3 13z¬ÁUYfæ“{D¨BÆ              ÿ¼âÍ‹Êœ 13              ÿz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              €$’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_recvfromprovider
-auditfd4retval2 13              z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             ‚"’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_readprovider
-auditfd4retval2 13z¬ÁUYfæ“{D¨BÆ             ¼âÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             „*’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn     : 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¼âÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn¼âÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             †*’œ¼âÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval235 13dîK“…fçQ¦…ƒíáçn     < 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¼âÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn¼âÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             ˆ*’œ ñÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn     > 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn  ñÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             Š*’œ ñÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval1 13dîK“…fçQ¦…ƒíáçn     @ 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn  ñÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             Œ
-’œ ñÍ‹Êœ    wget
-probe module
-eventcallaue_closeprovider
-auditfd3retval0 13)CÛ«¨._¨«øÈO.Îû              ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             *’œ ñÍ‹Êœ    wget
-probe module
-eventcallaue_writeprovider
-auditfd2retval64 13dîK“…fçQ¦…ƒíáçn     B 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn  ñÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             H’œĞ€Î‹Êœ    wget
-retval0
-probe callaue_exitmodule
-eventprovider
-audit 13             z—ıŠYfæ“{D¨BÆĞ€Î‹Êœ 13             	’HàœĞ€Î‹Êœ    $download_with_wget
-retval0
-probe callaue_exitmodule
-eventprovider
-audit 13             	z‡Yfæ“{D¨BÆĞ€Î‹Êœ 132:T‚“·NšLg40­
+’œş¦¼‹Êœ     retval0fd4callaue_closeexecwget 13z¬¥÷Yfæ“{D¨BÆ      13z¬¥÷Yfæ“{D¨BÆ              Ñş¦¼‹Êœ 13              Ñz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ò¤*’œş¦¼‹Êœ     retval13fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÒdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Òz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ó¦*’œş¦¼‹Êœ     retval2fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn      13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÓdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Óz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ô¨*’œş¦¼‹Êœ     retval24fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn       13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÔdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Ôz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Õª*’œş¦¼‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     " 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÕdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Õz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ö¬*’œş¦¼‹Êœ     retval65fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     $ 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ş¦¼‹Êœ 13              ÖdîK“…fçQ¦…ƒíáçnş¦¼‹Êœ 13              Öz—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              ×®2’œş¦¼‹Êœ     retval4callaue_socketexecwget 13              ×z—ıŠYfæ“{D¨BÆş¦¼‹Êœ 13              Ø°’œöÈÂ‹Êœ     execwgetcallaue_connectaddress172.217.4.195fd4retval0port80 13                 localhost172.217.4.195  13              Ø              öÈÂ‹Êœ 13              Øz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Ù²*’œöÈÂ‹Êœ     retval11fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     & 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn öÈÂ‹Êœ 13              ÙdîK“…fçQ¦…ƒíáçnöÈÂ‹Êœ 13              Ùz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Ú´*’œöÈÂ‹Êœ     retval188fd4callaue_writeexecwget 13z¬ÁUYfæ“{D¨BÆ      13              Úz¬ÁUYfæ“{D¨BÆöÈÂ‹Êœ 13              Úz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Û¶*’œöÈÂ‹Êœ     retval40fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     ( 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn öÈÂ‹Êœ 13              ÛdîK“…fçQ¦…ƒíáçnöÈÂ‹Êœ 13              Ûz—ıŠYfæ“{D¨BÆöÈÂ‹Êœ 13              Ü¸$’œ€¨Í‹Êœ     retval511fd4callaue_recvfromexecwget 13              Üz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              İº"’œ€¨Í‹Êœ     retval511fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              İ€¨Í‹Êœ 13              İz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              Ş¼$’œ€¨Í‹Êœ     retval512fd4callaue_recvfromexecwget 13              Şz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              ß¾"’œ€¨Í‹Êœ     retval126fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              ß€¨Í‹Êœ 13              ßz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              àÀ*’œ€¨Í‹Êœ     retval7fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     * 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn €¨Í‹Êœ 13              àdîK“…fçQ¦…ƒíáçn€¨Í‹Êœ 13              àz—ıŠYfæ“{D¨BÆ€¨Í‹Êœ 13              áÂ ’œ¶³Í‹Êœ     execwget
+flags0mode0callaue_open_rwtcretval5upath1./usr/share/zoneinfo/UTC 13Î<U·$Â`U‚$4›…`İ1   ./usr/share/zoneinfo/UTC  13Î<U·$Â`U‚$4›…`İ1              á¶³Í‹Êœ 13              áz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              âÄ"’œ¶³Í‹Êœ     retval118fd5callaue_readexecwget 13Î<U·$Â`U‚$4›…`İ1              â¶³Í‹Êœ 13              âz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              ãÆ
+’œ¶³Í‹Êœ     retval0fd5callaue_closeexecwget 13Î<U·$Â`U‚$4›…`İ1              ã¶³Í‹Êœ 13              ãz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              äÈ ’œ¶³Í‹Êœ     execwget
+flags0mode0callaue_open_rwtcretval5upath1</usr/share/zoneinfo/posixrules 13âùZãY£T	ë*   </usr/share/zoneinfo/posixrules  13âùZãY£T	ë*              ä¶³Í‹Êœ 13              äz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              åÊ"’œ¶³Í‹Êœ     retval3519fd5callaue_readexecwget 13âùZãY£T	ë*              å¶³Í‹Êœ 13              åz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              æÌ
+’œ¶³Í‹Êœ     retval0fd5callaue_closeexecwget 13âùZãY£T	ë*              æ¶³Í‹Êœ 13              æz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              çÎ
+’œ¶³Í‹Êœ     retval0fd3callaue_closeexecwget 13zœ±Yfæ“{D¨BÆ              ç¶³Í‹Êœ 13              çz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              èĞ*’œ¶³Í‹Êœ     retval8fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     , 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¶³Í‹Êœ 13              èdîK“…fçQ¦…ƒíáçn¶³Í‹Êœ 13              èz—ıŠYfæ“{D¨BÆ¶³Í‹Êœ 13              éÒ*’œ”ÂÍ‹Êœ     retval11fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     . 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ”ÂÍ‹Êœ 13              édîK“…fçQ¦…ƒíáçn”ÂÍ‹Êœ 13              éz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              êÔ*’œ”ÂÍ‹Êœ     retval13fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     0 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ”ÂÍ‹Êœ 13              êdîK“…fçQ¦…ƒíáçn”ÂÍ‹Êœ 13              êz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              ëÖ ’œ”ÂÍ‹Êœ     execwget
+flags1537mode438callaue_open_rwtcretval3upath1P/usr/home/amanda/unit_tests/index.html.1 13)CÛ«¨._¨«øÈO.Îû   P/usr/home/amanda/unit_tests/index.html.1  13)CÛ«¨._¨«øÈO.Îû              ë”ÂÍ‹Êœ 13              ëz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              ìØ ’œ”ÂÍ‹Êœ     callaue_openat_rwtcexecwget
+flags256mode0fd-100retval5upath18/usr/local/lib/charset.alias 13w»ƒ—Ï&—T¦Ïüt—úy   8/usr/local/lib/charset.alias  13w»ƒ—Ï&—T¦Ïüt—úy              ì”ÂÍ‹Êœ 13              ìz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              íÚ2’œ”ÂÍ‹Êœ     retval0callaue_fcntlexecwget 13              íz—ıŠYfæ“{D¨BÆ”ÂÍ‹Êœ 13              îÜ"’œÔÒÍ‹Êœ     retval643fd5callaue_readexecwget 13w»ƒ—Ï&—T¦Ïüt—úy              îÔÒÍ‹Êœ 13              îz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ïŞ"’œÔÒÍ‹Êœ     retval0fd5callaue_readexecwget 13w»ƒ—Ï&—T¦Ïüt—úy              ïÔÒÍ‹Êœ 13              ïz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ğà
+’œÔÒÍ‹Êœ     retval0fd5callaue_closeexecwget 13w»ƒ—Ï&—T¦Ïüt—úy              ğÔÒÍ‹Êœ 13              ğz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ñâ*’œÔÒÍ‹Êœ     retval26fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     2 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              ñdîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              ñz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              òä*’œÔÒÍ‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     4 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              òdîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              òz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              óæ*’œÔÒÍ‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     6 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              ódîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              óz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ôè*’œÔÒÍ‹Êœ     retval235fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     8 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ÔÒÍ‹Êœ 13              ôdîK“…fçQ¦…ƒíáçnÔÒÍ‹Êœ 13              ôz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              õê$’œÔÒÍ‹Êœ     retval127fd4callaue_recvfromexecwget 13              õz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              öì"’œÔÒÍ‹Êœ     retval6fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              öÔÒÍ‹Êœ 13              öz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ÷î"’œÔÒÍ‹Êœ     retval8192fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              ÷ÔÒÍ‹Êœ 13              ÷z—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              øğ*’œÔÒÍ‹Êœ     retval4096fd3callaue_writeexecwget 13)CÛ«¨._¨«øÈO.Îû      13)CÛ«¨._¨«øÈO.Îû)CÛ«¨._¨«øÈO.Îû ÔÒÍ‹Êœ 13              ø)CÛ«¨._¨«øÈO.ÎûÔÒÍ‹Êœ 13              øz—ıŠYfæ“{D¨BÆÔÒÍ‹Êœ 13              ùò*’œ¼âÍ‹Êœ     retval4096fd3callaue_writeexecwget 13)CÛ«¨._¨«øÈO.Îû      13)CÛ«¨._¨«øÈO.Îû)CÛ«¨._¨«øÈO.Îû ¼âÍ‹Êœ 13              ù)CÛ«¨._¨«øÈO.Îû¼âÍ‹Êœ 13              ùz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              úô"’œ¼âÍ‹Êœ     retval2220fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              ú¼âÍ‹Êœ 13              úz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              ûö*’œ¼âÍ‹Êœ     retval2220fd3callaue_writeexecwget 13)CÛ«¨._¨«øÈO.Îû      13)CÛ«¨._¨«øÈO.Îû)CÛ«¨._¨«øÈO.Îû ¼âÍ‹Êœ 13              û)CÛ«¨._¨«øÈO.Îû¼âÍ‹Êœ 13              ûz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              üø$’œ¼âÍ‹Êœ     retval7fd4callaue_recvfromexecwget 13              üz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              ıú"’œ¼âÍ‹Êœ     retval2fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              ı¼âÍ‹Êœ 13              ız—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              şü$’œ¼âÍ‹Êœ     retval5fd4callaue_recvfromexecwget 13              şz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              ÿş"’œ¼âÍ‹Êœ     retval3fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ              ÿ¼âÍ‹Êœ 13              ÿz—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13              €$’œ¼âÍ‹Êœ     retval2fd4callaue_recvfromexecwget 13              z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             ‚"’œ¼âÍ‹Êœ     retval2fd4callaue_readexecwget 13z¬ÁUYfæ“{D¨BÆ             ¼âÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             „*’œ¼âÍ‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     : 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¼âÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn¼âÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             †*’œ¼âÍ‹Êœ     retval235fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     < 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn ¼âÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn¼âÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ¼âÍ‹Êœ 13             ˆ*’œ ñÍ‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     > 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn  ñÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             Š*’œ ñÍ‹Êœ     retval1fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     @ 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn  ñÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             Œ
+’œ ñÍ‹Êœ     retval0fd3callaue_closeexecwget 13)CÛ«¨._¨«øÈO.Îû              ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             *’œ ñÍ‹Êœ     retval64fd2callaue_writeexecwget 13dîK“…fçQ¦…ƒíáçn     B 13dîK“…fçQ¦…ƒíáçndîK“…fçQ¦…ƒíáçn  ñÍ‹Êœ 13             dîK“…fçQ¦…ƒíáçn ñÍ‹Êœ 13             z—ıŠYfæ“{D¨BÆ ñÍ‹Êœ 13             H’œĞ€Î‹Êœ     retval0callaue_exitexecwget 13             z—ıŠYfæ“{D¨BÆĞ€Î‹Êœ 13             	’HàœĞ€Î‹Êœ     retval0callaue_exitexec$download_with_wget 13             	z‡Yfæ“{D¨BÆĞ€Î‹Êœ 13ÔW£ËÏ¶`ÊÀ¦¦ú[úÊ

@@ -129,22 +129,15 @@ for the same url. This can happen when a file is deleted and a new file with
 the same name is created.
 
 In this example, you can see that /tmp/hello-cf9520.o is opened. It has the
-uuid "abcdef0123456789abcdef0123456789".  UUID
-"abcdef0123456789abcdef0123456789" is then read from and written to, creating a
-new version. The new version has less information about the file.
+uuid "fbf007a0ee6cea5bacee7b1fdbea745".  UUID
+"fbf007a0ee6cea5bacee7b1fdbea745" is then read.
 
 Example:
 ```json
-{"datum": {"timestampMicros": 1469039289690063, "uuid": "000000000000000300000000000000ef", "sequence": 1, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "programPoint": "ld", "type": "EVENT_OPEN", "properties": {"ret_objuuid1": "abcdef0123456789abcdef0123456789", "errno": "0", "probe": "", "subjprocuuid": "b5b79f214ea711e6ab3144a842348b1c", "module": "event", "arg_objuuid1": "abcdef0123456789abcdef0123456789", "call": "aue_open_rwtc", "mode": "438", "provider": "audit", "flags": "0", "path": "/tmp/hello-cf9520.o", "retval": "9", "upath1": "/tmp/hello-cf9520.o"}}, "CDMVersion": "13"}
-{"datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "abcdef0123456789abcdef0123456789", "url": "/tmp/hello-cf9520.o", "isPipe": false, "version": 0, "properties": {}}, "CDMVersion": "13"}
-{"datum": {"fromUuid": "abcdef0123456789abcdef0123456789", "toUuid": "000000000000000300000000000000ef", "properties": {}, "timestamp": 1469039289690063, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
-{"datum": {"timestampMicros": 1469039289691083, "uuid": "000000000000000300000000000000f2", "sequence": 2, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "programPoint": "ld", "type": "EVENT_READ", "properties": {"errno": "0", "probe": "", "subjprocuuid": "b5b79f214ea711e6ab3144a842348b1c", "module": "event", "arg_objuuid1": "abcdef0123456789abcdef0123456789", "call": "aue_read", "provider": "audit", "fd": "9", "retval": "1216"}}, "CDMVersion": "13"}
-{"datum": {"fromUuid": "abcdef0123456789abcdef0123456789", "toUuid": "000000000000000300000000000000f2", "properties": {}, "timestamp": 1469039289691083, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
-{"datum": {"timestampMicros": 1469039289691083, "uuid": "00000000000000030000000000000036", "sequence": 3, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "programPoint": "cc", "type": "EVENT_WRITE", "properties": {"errno": "0", "probe": "", "subjprocuuid": "b5b3fa284ea711e6ab3144a842348b1c", "module": "event", "arg_objuuid1": "abcdef0123456789abcdef0123456789", "call": "aue_write", "provider": "audit", "fd": "4", "retval": "1216"}}, "CDMVersion": "13"}
-{"datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "abcdef0123456789abcdef0123456789", "url": "", "isPipe": false, "version": 1, "properties": {}}, "CDMVersion": "13"}
-{"datum": {"fromUuid": "00000000000000030000000000000036", "toUuid": "abcdef0123456789abcdef0123456789", "properties": {}, "timestamp": 1469039289657058, "type": "EDGE_EVENT_AFFECTS_FILE"}, "CDMVersion": "13"}
-{"datum": {"fromUuid": "abcdef0123456789abcdef0123456789", "toUuid": "abcdef0123456789abcdef0123456789", "properties": {}, "timestamp": 1469039289657058, "type": "EDGE_OBJECT_PREV_VERSION"}, "CDMVersion": "13"}
-
+{"datum": {"timestampMicros": 1469039289690063, "uuid": "000000000000000300000000000000ef", "sequence": 239, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "type": "EVENT_OPEN", "properties": {"exec": "ld", "errno": "0", "flags": "0", "mode": "438", "call": "aue_open_rwtc", "retval": "9", "upath1": "/tmp/hello-cf9520.o"}}, "CDMVersion": "13"}
+{"datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "fbf007a0ee6cea5bacee7b1fdbea7456", "url": "/tmp/hello-cf9520.o", "isPipe": false, "version": -1, "properties": {}}, "CDMVersion": "13"}
+{"datum": {"timestampMicros": 1469039289691083, "uuid": "000000000000000300000000000000f2", "sequence": 242, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "type": "EVENT_READ", "properties": {"errno": "0", "fd": "9", "call": "aue_read", "retval": "1216", "exec": "ld"}}, "CDMVersion": "13"}
+{"datum": {"fromUuid": "fbf007a0ee6cea5bacee7b1fdbea7456", "toUuid": "000000000000000300000000000000f2", "properties": {}, "timestamp": 1469039289691083, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
 ```
 
 # Traces
