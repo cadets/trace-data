@@ -113,10 +113,11 @@ For example:
 ## Identifying Files
 
 
-When a file is opened in a CADETS trace, a version 0 (or -1 if the file has
-already been referenced) is created for the file. This version does not reflect
-a change to the file - it simply provides the path of the file. On reads and
-writes, the url is an empty string(""), since the url is not an optional field. 
+When a file is opened in a CADETS trace, a version 1 (or -1 if the file has
+already been referenced) is created for the file. A version of -1 does not
+reflect a change to the file - it simply provides the path of the file. On
+reads and writes, the url is an empty string(""), since the url is not an
+optional field. 
 
 On opens, reads, and closes, an EDGE_FILE_AFFECTS_EVENT will be generated
 connecting the file and event. On writes, EDGE_EVENT_AFFECTS_FILE will be
@@ -124,9 +125,10 @@ generated instead. On each write, the version is incremented, but the uuid does
 not change.
 
 Note that it is possible for two different paths to refer to the same uuid -
-these are still the same file. It is also possible to have two separate uuids
-for the same url. This can happen when a file is deleted and a new file with
-the same name is created.
+these are still the same file. Either both paths point to the same location on
+the underlying file system, or the path has changed. It is also possible to
+have two separate uuids for the same url. This can happen when a file is
+deleted and a new file with the same name is created.
 
 In this example, you can see that /tmp/hello-cf9520.o is opened. It has the
 uuid "fbf007a0ee6cea5bacee7b1fdbea745".  UUID
