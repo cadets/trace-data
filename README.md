@@ -81,7 +81,7 @@ Take this short trace:
 ```
 
 In CDM format, it looks like this
-[remove_file.json.CDM.json](./unit_test_traces/remove_file.json.CDM.json). This
+[remove_file.cdm.json](./ripe_unit_tests_traces/cdm/remove_file.cdm.json). This
 simple trace becomes a graph with 2 events, 4 edges, and 3 nodes describing the
 running process, the user, and the file being removed.
 
@@ -115,14 +115,19 @@ For example:
 
 When a file is opened in a CADETS trace, a version 1 (or -1 if the file has
 already been referenced) is created for the file. A version of -1 does not
-reflect a change to the file - it simply provides the path of the file. On
+reflect a change to the file - it simply provides a path for the file. On
 reads and writes, the url is an empty string(""), since the url is not an
-optional field. 
+optional field.
 
 On opens, reads, and closes, an EDGE_FILE_AFFECTS_EVENT will be generated
 connecting the file and event. On writes, EDGE_EVENT_AFFECTS_FILE will be
 generated instead. On each write, the version is incremented, but the uuid does
 not change.
+
+These edges link to the uuid for the file. While the latest version of the file 
+may not specify the file path, earlier versions will. The only exception is in 
+the case of files opened before tracing begins. In that case, it is possible no 
+file name will be included.
 
 Note that it is possible for two different paths to refer to the same uuid -
 these are still the same file. Either both paths point to the same location on
