@@ -147,27 +147,84 @@ Example:
 {"datum": {"fromUuid": "fbf007a0ee6cea5bacee7b1fdbea7456", "toUuid": "000000000000000300000000000000f2", "properties": {}, "timestamp": 1469039289691083, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
 ```
 
+# Identifying SSH Sessions
+
+When analysing traces, it may be useful to identify separate SSH sessions as
+well as identifying the IP address initiating the connection. Reads and writes
+from `/dev/tty` or `/dev/pts/*` indicate the data came from a console.
+
+The read and write events do not provide enough information by themselves to
+identify the IP address, however, by tracing the process and its parent
+processes back to the initial ssh connection, the IP address can be identified.
+A connection from the relevant IP address is accepted, and other connections
+are also made using connect (only the accept syscall is shown below).  
+
+Unfortunately, ssh forks numerous times, so it may take traversing a number of
+links to locate the IP address. 
+
+In the sample below, the ssh session was initiated from 192.168.1.1. I can
+determine that by starting with the read event, finding the process running it
+(5c1274b56ec811e693e844a8421f8dc6), finding its parent process
+(5a1260586ec811e693e844a8421f8dc6), and its parent process
+(68436e4258c411e6937744a8421f8dc6). This process is the ssh daemon. Looking at
+this process I can see that it accepted a connection from 192.168.1.1 and then
+quickly forked off the process chain that I just followed. The ssh processes
+forked also connected to 192.168.1.1 numerous times.
+
+Note that
+this sample was generated and then modified by hand to improve readability - it
+is not exactly what would be generated.
+
+```json
+{"datum": {"properties": {}, "uuid": "68436e4258c411e6937744a8421f8dc6", "pid": 868, "type": "SUBJECT_PROCESS", "ppid": 1, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "CDMVersion": "13"}
+...
+{"datum": {"properties": {"address": "192.168.1.1", "subjprocuuid": "68436e4258c411e6937744a8421f8dc6", "port": "29348", "arg_objuuid1": "6843b94f58c411e6937744a8421f8dc6", "exec": "sshd", "call": "aue_accept", "retval": "5", "fd": "4", "arg_objuuid2": "5a1220326ec811e693e844a8421f8dc6"}, "uuid": "e1c8ad6c29ba56e68173f74644aa9e55", "timestampMicros": 1472571746503006, "threadId": 100094, "type": "EVENT_ACCEPT", "source": "SOURCE_FREEBSD_DTRACE_CADETS", "sequence": 0}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "srcPort": -1, "destAddress": "192.168.1.1", "srcAddress": "localhost", "uuid": "357a3fc1a1855ff2ad9d57376aada9c8", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "destPort": 29348}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "e1c8ad6c29ba56e68173f74644aa9e55", "toUuid": "357a3fc1a1855ff2ad9d57376aada9c8", "type": "EDGE_EVENT_AFFECTS_NETFLOW", "timestamp": 1472571746503006}, "CDMVersion": "13"}
+...
+{"datum": {"properties": {"subjprocuuid": "68436e4258c411e6937744a8421f8dc6", "exec": "sshd", "ret_objuuid1": "5a1260586ec811e693e844a8421f8dc6", "call": "aue_fork", "retval": "5334", "arg_pid": "5334", "ret_objuuid2": "5a1260586ec811e693e844a8421f8dc6"}, "uuid": "d1d6679cdd475179908ef14018be1c6a", "timestampMicros": 1472571746503878, "threadId": 100094, "type": "EVENT_FORK", "source": "SOURCE_FREEBSD_DTRACE_CADETS", "sequence": 1}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "d1d6679cdd475179908ef14018be1c6a", "toUuid": "68436e4258c411e6937744a8421f8dc6", "type": "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "timestamp": 1472571746503878}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "uuid": "5a1260586ec811e693e844a8421f8dc6", "pid": 5334, "type": "SUBJECT_PROCESS", "ppid": 868, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "5a1260586ec811e693e844a8421f8dc6", "toUuid": "68436e4258c411e6937744a8421f8dc6", "type": "EDGE_SUBJECT_HASPARENT_SUBJECT", "timestamp": 1472571746503878}, "CDMVersion": "13"}
+...
+{"datum": {"properties": {"subjprocuuid": "5a1260586ec811e693e844a8421f8dc6", "exec": "sshd", "ret_objuuid1": "5c1274b56ec811e693e844a8421f8dc6", "call": "aue_fork", "retval": "5337", "arg_pid": "5337", "ret_objuuid2": "5c1274b56ec811e693e844a8421f8dc6"}, "uuid": "986e989b2fd55b56a996de49648b3e72", "timestampMicros": 1472571749859869, "threadId": 100188, "type": "EVENT_FORK", "source": "SOURCE_FREEBSD_DTRACE_CADETS", "sequence": 2}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "986e989b2fd55b56a996de49648b3e72", "toUuid": "5a1260586ec811e693e844a8421f8dc6", "type": "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "timestamp": 1472571749859869}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "uuid": "5c1274b56ec811e693e844a8421f8dc6", "pid": 5337, "type": "SUBJECT_PROCESS", "ppid": 5334, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "5c1274b56ec811e693e844a8421f8dc6", "toUuid": "5a1260586ec811e693e844a8421f8dc6", "type": "EDGE_SUBJECT_HASPARENT_SUBJECT", "timestamp": 1472571749859869}, "CDMVersion": "13"}
+...
+{"datum": {"properties": {"upath1": "/dev/tty", "subjprocuuid": "5c1274b56ec811e693e844a8421f8dc6", "exec": "sshd", "ret_objuuid1": "c0e6049062be7b5abe626f2dba7ba087", "fd": "-100", "call": "aue_openat_rwtc", "retval": "11", "flags": "1", "mode": "0", "arg_objuuid1": "c0e6049062be7b5abe626f2dba7ba087"}, "uuid": "2963b6532a405451b63d6c17688029f5", "timestampMicros": 1472571749998870, "threadId": 100075, "type": "EVENT_OPEN", "source": "SOURCE_FREEBSD_DTRACE_CADETS", "sequence": 4}, "CDMVersion": "13"}
+{"datum": {"isPipe": false, "properties": {}, "version": 1, "uuid": "c0e6049062be7b5abe626f2dba7ba087", "url": "/dev/tty", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "c0e6049062be7b5abe626f2dba7ba087", "toUuid": "2963b6532a405451b63d6c17688029f5", "type": "EDGE_FILE_AFFECTS_EVENT", "timestamp": 1472571749998870}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "2963b6532a405451b63d6c17688029f5", "toUuid": "5c1274b56ec811e693e844a8421f8dc6", "type": "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "timestamp": 1472571749998870}, "CDMVersion": "13"}
+{"datum": {"properties": {"cmdline": "-bash", "subjprocuuid": "5c1274b56ec811e693e844a8421f8dc6", "exec": "sshd", "arg_objuuid1": "142d3f01803f0351bf809481b103bfc8", "upath1": "/usr/local/bin/bash", "call": "aue_execve", "retval": "0"}, "uuid": "6336246134a6559fa57cdf91b3184cb7", "timestampMicros": 1472571750007870, "threadId": 100075, "type": "EVENT_EXECUTE", "source": "SOURCE_FREEBSD_DTRACE_CADETS", "sequence": 5}, "CDMVersion": "13"}
+{"datum": {"isPipe": false, "properties": {}, "version": 1, "uuid": "142d3f01803f0351bf809481b103bfc8", "url": "/usr/local/bin/bash", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "142d3f01803f0351bf809481b103bfc8", "toUuid": "6336246134a6559fa57cdf91b3184cb7", "type": "EDGE_FILE_AFFECTS_EVENT", "timestamp": 1472571750007870}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "6336246134a6559fa57cdf91b3184cb7", "toUuid": "5c1274b56ec811e693e844a8421f8dc6", "type": "EDGE_EVENT_ISGENERATEDBY_SUBJECT", "timestamp": 1472571750007870}, "CDMVersion": "13"}
+{"datum": {"properties": {}, "fromUuid": "5c1274b56ec811e693e844a8421f8dc6", "toUuid": "a0641a9b43305c75aa889c78da0a0a36", "type": "EDGE_SUBJECT_HASLOCALPRINCIPAL", "timestamp": 1472571750007870}, "CDMVersion": "13"}
+{"datum": {"properties": {"subjprocuuid": "5c1274b56ec811e693e844a8421f8dc6", "exec": "bash", "arg_objuuid1": "c0e6049062be7b5abe626f2dba7ba087", "fd": "0", "retval": "1", "fdpath": "/dev/tty", "call": "aue_read"}, "uuid": "2164220f8c555a0ebc7ce75a3fc5416f", "timestampMicros": 1472571751238024, "threadId": 100075, "type": "EVENT_READ", "source": "SOURCE_FREEBSD_DTRACE_CADETS", "sequence": 6}, "CDMVersion": "13"}
+```
+
+Another possibility is trying to isolate events in one of two ssh sessions.
+Again, it is possible to track back the parent processes and use that, but that
+is not the only option. While both will read and write from `/dev/tty`, the
+uuids will be different, and sometimes the pseudo-terminal path will be given
+instead of `/dev/tty`. 
+
+```json
+{"datum": {"url": "/dev/pts/1", "uuid": "c0e6049062be7b5abe626f2dba7ba087", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "properties": {}, "isPipe": false, "version": 1}, "CDMVersion": "13"}
+{"datum": {"url": "/dev/tty", "uuid": "c0e6049062be7b5abe626f2dba7ba087", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "properties": {}, "isPipe": false, "version": -1}, "CDMVersion": "13"}
+{"datum": {"url": "", "uuid": "c0e6049062be7b5abe626f2dba7ba087", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "properties": {}, "isPipe": false, "version": 2}, "CDMVersion": "13"}
+
+{"datum": {"url": "/dev/pts/2", "uuid": "64ee4b938566e751a68583ede1e76e1a", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "properties": {}, "isPipe": false, "version": 1}, "CDMVersion": "13"}
+{"datum": {"url": "/dev/tty", "uuid": "64ee4b938566e751a68583ede1e76e1a", "baseObject": {"properties": {}, "source": "SOURCE_FREEBSD_DTRACE_CADETS"}, "properties": {}, "isPipe": false, "version": -1}, "CDMVersion": "13"}
+```
+
 # Traces
-
-The current traces we are sharing include:
-
-* [Wget](./wget_google.json) - Trace of "wget google.com"
-* [Git server](./git_server.json) - Trace of git session over SSH
-* [Postgres](./postgres.json) - Partial trace of pgbench events
-* [Nginx](./nginx.json) - Trace of nginx handling http request
-  (limited to only nginx function events)
-* [Nginx plus all library function calls](./nginx_with_libs.json) -
-  Trace of nginx handling http request (including all external library
-  calls)
 
 Currently, we are sharing traces that instrument the following events:
 
 * Filesystem events (e.g., open, close, dup, read, write)
 * Process events (e.g., fork, exec, exit)
 * Network events (e.g., connect, accept)
-* User-space function call entry/return
-* Nginx http request events
-* Postgresql query events
-* Git events (e.g., receive-pack, upload-pack)
 * SSH login events
 * BuildInject scenario
