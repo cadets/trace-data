@@ -59,6 +59,10 @@ Each event will have a subset of following attributes:
   output (return value) of this event
 * _retval_: A return value associated with the event. For filesystem
   calls, the retval often holds the file descriptor returned.
+* _cmdline_: captures the full command invocation
+* _fdpath_: a partial pathname for the file descriptor (fd) associated
+  with reads, writes, mmaps. This attribute is not always present.
+  UUIDs should be used for analysis as they are always available.
 
 Specific applications may have extra attributes:
 
