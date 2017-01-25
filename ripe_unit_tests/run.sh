@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ./listdir
 ./change_file_permissions
