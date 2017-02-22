@@ -1,5 +1,5 @@
 [
-  {"event": "audit:event:aue_mkdir:", "time": 1472495365025133804, "pid": 2419, "ppid": 2418, "tid": 100192, "uid": 0, "exec": "make_directory", "subjprocuuid": "82d1e896-6e16-11e6-93e7-44a8421f8dc6", "subjthruuid": "84ba86a3-5f1e-11e6-9390-44a8421f8dc6", "upath1": "/usr/home/amanda/unit_tests/temporary", "mode": 60448, "retval": 0}
-, {"event": "audit:event:aue_exit:", "time": 1472495365025133804, "pid": 2419, "ppid": 2418, "tid": 100192, "uid": 0, "exec": "make_directory", "subjprocuuid": "82d1e896-6e16-11e6-93e7-44a8421f8dc6", "subjthruuid": "84ba86a3-5f1e-11e6-9390-44a8421f8dc6", "retval": 0}
+  {"event": "audit:event:aue_mkdir:", "time": 1487790033055427469, "pid": 11513, "ppid": 11512, "tid": 100079, "uid": 0, "exec": "make_directory", "subjprocuuid": "2f608b12-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "58161c03-f79a-11e6-a0d2-44a8421f8dc6", "ret_objuuid1": "ab7ca3a7-6093-515f-9360-6b777f515246", "upath1": "/usr/home/amanda/tc/trace-data/ripe_unit_tests/temporary", "mode": 60352, "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1487790033055427469, "pid": 11513, "ppid": 11512, "tid": 100079, "uid": 0, "exec": "make_directory", "subjprocuuid": "2f608b12-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "58161c03-f79a-11e6-a0d2-44a8421f8dc6", "retval": 0}
 ]
 
