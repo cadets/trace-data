@@ -7,52 +7,58 @@ Here is an example CADETS trace event:
 
 ```json
 [
-
   {
-	"event": "audit:event:aue_open_rwtc:",
-	"time": 1469039289662056556,
-	"pid": 2126,
-	"ppid": 2124,
-	"tid": 100102,
-	"uid": 8314,
-	"exec": "ld",
-	"subjprocuuid": "b5b79f21-4ea7-11e6-ab31-44a842348b1c",
-	"arg_objuuid1": "2290610f-dee2-215b-a2de-1a77eb217137",
-	"ret_objuuid1": "2290610f-dee2-215b-a2de-1a77eb217137",
-	"upath1": "/usr/lib/crt1.o",
-	"retval": 4
-  },
-
+    "event": "audit:event:aue_openat_rwtc:",
+    "time": 1487765664593158346,
+    "pid": 8102,
+    "ppid": 8101,
+    "tid": 100414,
+    "uid": 0,
+    "exec": "sh",
+    "subjprocuuid": "725a5534-f8f8-11e6-a0ed-44a8421f8dc6",
+    "subjthruuid": "6daf2ce1-f879-11e6-a0ec-44a8421f8dc6",
+    "arg_objuuid1": "9dbd8bea-f587-f65e-87f5-af32eef62ad7",
+    "ret_objuuid1": "9dbd8bea-f587-f65e-87f5-af32eef62ad7",
+    "upath1": "/usr/home/amanda/BasicOps.sh",
+    "flags": 1048576,
+    "fd": -100,
+    "mode": 0,
+    "retval": 3}
 ]
 ```
 
-Each event will have a subset of following attributes:
+For each event, CADETS captures a variety of information.
 
-* _event_: Event name. We use DTrace's naming convention for events
-  (<dtrace provider>:<module>:<function>:<probe name>). For example,
+Each event will have a subset of following attributes:
+* _event_: The event name. We use DTrace's naming convention for events
+  (<provider>:<module>:<function>:). For example,
   "audit:event:aue_open_rwtc:" is an event that is triggered when the
-  FreeBSD `open()` system call is entered. The probe name is optional --
-  not all events will include it.
+  FreeBSD `open()` system call is entered.
 * _time_: The time the event occurred expressed as nanoseconds since 00:00
   Universal Coordinated Time, January 1, 1970.
-* _pid_: The ID of the process that generated the event.
-* _subjprocuuid_: A UUID of the process that generated the event.
+* _pid_: The ID of the process that generated the event. While there will be
+  only one process with a given PID at a time, the PID may later be reused
+  for another process.
+* _subjprocuuid_: A UUID of the process that generated the event. This will
+  uniquely identify the process, unlike the PID.
 * _subjthruuid_: A UUID of the thread that generated the event.
 * _ppid_: The ID of the parent of the process that generated the
   event.
 * _tid_: The ID of the thread that generated the event.
 * _uid_: The ID of the user that generated the event.
 * _exec_: The name of the executable associated with this event.
+
+Additionally, each event can have a subset of following attributes:
+
 * _fd_: A filesystem descriptor (fd) input (argument) associated with this event.
 * _address_: The IPv4/v6 address associated with an event.
 * _port_: The network port associated with an event.
-* _procuuid_: A UUID for a process affected by this effect
-* _upath1_: A path input associated with the event.
-* _upath2_: A second path input associated with the event.
 * _arg_objuuid1_: A UUID associated with an object that is an input
   (argument) to this event
+* _upath1_: A path input associated with the event.
 * _arg_objuuid2_: A UUID associated with a second object
   that is an input (argument) to this event
+* _upath2_: A second path input associated with the event.
 * _ret_objuuid1_: A UUID associated with an object
   that is an output (return value) of this event
 * _ret_objuuid2_: A UUID associated with a second object that is an
@@ -61,13 +67,9 @@ Each event will have a subset of following attributes:
   calls, the retval often holds the file descriptor returned.
 * _cmdline_: captures the full command invocation
 * _fdpath_: a partial pathname for the file descriptor (fd) associated
-  with reads, writes, mmaps. This attribute is not always present.
+  with reads, writes, mmaps. This attribute is not always present, and will
+  often give only a partial path.
   UUIDs should be used for analysis as they are always available.
-
-Specific applications may have extra attributes:
-
-* _query_: The database query associated with the event (for Postgresql)
-* _request_: The HTTP request associated with the event (for nginx)
 
 # CDM Mapping
 
@@ -79,33 +81,32 @@ processes.
 Take this short trace:
 ```json
 [
-  {"event": "audit:event:aue_unlink:", "time": 1469212266719943874, "pid": 3555, "ppid": 3554, "tid": 100153, "uid": 0, "exec": "remove_file", "subjprocuuid": "73bc6807-503a-11e6-b8c7-080027889132", "arg_objuuid1": "ea7eea24-097f-cf5b-bf09-a3843bcf40b6", "upath1": "/usr/home/strnad/unit_tests/temp.out", "retval": 0}
-, {"event": "audit:event:aue_exit:", "time": 1469212266719943874, "pid": 3555, "ppid": 3554, "tid": 100153, "uid": 0, "exec": "remove_file", "subjprocuuid": "73bc6807-503a-11e6-b8c7-080027889132", "retval": 0}
+  {"event": "audit:event:aue_unlink:", "time": 1487790026874569660, "pid": 11476, "ppid": 11475, "tid": 100420, "uid": 0, "exec": "remove_file", "subjprocuuid": "2b8bd0cb-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "ac7446db-f87c-11e6-a0ec-44a8421f8dc6", "arg_objuuid1": "6ce6eadb-4420-a159-a044-740359a11bdb", "upath1": "/usr/home/amanda/tc/trace-data/ripe_unit_tests/temp.out", "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1487790026874569660, "pid": 11476, "ppid": 11475, "tid": 100420, "uid": 0, "exec": "remove_file", "subjprocuuid": "2b8bd0cb-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "ac7446db-f87c-11e6-a0ec-44a8421f8dc6", "retval": 0}
 ]
 ```
 
+
 In CDM format, it looks like this
 [remove_file.cdm.json](./ripe_unit_tests_traces/cdm/remove_file.cdm.json). This
-simple trace becomes a graph with 2 events, 4 edges, and 3 nodes describing the
-running process, the user, and the file being removed.
+simple trace becomes a graph with 2 events, a process, a principal, and a file
+object.
 
 Events are converted to known CDM events when possible, and are otherwise left
-as OS_UNKNOWN or APP_UNKNOWN depending on the source of the event.
+as EVENT_OTHER.
 
 Any information from the CADETS trace that does not have a corresponding place
-in the CDM trace is copied into the properties field as a map of fields to
-values.
+in the CDM trace and may be useful is copied into the properties field as a map
+of fields to values.
 
-File objects are created when they are first referenced. File names are
-associated with file objects on opens, but may not be included for each read or
-write. Versions are incremented on writes, but versions may be created at
-version -1 at any time to associate a file path with the object. Sometimes
-different paths will associate to the same file object, and sometimes the same
-path will refer to different file objects over time.
+File objects are created when they are first referenced. File objects are not
+defined by their paths. File names are given with the file objects on opens,
+but may not be included for reads or writes. Sometimes different paths will
+refer to the same file object, and sometimes the same path will refer to
+different file objects over time.
 
-When a process starts executing a new program, the CDM trace will show a link
-between the file being executed and the exec event. This provides the full path
-to the program upon start of execution.
+When a process starts executing a new program, the CDM trace will show the full
+path of the file being executed in the exec event. 
 
 For example:
 ```json
@@ -114,24 +115,7 @@ For example:
 {"CDMVersion": "13", "datum": {"fromUuid": "000000000000000649883dfd38c0a873", "toUuid": "00000000000000030000000000000019", "properties": {}, "timestamp": 1469212271398110, "type": "EDGE_FILE_AFFECTS_EVENT"}}
 ```
 
-## Identifying Files
-
-
-When a file is opened in a CADETS trace, a version 1 (or -1 if the file has
-already been referenced) is created for the file. A version of -1 does not
-reflect a change to the file - it simply provides a path for the file. On
-reads and writes, the url is an empty string(""), since the url is not an
-optional field.
-
-On opens, reads, and closes, an EDGE_FILE_AFFECTS_EVENT will be generated
-connecting the file and event. On writes, EDGE_EVENT_AFFECTS_FILE will be
-generated instead. On each write, the version is incremented, but the uuid does
-not change.
-
-These edges link to the uuid for the file. While the latest version of the file 
-may not specify the file path, earlier versions will. The only exception is in 
-the case of files opened before tracing begins. In that case, it is possible no 
-file name will be included.
+## Files
 
 Note that it is possible for two different paths to refer to the same uuid -
 these are still the same file. Either both paths point to the same location on
@@ -139,16 +123,15 @@ the underlying file system, or the path has changed. It is also possible to
 have two separate uuids for the same url. This can happen when a file is
 deleted and a new file with the same name is created.
 
-In this example, you can see that /tmp/hello-cf9520.o is opened. It has the
-uuid "fbf007a0ee6cea5bacee7b1fdbea745".  UUID
-"fbf007a0ee6cea5bacee7b1fdbea745" is then read.
+In this example, you can see that /usr/home/amanda/BasicOps.sh is opened. It has the
+uuid "9dbd8bea-f587-f65e-87f5-af32eef62ad7".  UUID
+"9dbd8bea-f587-f65e-87f5-af32eef62ad7" is then read.
 
 Example:
 ```json
-{"datum": {"timestampMicros": 1469039289690063, "uuid": "000000000000000300000000000000ef", "sequence": 239, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "type": "EVENT_OPEN", "properties": {"exec": "ld", "errno": "0", "flags": "0", "mode": "438", "call": "aue_open_rwtc", "retval": "9", "upath1": "/tmp/hello-cf9520.o"}}, "CDMVersion": "13"}
-{"datum": {"baseObject": {"source": "SOURCE_FREEBSD_DTRACE_CADETS", "properties": {}}, "uuid": "fbf007a0ee6cea5bacee7b1fdbea7456", "url": "/tmp/hello-cf9520.o", "isPipe": false, "version": -1, "properties": {}}, "CDMVersion": "13"}
-{"datum": {"timestampMicros": 1469039289691083, "uuid": "000000000000000300000000000000f2", "sequence": 242, "source": "SOURCE_FREEBSD_DTRACE_CADETS", "threadId": 100102, "type": "EVENT_READ", "properties": {"errno": "0", "fd": "9", "call": "aue_read", "retval": "1216", "exec": "ld"}}, "CDMVersion": "13"}
-{"datum": {"fromUuid": "fbf007a0ee6cea5bacee7b1fdbea7456", "toUuid": "000000000000000300000000000000f2", "properties": {}, "timestamp": 1469039289691083, "type": "EDGE_FILE_AFFECTS_EVENT"}, "CDMVersion": "13"}
+{"datum":{"FileObject":{"uuid":"9dbd8bea-f587-f65e-87f5-af32eef62ad7","baseObject":{"properties":{"map":{}}},"type":"FILE_OBJECT_FILE"}},"CDMVersion":"15","source":"SOURCE_FREEBSD_DTRACE_CADETS"}
+{"datum":{"Event":{"uuid":"e1c8ad6c-29ba-56e6-8173-f74644aa9e55","sequence":0,"type":"EVENT_OPEN","threadId":100414,"subject":"725a5534-f8f8-11e6-a0ed-44a8421f8dc6","predicateObject":{"UUID":"9dbd8bea-f587-f65e-87f5-af32eef62ad7"},"predicateObjectPath":{"string":"/usr/home/amanda/BasicOps.sh"},"timestampNanos":1487765664593158346,"name":{"string":"aue_openat_rwtc"},"parameters":{"array":[{"size":-1,"type":"VALUE_TYPE_CONTROL","valueDataType":"VALUE_DATA_TYPE_INT","isNull":false,"name":{"string":"flags"},"valueBytes":{"bytes":"100000"}},{"size":-1,"type":"VALUE_TYPE_CONTROL","valueDataType":"VALUE_DATA_TYPE_INT","isNull":false,"name":{"string":"mode"},"valueBytes":{"bytes":"00"}}]},"properties":{"map":{"exec":"sh"}}}},"CDMVersion":"15","source":"SOURCE_FREEBSD_DTRACE_CADETS"}
+{"datum":{"Event":{"uuid":"986e989b-2fd5-5b56-a996-de49648b3e72","sequence":2,"type":"EVENT_READ","threadId":100414,"subject":"725a5534-f8f8-11e6-a0ed-44a8421f8dc6","predicateObject":{"UUID":"9dbd8bea-f587-f65e-87f5-af32eef62ad7"},"predicateObjectPath":{"string":"BasicOps.sh"},"timestampNanos":1487765664594215856,"name":{"string":"aue_read"},"parameters":{"array":[]},"size":{"long":1024},"properties":{"map":{"exec":"sh"}}}},"CDMVersion":"15","source":"SOURCE_FREEBSD_DTRACE_CADETS"}
 ```
 
 # Identifying SSH Sessions
