@@ -1,4 +1,4 @@
 [
-  {"event": "audit:event:aue_exit:", "time": 1487790030010427936, "pid": 11496, "ppid": 11495, "tid": 100130, "uid": 0, "exec": "copy_static_buf_sta", "subjprocuuid": "2d8ff30f-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "2603f9c3-f7ab-11e6-a0d2-44a8421f8dc6", "retval": 0}
+  {"event": "audit:event:aue_exit:", "time": 1489087739075069445, "pid": 8535, "ppid": 8534, "tid": 100185, "uid": 0, "cpu_id": 2, "exec": "copy_static_buf_sta", "subjprocuuid": "a445ed19-04fe-11e7-bc2e-44a8421f8dc6", "subjthruuid": "a00b027e-0474-11e7-bc2d-44a8421f8dc6", "retval": 0}
 ]
 

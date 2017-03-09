@@ -1,5 +1,5 @@
 [
-  {"event": "audit:event:aue_rmdir:", "time": 1487790033961427486, "pid": 11518, "ppid": 11517, "tid": 100079, "uid": 0, "exec": "remove_directory", "subjprocuuid": "2fc50a5d-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "58161c03-f79a-11e6-a0d2-44a8421f8dc6", "arg_objuuid1": "ab7ca3a7-6093-515f-9360-6b777f515246", "upath1": "/usr/home/amanda/tc/trace-data/ripe_unit_tests/temporary", "retval": 0}
-, {"event": "audit:event:aue_exit:", "time": 1487790033961427486, "pid": 11518, "ppid": 11517, "tid": 100079, "uid": 0, "exec": "remove_directory", "subjprocuuid": "2fc50a5d-f931-11e6-a0f0-44a8421f8dc6", "subjthruuid": "58161c03-f79a-11e6-a0d2-44a8421f8dc6", "retval": 0}
+  {"event": "audit:event:aue_rmdir:", "time": 1489087741654116451, "pid": 8551, "ppid": 8550, "tid": 100190, "uid": 0, "cpu_id": 1, "exec": "remove_directory", "subjprocuuid": "a5f4e748-04fe-11e7-bc2e-44a8421f8dc6", "subjthruuid": "a0118c6a-0474-11e7-bc2d-44a8421f8dc6", "arg_objuuid1": "c0872883-d889-f551-89d8-453391f548c5", "upath1": "/usr/home/amanda/unit_tests/temporary", "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1489087741654116451, "pid": 8551, "ppid": 8550, "tid": 100190, "uid": 0, "cpu_id": 1, "exec": "remove_directory", "subjprocuuid": "a5f4e748-04fe-11e7-bc2e-44a8421f8dc6", "subjthruuid": "a0118c6a-0474-11e7-bc2d-44a8421f8dc6", "retval": 0}
 ]
 
