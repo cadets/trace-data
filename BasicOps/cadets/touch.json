@@ -1,0 +1,5 @@
+[
+  {"event": "audit:event:aue_openat_rwtc:", "time": 1490872932771393459, "pid": 10656, "ppid": 10655, "tid": 100102, "uid": 0, "cpu_id": 1, "exec": "touch", "subjprocuuid": "1e898e12-153b-11e7-9b55-44a8421f8dc6", "subjthruuid": "7e1e5fb1-1312-11e7-9b55-44a8421f8dc6", "ret_objuuid1": "687e5da5-22f6-0156-b622-513326013088", "upath1": "/tmp/zqxf1", "flags": 513, "fd": -100, "ret_fd1": 3, "mode": 438, "retval": 3}
+, {"event": "audit:event:aue_close:", "time": 1490872932771393459, "pid": 10656, "ppid": 10655, "tid": 100102, "uid": 0, "cpu_id": 1, "exec": "touch", "subjprocuuid": "1e898e12-153b-11e7-9b55-44a8421f8dc6", "subjthruuid": "7e1e5fb1-1312-11e7-9b55-44a8421f8dc6", "arg_objuuid1": "687e5da5-22f6-0156-b622-513326013088", "fd": 3, "retval": 0}
+, {"event": "audit:event:aue_exit:", "time": 1490872932772372792, "pid": 10656, "ppid": 10655, "tid": 100102, "uid": 0, "cpu_id": 1, "exec": "touch", "subjprocuuid": "1e898e12-153b-11e7-9b55-44a8421f8dc6", "subjthruuid": "7e1e5fb1-1312-11e7-9b55-44a8421f8dc6", "retval": 0}
+]
