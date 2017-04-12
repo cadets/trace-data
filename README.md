@@ -115,25 +115,6 @@ For example:
 {"CDMVersion": "13", "datum": {"fromUuid": "000000000000000649883dfd38c0a873", "toUuid": "00000000000000030000000000000019", "properties": {}, "timestamp": 1469212271398110, "type": "EDGE_FILE_AFFECTS_EVENT"}}
 ```
 
-## Files
-
-Note that it is possible for two different paths to refer to the same uuid -
-these are still the same file. Either both paths point to the same location on
-the underlying file system, or the path has changed. It is also possible to
-have two separate uuids for the same url. This can happen when a file is
-deleted and a new file with the same name is created.
-
-In this example, you can see that /usr/home/amanda/BasicOps.sh is opened. It has the
-uuid "9dbd8bea-f587-f65e-87f5-af32eef62ad7".  UUID
-"9dbd8bea-f587-f65e-87f5-af32eef62ad7" is then read.
-
-Example:
-```json
-{"datum":{"FileObject":{"uuid":"9dbd8bea-f587-f65e-87f5-af32eef62ad7","baseObject":{"properties":{"map":{}}},"type":"FILE_OBJECT_FILE"}},"CDMVersion":"15","source":"SOURCE_FREEBSD_DTRACE_CADETS"}
-{"datum":{"Event":{"uuid":"e1c8ad6c-29ba-56e6-8173-f74644aa9e55","sequence":0,"type":"EVENT_OPEN","threadId":100414,"subject":"725a5534-f8f8-11e6-a0ed-44a8421f8dc6","predicateObject":{"UUID":"9dbd8bea-f587-f65e-87f5-af32eef62ad7"},"predicateObjectPath":{"string":"/usr/home/amanda/BasicOps.sh"},"timestampNanos":1487765664593158346,"name":{"string":"aue_openat_rwtc"},"parameters":{"array":[{"size":-1,"type":"VALUE_TYPE_CONTROL","valueDataType":"VALUE_DATA_TYPE_INT","isNull":false,"name":{"string":"flags"},"valueBytes":{"bytes":"100000"}},{"size":-1,"type":"VALUE_TYPE_CONTROL","valueDataType":"VALUE_DATA_TYPE_INT","isNull":false,"name":{"string":"mode"},"valueBytes":{"bytes":"00"}}]},"properties":{"map":{"exec":"sh"}}}},"CDMVersion":"15","source":"SOURCE_FREEBSD_DTRACE_CADETS"}
-{"datum":{"Event":{"uuid":"986e989b-2fd5-5b56-a996-de49648b3e72","sequence":2,"type":"EVENT_READ","threadId":100414,"subject":"725a5534-f8f8-11e6-a0ed-44a8421f8dc6","predicateObject":{"UUID":"9dbd8bea-f587-f65e-87f5-af32eef62ad7"},"predicateObjectPath":{"string":"BasicOps.sh"},"timestampNanos":1487765664594215856,"name":{"string":"aue_read"},"parameters":{"array":[]},"size":{"long":1024},"properties":{"map":{"exec":"sh"}}}},"CDMVersion":"15","source":"SOURCE_FREEBSD_DTRACE_CADETS"}
-```
-
 # Identifying SSH Sessions
 
 When analysing traces, it may be useful to identify separate SSH sessions as
