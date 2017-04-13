@@ -4,8 +4,8 @@ Details of CADETS CDM Mapping
 The CADETS system tracks events. Events are converted to CDM events one at a
 time, maintaining minimal state. Related objects are created when they are
 first seen in the CADETS trace, and filled in as well as possible. If CADETS
-does not trace the creation of the object, it may not be able to provide much
-information about it.
+does not trace the creation of the object, it may not be able to provide
+information about all object attributes.
 
 Syscalls to CDM Events
 ----------------------
@@ -18,11 +18,10 @@ Likewise, predicateObject2Path, when provided, is always related to
 predicateObject2 (except in the case of link, where both paths related to
 predicateObject).
 
-Types given in the table below are reasonable guesses, but may not be accurate.
+Types given in the table below are generally accurate, but exceptions apply.
 For example, while close is normally used on files, it can also be used on
 processes (see
 [`man 2 pdfork`](https://www.freebsd.org/cgi/man.cgi?query=pdfork&sektion=2&manpath=FreeBSD+11.0-stable)).
-
 
 Any syscall not in this list will be EVENT_OTHER. The name of the syscall will
 be available as the event `name`.
@@ -96,7 +95,8 @@ Key:
 Files
 -----
 
-The CADETS system provides uuids for many kernel-managed objects.
+The CADETS system provides uuids for many kernel-managed objects. CADETS
+uuids are reliable, kernel-managed identifiers.
 
 In the case of files, note that it is possible for two different paths to refer
 to the same uuid - these are still the same file. Either both paths point to
@@ -120,9 +120,10 @@ Properties
 
 Here is a subset of possible properties:
 
-- ret_metaio - indicates object that tainted the event
-- arg_metaio - indicates object that tainted the event
-- ret_msgid - a number identifying a message sent or recieved. 
+- ret_metaio - indicates source object uuid in a flow
+- arg_metaio - indicates sink object uuid in a flow
+- ret_msgid - a number identifying a message sent or recieved. Can be
+  used to link IPCs (e.g., linking sendto and recvfrom)
 - login - name of user logging in
 - ppid - process id of parent process (not a UUID)
 - address - address used by event, usually an ip address
