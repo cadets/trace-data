@@ -20,7 +20,9 @@ predicateObject).
 
 Types given in the table below are reasonable guesses, but may not be accurate.
 For example, while close is normally used on files, it can also be used on
-processes.
+processes (see
+[`man 2 pdfork`](https://www.freebsd.org/cgi/man.cgi?query=pdfork&sektion=2&manpath=FreeBSD+11.0-stable)).
+
 
 Any syscall not in this list will be EVENT_OTHER. The name of the syscall will
 be available as the event `name`.
@@ -88,8 +90,8 @@ socketpair | CREATE_OBJECT          |                 | PO (socket), PO2 (socket
 
 Key:
 
-- PO = predicateObject
-- PO2 = predicateObject2
+- PO - predicateObject
+- PO2 - predicateObject2
 
 Files
 -----
@@ -101,6 +103,17 @@ to the same uuid - these are still the same file. Either both paths point to
 the same location on the underlying file system, or the path has changed. It is
 also possible to have two separate uuids for the same path. This can happen
 when a file is deleted and a new file with the same name is created.
+
+Event Information
+-------------------
+
+Each event in CADETS is reported in the order it is received from the system.
+This means events can occasionally be transmitted out of order. The sequence
+number is not an absolute indicator of order, though within a thread it would
+be accurate.
+
+The `threadId` reported by CADETS does refer to the thread id. The pid is
+located in the Event's `subject` as the `cid`.
 
 Properties
 ----------
@@ -117,3 +130,13 @@ Here is a subset of possible properties:
 - cmdLine - command line used when executing a program
 - fd - file descriptor used by the event
 - return_value - return value of the syscall
+
+Not Used
+--------
+
+There are many types within the CDM that CADETS does not use. We do not use
+CryptographicHash, TagRunLengthTuple, ProvenanceTagNode, UnitDependency,
+RegistryKeyObject, or UnnamedPipeObject.
+
+In general, CADETS does not produce TimeMarkers, though we can if requested.
+This is only a temporary feature.
