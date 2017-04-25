@@ -115,6 +115,43 @@ be accurate.
 The `threadId` reported by CADETS does refer to the thread id. The pid is
 located in the Event's `subject` as the `cid`.
 
+There is one type of event for which CADETS does not create an object for the
+related UUIDs. CADETS includes semaphore related events in the traces.
+Semaphores have UUIDs in the CADETS system. This will only be seen on
+EVENT_OTHERs, on semaphore related events.
+
+Some events, particularly ones that change the current user or group, will
+include parameters to detail the event's arguments. All parameters will have a
+name and, unless isNull is true, the valueBytes will be set. At the moment,
+CADETS only sends parameters of type INT.
+
+Subject Information
+-------------------
+
+Each subject in CADETS represents a process. Each process is reported as soon
+as it appears in the CADETS trace.  Ideally, subjects are reported upon
+creation, but sometimes may be reported at a later point in their lifecycle.
+This is most likely because the process was already running when tracing began.
+
+A fully filled in subject for CADETS will have the process UUID, the parent
+process UUID, the type as SUBJECT_PROCESS, the pid (in the cid field), the
+current principal, and the start time.  If the subject is created later in its
+lifecycle, the start time will be 0, and no parent process will be given.
+
+Principals
+----------
+
+CADETS does not provide information in the Principal object beyond the userId.
+Principal related events will provide more information about the principal
+within the event. For example, the login event will usually include the
+username of the user logging in.
+
+Pipe Endpoints
+--------------
+
+Unnamed pipes' endpoints are represented using the SrcSinkObject. This type is
+used because each endpoint has its own UUID.
+
 Properties
 ----------
 
