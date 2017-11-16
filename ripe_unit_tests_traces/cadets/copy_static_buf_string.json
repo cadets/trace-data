@@ -1,5 +1,5 @@
 [
-  {"event": "audit:event:aue_write:", "host": "4c4c4544-0036-5810-8044-b5c04f533532", "time": 1509040533770503068, "pid": 2821, "ppid": 2820, "tid": 100116, "uid": 0, "cpu_id": 3, "exec": "copy_static_buf_str", "subjprocuuid": "dc79a3e4-ba76-11e7-92ea-44a8421f8dc6", "subjthruuid": "4dfe4da3-9f9e-11e7-92c6-44a8421f8dc6", "arg_objuuid1": "9e5982cd-4fbb-1352-bb4f-00ce721365d8", "fd": 1, "retval": 13, "fdpath": "copy_static_buf_string.json"}
-, {"event": "audit:event:aue_exit:", "host": "4c4c4544-0036-5810-8044-b5c04f533532", "time": 1509040533770503068, "pid": 2821, "ppid": 2820, "tid": 100116, "uid": 0, "cpu_id": 3, "exec": "copy_static_buf_str", "subjprocuuid": "dc79a3e4-ba76-11e7-92ea-44a8421f8dc6", "subjthruuid": "4dfe4da3-9f9e-11e7-92c6-44a8421f8dc6", "retval": 0}
+  {"event": "audit:event:aue_write:", "host": "4c4c4544-0036-5810-8044-b5c04f533532", "time": 1517591355601373641, "pid": 16333, "ppid": 16332, "tid": 100121, "uid": 0, "cpu_id": 1, "exec": "copy_static_buf_str", "subjprocuuid": "cb5644fd-083b-11e8-8b98-44a8421f8dc6", "subjthruuid": "bffb80d2-05db-11e8-88b0-44a8421f8dc6", "arg_objuuid1": "fcf6296e-2404-1d5e-8424-75d0ae1db86a", "fd": 1, "retval": 13, "fdpath": "copy_static_buf_string.json"}
+, {"event": "audit:event:aue_exit:", "host": "4c4c4544-0036-5810-8044-b5c04f533532", "time": 1517591355602674059, "pid": 16333, "ppid": 16332, "tid": 100121, "uid": 0, "cpu_id": 1, "exec": "copy_static_buf_str", "subjprocuuid": "cb5644fd-083b-11e8-8b98-44a8421f8dc6", "subjthruuid": "bffb80d2-05db-11e8-88b0-44a8421f8dc6", "retval": 0}
 ]
 
