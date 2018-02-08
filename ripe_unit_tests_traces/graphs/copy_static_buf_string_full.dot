@@ -1,8 +1,0 @@
-strict digraph copy_static_buf_string {
-rankdir="LR";
-"f_copy_static_buf_string.json" [label="copy_static_buf_string.json"];
-    p_8259 [label="pid 8259", shape="diamond"];
-    "p_8259_copy_static_buf_str" [label="copy_static_buf_str", shape="box"];
-     p_8259 -> "p_8259_copy_static_buf_str" [dir="none", minlen=2];
-    "p_8259_copy_static_buf_str" -> "f_copy_static_buf_string.json" [label="write"];
-}
