@@ -1,0 +1,636 @@
+Objavro.codecnullavro.schemaŒÖ{"type": "record", "name": "TCCDMDatum", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": [{"type": "record", "name": "Host", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": {"type": "fixed", "name": "UUID", "namespace": "com.bbn.tc.schema.avro.cdm18", "size": 16}, "name": "uuid", "doc": "universally unique identifier for the host"}, {"type": "string", "name": "hostName", "doc": "hostname or machine name"}, {"type": {"type": "array", "items": {"type": "record", "name": "HostIdentifier", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "string", "name": "idType"}, {"type": "string", "name": "idValue"}], "doc": "Host identifier, such as serial number, IMEI number"}}, "name": "hostIdentifiers", "doc": "list of identifiers, such as serial number, IMEI number"}, {"type": "string", "name": "osDetails", "doc": "OS level details revealed by tools such as uname -a"}, {"type": {"type": "enum", "name": "HostType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["HOST_MOBILE", "HOST_SERVER", "HOST_DESKTOP"], "doc": "* HostType enumerates the host roles or device types"}, "name": "hostType", "doc": "host's role or device type, such as mobile, server, desktop"}, {"type": {"type": "array", "items": {"type": "record", "name": "Interface", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "string", "name": "name"}, {"type": "string", "name": "macAddress"}, {"type": {"type": "array", "items": "string"}, "name": "ipAddresses"}], "doc": "Interface name and addresses"}}, "name": "interfaces", "doc": "names and addresses of network interfaces"}], "doc": "* Hosts represent a host/machine/node in a network."}, {"type": "record", "name": "Principal", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "A unique id for the principal"}, {"type": {"type": "enum", "name": "PrincipalType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["PRINCIPAL_LOCAL", "PRINCIPAL_REMOTE"], "doc": "* PrincipalType identifies the type of user: either local to the\n     * host, or remote users/systems."}, "name": "type", "default": "PRINCIPAL_LOCAL", "doc": "The type of the principal, local by default"}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "hostId", "doc": "Host where principal exists"}, {"type": "string", "name": "userId", "doc": "The operating system identifier associated with the user"}, {"type": ["null", "string"], "name": "username", "default": null, "doc": "Human-readable string identifier, such as username (Optional)"}, {"type": {"type": "array", "items": "string"}, "name": "groupIds", "doc": "The ids of the groups which this user is part of"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* A principal is a local user\n     * TODO: extend to include remote principals\n     * TODO: what happens when the user information changes (are we tracking versions?)\n     * TODO: Authentication mechanisms: are TA1s providing that information and how?"}, {"type": "record", "name": "ProvenanceTagNode", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "tagId", "doc": "Tag ID for this node *"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "flowObject", "default": null, "doc": "* The UUID of the source or sink object associated with this\n         * tag. (Optional)\n         *\n         * This attribute is optional because if the\n         * ProvenanceTagNode is simply joining two existing\n         * provenances (e.g., when two values are added together), there\n         * is no flow object associated with that definition.\n         *"}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "hostId", "doc": "Host on which the src/sink action is occuring"}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "subject", "doc": "Subject that is performing the src/sink action *"}, {"type": ["null", "string"], "name": "systemCall", "default": null, "doc": "System call that read/wrote the data *"}, {"type": ["null", "string"], "name": "programPoint", "default": null, "doc": "The program point where the event was triggered (e.g., executable and line number), (Optional)"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "prevTagId", "default": null, "doc": "The previous tag for this value *"}, {"type": ["null", {"type": "enum", "name": "TagOpCode", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["TAG_OP_UNION", "TAG_OP_ENCODE", "TAG_OP_STRONG", "TAG_OP_MEDIUM", "TAG_OP_WEAK"], "doc": "* The tag opcode describes the provenance relation i.e., how multiple sources are combined to\n     * produce the output. We identify the following provenance relations"}], "name": "opcode", "default": null, "doc": "Tag operation that resulted in the tagId of this ProvenanceTagNode *"}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm18.UUID"}], "name": "tagIds", "default": null}, {"type": ["null", {"type": "enum", "name": "IntegrityTag", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["INTEGRITY_UNTRUSTED", "INTEGRITY_BENIGN", "INTEGRITY_INVULNERABLE"], "doc": "* The integrity tag may be used to specify the initial integrity of an entity,\n     * or to endorse its content after performing appropriate checking/sanitization."}], "name": "itag", "default": null, "doc": "The integrity tag may be used to specify the intial\n         *  integrity of an entity, or to endorse it content after\n         *  performing appropriate checking/sanitization."}, {"type": ["null", {"type": "enum", "name": "ConfidentialityTag", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["CONFIDENTIALITY_SECRET", "CONFIDENTIALITY_SENSITIVE", "CONFIDENTIALITY_PRIVATE", "CONFIDENTIALITY_PUBLIC"], "doc": "* The confidentiality tag may be used to specify the initial confidentiality of an entity,\n     * or to declassify its content after performing appropriate checking/sanitization."}], "name": "ctag", "default": null, "doc": "* The confidentiality tag may be used to specify the initial\n         * confidentiality of an entity, or to declassify its content\n         * after performing appropriate checking/sanitization."}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* A provenance tag defines source dependence on specific data sources (inputs).\n     * A tag identifier is typically bound to a source and used by the tracking system to\n     * capture dependence on this source input.\n     *\n     * ProvenanceTagNode defines one step of provenance for a value\n     * (i.e., one read from a source or write to a sink), a reference\n     * to the previous provenance of the value (if any), and the tag\n     * operation that resulted the tagId of this ProvenanceTagNode"}, {"type": "record", "name": "Subject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "universally unique identifier for the subject"}, {"type": {"type": "enum", "name": "SubjectType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["SUBJECT_PROCESS", "SUBJECT_THREAD", "SUBJECT_UNIT", "SUBJECT_BASIC_BLOCK"], "doc": "* SubjectType enumerates the types of execution contexts supported.\n     *\n     * SUBJECT_PROCESS,    process\n     * SUBJECT_THREAD,     thread within a process\n     * SUBJECT_UNIT        so far we only know of TRACE BEEP using this"}, "name": "type", "doc": "the subject type"}, {"type": "int", "name": "cid", "doc": "Context ID: OS process id for type process, thread id for threads"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "parentSubject", "default": null, "doc": "* parent subject's UUID. For a process, this is a parent\n         * process. For a thread, this is the process that created the\n         * thread. Only optional because in some cases the parent may not\n         * be known; null value indicates that the parent is unknown."}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "hostId", "doc": "Host where subject is executing"}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "localPrincipal", "doc": "UUID of local principal that owns this subject"}, {"type": "long", "name": "startTimestampNanos", "doc": "* The start time of the subject\n         * A timestamp stores the number of nanoseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC."}, {"type": ["null", "int"], "name": "unitId", "default": null, "doc": "unit id for unit based instrumentation (Optional)"}, {"type": ["null", "int"], "name": "iteration", "default": null, "doc": "iteration and count are used for distinguishing individual \"units\" of execution (Optional)"}, {"type": ["null", "int"], "name": "count", "default": null}, {"type": ["null", "string"], "name": "cmdLine", "default": null, "doc": "Process command line arguments including process name (Optional)"}, {"type": ["null", {"type": "enum", "name": "PrivilegeLevel", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["LIMITED", "ELEVATED", "FULL"], "doc": "* Windows allows Subjects (processes) to have the following\n     * enumerated privilege levels."}], "name": "privilegeLevel", "default": null, "doc": "Windows allows processes to have different privilege levels (Optional)"}, {"type": ["null", {"type": "array", "items": "string"}], "name": "importedLibraries", "default": null, "doc": "* imported libraries. (Optional). Lists the libraries that\n         * are expected to be loaded, but may not necessarily\n         * correspond 1-to-1 with actual load library events because\n         * some libraries may already be loaded when this event\n         * occurs."}, {"type": ["null", {"type": "array", "items": "string"}], "name": "exportedLibraries", "default": null, "doc": "exported libraries. (Optional)"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* Subjects represent execution contexts and include mainly threads and processes. They can be more granular and\n     * can represent other execution boundaries such as units and blocks if needed."}, {"type": "record", "name": "FileObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": {"type": "record", "name": "AbstractObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "hostId", "doc": "Host where object exists"}, {"type": ["null", {"type": "fixed", "name": "SHORT", "namespace": "com.bbn.tc.schema.avro.cdm18", "size": 2}], "name": "permission", "default": null, "doc": "Permission bits defined over the object (Optional)"}, {"type": ["null", "int"], "name": "epoch", "default": null, "doc": "* Used to track when an object is deleted and a new one is\n         * created with the same identifier. This is useful for when\n         * UUIDs are based on something not likely to be unique, such\n         * as file path."}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "*  Objects, in general, represent data sources and sinks which\n     *  could include sockets, files, memory, and any data in general\n     *  that can be an input and/or output to an event.  This record\n     *  is intended to be abstract i.e., one should not instantiate an\n     *  Object but rather instantiate one of its sub types (ie,\n     *  encapsulating records) FileObject, UnnamedPipeObject,\n     *  RegistryKeyObject, NetFlowObject, MemoryObject, or\n     *  SrcSinkObject."}, "name": "baseObject", "doc": "The base object attributes"}, {"type": {"type": "enum", "name": "FileObjectType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["FILE_OBJECT_BLOCK", "FILE_OBJECT_CHAR", "FILE_OBJECT_DIR", "FILE_OBJECT_FILE", "FILE_OBJECT_LINK", "FILE_OBJECT_NAMED_PIPE", "FILE_OBJECT_PEFILE", "FILE_OBJECT_UNIX_SOCKET"], "doc": "* These types enumerate the types of FileObjects"}, "name": "type", "doc": "The type of FileObject"}, {"type": ["null", "int"], "name": "fileDescriptor", "default": null, "doc": "The file descriptor (Optional)"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "localPrincipal", "default": null, "doc": "UUID of local principal that owns this file object.  This\n         * attribute is optional because there are times when \n         * the owner of the file may not be known at the time the file\n         * object is reported (e.g., missed open call). Otherwise,\n         * the local principal SHOULD be included."}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "* The file size in bytes (Optional). This attribute reports\n         * the file size at the time the FileObject is created. Since records\n         * are not updated, changes in file size is trackable via the events\n         * that changed the file size."}, {"type": ["null", "string"], "name": "peInfo", "default": null, "doc": "* portable execution (PE) info for windows (Optional).\n         * Note from FiveDirections: We will LIKELY change this type for engagement 3"}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "CryptographicHash", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": {"type": "enum", "name": "CryptoHashType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["MD5", "SHA1", "SHA256", "SHA512", "AUTHENTIHASH", "SSDEEP", "IMPHASH"], "doc": "Cryptographich hash types"}, "name": "type", "doc": "The type of hash used"}, {"type": "string", "name": "hash", "doc": "The base64 encoded hash value"}], "doc": "* Cryptographic hash records represent one or more cryptographic hashes for\n     * an object, typically, a FileObject."}}], "name": "hashes", "default": null, "doc": "(Optional) Zero or more cryptographic hashes over the FileObject"}], "doc": "* Represents a file on the file system. Instantiates an AbstractObject."}, {"type": "record", "name": "UnnamedPipeObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm18.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": ["null", "int"], "name": "sourceFileDescriptor", "default": null, "doc": "* Although file descriptor and UUID src/sink pairs are\n         * individually optional, at least one pair MUST be used."}, {"type": ["null", "int"], "name": "sinkFileDescriptor", "default": null}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "sourceUUID", "default": null}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "sinkUUID", "default": null}], "doc": "* Represents an unnamed pipe. Instantiates an AbstractObject."}, {"type": "record", "name": "RegistryKeyObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm18.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "string", "name": "key", "doc": "The registry key/path"}, {"type": ["null", {"type": "record", "name": "Value", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "int", "name": "size", "default": -1, "doc": "The size of the value: the number of elements of type valueDataType; -1 for non-arrays"}, {"type": {"type": "enum", "name": "ValueType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["VALUE_TYPE_SRC", "VALUE_TYPE_SINK", "VALUE_TYPE_CONTROL"], "doc": "* A value type is either source, sink, or control This is for\n     * Event parameters to distinguish source/sink values vs control\n     * parameters (such as a file descriptor)."}, "name": "type", "doc": "The type indicates whether it's a source, sink, or control value"}, {"type": {"type": "enum", "name": "ValueDataType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["VALUE_DATA_TYPE_BYTE", "VALUE_DATA_TYPE_BOOL", "VALUE_DATA_TYPE_CHAR", "VALUE_DATA_TYPE_SHORT", "VALUE_DATA_TYPE_INT", "VALUE_DATA_TYPE_FLOAT", "VALUE_DATA_TYPE_LONG", "VALUE_DATA_TYPE_DOUBLE", "VALUE_DATA_TYPE_POINTER32", "VALUE_DATA_TYPE_POINTER64", "VALUE_DATA_TYPE_COMPLEX"], "doc": "* A value data type is one of the primitive data types. A string is treated as a char array"}, "name": "valueDataType", "doc": "The actual datatype of the value elements, e.g., int, double, byte, etc. (Optional)\n         *  Strings are treated as char[] so type=CHAR\n         *  String[] is a COMPLEX value whose components are the string values (each modeled as a char[])\n         *  Complex composite objects comprising of primitive values use the COMPLEX type"}, {"type": "boolean", "name": "isNull", "default": false, "doc": "Whether this value is null, needed to indicate null objects (default: false)"}, {"type": ["null", "string"], "name": "name", "default": null, "doc": "the name of the Value, string. (Optional)"}, {"type": ["null", "string"], "name": "runtimeDataType", "default": null, "doc": "The runtime data type of the value (Optional); For example, an object of dataType=COMPLEX, can have\n         *  a runtime data type of say \"MyClass\""}, {"type": ["null", "bytes"], "name": "valueBytes", "default": null, "doc": "* The actual bytes of the value in Big Endian format, e.g.,\n         * an int is converted to a 4 byte buffer (Optional)\n         *\n         * Strings are represented as an array of UTF32_BE encoded\n         * characters (i.e., 4 bytes per char)"}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "ProvenanceAssertion", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "asserter", "doc": "Which Subject is making this assertion?"}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm18.UUID"}], "name": "sources", "default": null, "doc": "Object(s) that this Value's data came from."}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm18.ProvenanceAssertion"}], "name": "provenance", "default": null, "doc": "* Further provenance assertions within this assertion.\n\t * For example, to describe a situation in which X asserts that\n\t * Y asserts that Z asserts that V came from {p,q}:\n\t *\n\t * ```\n\t * Event {\n\t *   subject = X,\n\t *   parameters = [\n\t *     Value (V) {\n\t *       provenance = [\n\t *         ProvenanceAssertion {\n\t *           asserter = UUID of X,\n\t *           sources = [ UUID of p, UUID of q ],\n\t *           provenance = [\n\t *             ProvenanceAssertion {\n\t *               asserter = UUID of Y,\n\t *               provenance = [\n\t *                 ProvenanceAssertion {\n\t *                   asserter = UUID of Z,\n\t *                 },\n\t *               ],\n\t *             },\n\t *           ],\n\t *         },\n\t *       ],\n\t *     },\n\t *   ],\n\t * }\n\t * ```\n\t * Z should have a provenance assertion\n\t * e.g.,\n         * \"X asserts that Y asserts that Z comes from {p,q}\"."}], "doc": "* An assertion about the provenance of information"}}], "name": "provenance", "default": null, "doc": "* Assertions about the provenance of this value\n         * (e.g., the file that data is claimed to come from).\n         *\n         * This is a direct assertion about provenance for systems that don't\n         * use tags to track data flows."}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "TagRunLengthTuple", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "int", "name": "numValueElements", "default": 0}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "tagId"}], "doc": "* This record is a single tuple in a run length encoding of tags"}}], "name": "tag", "default": null, "doc": "* The value's tag expression describing its provenance (Optional)\n         * Since value could be an array, the tag can use run length encoding if needed."}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm18.Value"}], "name": "components", "default": null, "doc": "A complex value might comprise other component values if needed (Optional)"}], "doc": "* Values represent transient data, mainly parameters to\n     * events. Values are created and used once within an event's\n     * execution and are relevant mainly during fine-grained tracking\n     * (such as with tag/taint propagation).  Values have tags\n     * describing their provenance. Sometimes the actual value's value\n     * is reported in addition to the value's metadata\n     *\n     * The size of the value is the number of elements of type\n     * valueDataType. This should be -1 for primitive and complex\n     * types.  For arrays, the size is the array length. i.e., if\n     * size >= 0, then this value is an array.  A complex value (such as\n     * an object) can contain other values (primitives or other\n     * complex values) within it, as components.\n     *\n     * Examples: <br>\n     *\n     * an integer will have size=-1 and valueDataType=INT, and\n     * valueBytes.length=4 bytes <br>\n     *\n     * an int[4] will have size=4 and valueDataType=INT, and\n     * valueBytes.length=16 bytes (4*4) <br>\n     *\n     * a string s=\"abc\" has size=3 and valueDataType=CHAR, and\n     * valueBytes.length=12 bytes (UTF32_BE encoding; 4 bytes per\n     * char) <br>\n     *\n     * an MyClass obj has size=-1, valueDataType=COMPLEX,\n     * runtimeDataType=\"MyClass\", valueBytes=<pointer> <br>"}], "name": "value", "default": null, "doc": "The value of the key"}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "The entry size in bytes (Optional)"}], "doc": "* Represents a registry key. Instantiates an AbstractObject."}, {"type": "record", "name": "PacketSocketObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm18.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "com.bbn.tc.schema.avro.cdm18.SHORT", "name": "proto", "doc": "Physical-layer protocol"}, {"type": "int", "name": "ifIndex", "doc": "Interface number"}, {"type": "com.bbn.tc.schema.avro.cdm18.SHORT", "name": "haType", "doc": "ARP hardware type"}, {"type": {"type": "fixed", "name": "BYTE", "namespace": "com.bbn.tc.schema.avro.cdm18", "size": 1}, "name": "pktType", "doc": "Packet type"}, {"type": "bytes", "name": "addr", "doc": "Physical-layer address"}], "doc": "* Represents a packet socket. Instantiates an AbstractObject."}, {"type": "record", "name": "NetFlowObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm18.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "string", "name": "localAddress", "doc": "The local IP address for this flow"}, {"type": "int", "name": "localPort", "doc": "The local network port for this flow"}, {"type": "string", "name": "remoteAddress", "doc": "The remote IP address for this flow"}, {"type": "int", "name": "remotePort", "doc": "The remote network port for this flow"}, {"type": ["null", "int"], "name": "ipProtocol", "default": null, "doc": "The IP protocol number e.g., TCP=6"}, {"type": ["null", "int"], "name": "fileDescriptor", "default": null, "doc": "The file descriptor (Optional)"}], "doc": "* Represents a network flow object. Instantiates an AbstractObject."}, {"type": "record", "name": "MemoryObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm18.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "long", "name": "memoryAddress", "doc": "The memory address"}, {"type": ["null", "long"], "name": "pageNumber", "default": null, "doc": "(Optional) decomposed memory addressed into pageNumber and pageOffset"}, {"type": ["null", "long"], "name": "pageOffset", "default": null}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "The entry size in bytes (Optional)"}], "doc": "* Represents a page in memory. Instantiates an AbstractObject.\n     * TODO: is memory really an object (with permissions and so on) or is it a transient data?"}, {"type": "record", "name": "SrcSinkObject", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm18.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": {"type": "enum", "name": "SrcSinkType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["SRCSINK_ACCELEROMETER", "SRCSINK_TEMPERATURE", "SRCSINK_GYROSCOPE", "SRCSINK_MAGNETIC_FIELD", "SRCSINK_HEART_RATE", "SRCSINK_LIGHT", "SRCSINK_PROXIMITY", "SRCSINK_PRESSURE", "SRCSINK_RELATIVE_HUMIDITY", "SRCSINK_LINEAR_ACCELERATION", "SRCSINK_MOTION", "SRCSINK_STEP_DETECTOR", "SRCSINK_STEP_COUNTER", "SRCSINK_TILT_DETECTOR", "SRCSINK_ROTATION_VECTOR", "SRCSINK_GRAVITY", "SRCSINK_GEOMAGNETIC_ROTATION_VECTOR", "SRCSINK_GPS", "SRCSINK_AUDIO", "SRCSINK_SYSTEM_PROPERTY", "SRCSINK_ENV_VARIABLE", "SRCSINK_ACCESSIBILITY_SERVICE", "SRCSINK_ACTIVITY_MANAGEMENT", "SRCSINK_ALARM_SERVICE", "SRCSINK_ANDROID_TV", "SRCSINK_AUDIO_IO", "SRCSINK_BACKUP_MANAGER", "SRCSINK_BINDER", "SRCSINK_BLUETOOTH", "SRCSINK_BOOT_EVENT", "SRCSINK_BROADCAST_RECEIVER_MANAGEMENT", "SRCSINK_CAMERA", "SRCSINK_CLIPBOARD", "SRCSINK_COMPONENT_MANAGEMENT", "SRCSINK_CONTENT_PROVIDER", "SRCSINK_CONTENT_PROVIDER_MANAGEMENT", "SRCSINK_DATABASE", "SRCSINK_DEVICE_ADMIN", "SRCSINK_DEVICE_SEARCH", "SRCSINK_DEVICE_USER", "SRCSINK_DISPLAY", "SRCSINK_DROPBOX", "SRCSINK_EMAIL", "SRCSINK_EXPERIMENTAL", "SRCSINK_FILE", "SRCSINK_FILE_SYSTEM", "SRCSINK_FILE_SYSTEM_MANAGEMENT", "SRCSINK_FINGERPRINT", "SRCSINK_FLASHLIGHT", "SRCSINK_GATEKEEPER", "SRCSINK_HDMI", "SRCSINK_IDLE_DOCK_SCREEN", "SRCSINK_IMS", "SRCSINK_INFRARED", "SRCSINK_INSTALLED_PACKAGES", "SRCSINK_JSSE_TRUST_MANAGER", "SRCSINK_KEYCHAIN", "SRCSINK_KEYGUARD", "SRCSINK_LOCATION", "SRCSINK_MACHINE_LEARNING", "SRCSINK_MEDIA", "SRCSINK_MEDIA_CAPTURE", "SRCSINK_MEDIA_LOCAL_MANAGEMENT", "SRCSINK_MEDIA_LOCAL_PLAYBACK", "SRCSINK_MEDIA_NETWORK_CONNECTION", "SRCSINK_MEDIA_REMOTE_PLAYBACK", "SRCSINK_MIDI", "SRCSINK_NATIVE", "SRCSINK_NETWORK", "SRCSINK_NETWORK_MANAGEMENT", "SRCSINK_NFC", "SRCSINK_NOTIFICATION", "SRCSINK_PAC_PROXY", "SRCSINK_PERMISSIONS", "SRCSINK_PERSISTANT_DATA", "SRCSINK_POSIX", "SRCSINK_POWER_MANAGEMENT", "SRCSINK_PRINT_SERVICE", "SRCSINK_PROCESS_MANAGEMENT", "SRCSINK_RECEIVER_MANAGEMENT", "SRCSINK_RPC", "SRCSINK_SCREEN_AUDIO_CAPTURE", "SRCSINK_SERIAL_PORT", "SRCSINK_SERVICE_CONNECTION", "SRCSINK_SERVICE_MANAGEMENT", "SRCSINK_SMS_MMS", "SRCSINK_SPEECH_INTERACTION", "SRCSINK_STATUS_BAR", "SRCSINK_SYNC_FRAMEWORK", "SRCSINK_TELEPHONY", "SRCSINK_TEST", "SRCSINK_TEXT_SERVICES", "SRCSINK_THREADING", "SRCSINK_TIME_EVENT", "SRCSINK_UI", "SRCSINK_UID_EVENT", "SRCSINK_UI_AUTOMATION", "SRCSINK_UI_MODE", "SRCSINK_UI_RPC", "SRCSINK_USAGE_STATS", "SRCSINK_USB", "SRCSINK_USER_ACCOUNTS_MANAGEMENT", "SRCSINK_USER_INPUT", "SRCSINK_VIBRATOR", "SRCSINK_WAKE_LOCK", "SRCSINK_WALLPAPER_MANAGER", "SRCSINK_WAP", "SRCSINK_WEB_BROWSER", "SRCSINK_WIDGETS", "SRCSINK_IPC", "SRCSINK_UNKNOWN"], "doc": "* There are many types of sources such as sensors.  The type of a\n     * sensor could be base (close to hardware) or composite.  This is\n     * mostly (only?) applicable to the Android platform.  See\n     * https://source.android.com/devices/sensors/index.html for\n     * details."}, "name": "type", "doc": "The type of the object"}, {"type": ["null", "int"], "name": "fileDescriptor", "default": null, "doc": "The file descriptor (Optional)"}], "doc": "* Represents a generic source or sink on the host device that is can be a file, memory, or netflow.\n     * This is the most basic representation of a source or sink, basically specifying its type only."}, {"type": "record", "name": "Event", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "uuid", "doc": "A universally unique identifier for the event"}, {"type": ["null", "long"], "name": "sequence", "default": null, "doc": "* A logical sequence number for ordering events relative to\n         * each other within a subject's execution context\n         *\n         * This attribute is only optional for inferred events, such\n         * as an object's attribute change that was observed without\n         * an explicit event or system call."}, {"type": {"type": "enum", "name": "EventType", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["EVENT_ACCEPT", "EVENT_ADD_OBJECT_ATTRIBUTE", "EVENT_BIND", "EVENT_BLIND", "EVENT_BOOT", "EVENT_CHANGE_PRINCIPAL", "EVENT_CHECK_FILE_ATTRIBUTES", "EVENT_CLONE", "EVENT_CLOSE", "EVENT_CONNECT", "EVENT_CREATE_OBJECT", "EVENT_CREATE_THREAD", "EVENT_DUP", "EVENT_EXECUTE", "EVENT_EXIT", "EVENT_FLOWS_TO", "EVENT_FCNTL", "EVENT_FORK", "EVENT_LINK", "EVENT_LOADLIBRARY", "EVENT_LOGCLEAR", "EVENT_LOGIN", "EVENT_LOGOUT", "EVENT_LSEEK", "EVENT_MMAP", "EVENT_MODIFY_FILE_ATTRIBUTES", "EVENT_MODIFY_PROCESS", "EVENT_MOUNT", "EVENT_MPROTECT", "EVENT_OPEN", "EVENT_OTHER", "EVENT_READ", "EVENT_READ_SOCKET_PARAMS", "EVENT_RECVFROM", "EVENT_RECVMSG", "EVENT_RENAME", "EVENT_SENDTO", "EVENT_SENDMSG", "EVENT_SERVICEINSTALL", "EVENT_SHM", "EVENT_SIGNAL", "EVENT_STARTSERVICE", "EVENT_TRUNCATE", "EVENT_UMOUNT", "EVENT_UNIT", "EVENT_UNLINK", "EVENT_UPDATE", "EVENT_WAIT", "EVENT_WRITE", "EVENT_WRITE_SOCKET_PARAMS"], "doc": "* EventType enumerates the most common system calls. Since there\n     * are hundreds of possible system calls, enumerating all of them\n     * and managing the list across OS versions is a\n     * challenge. EVENT_OTHER is the catch all for events not enumerated here. Any events\n     * that are expected to be of importance, should be included in this list."}, "name": "type", "doc": "The type of the event"}, {"type": ["null", "int"], "name": "threadId", "default": null, "doc": "* The thread id to which this event belongs.  Required for\n         * all events, except the EVENT_ADD_OBJECT_ATTRIBUTE and\n         * EVENT_FLOWS_TO event."}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "hostId", "doc": "Host where event occurred"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "subject", "default": null, "doc": "* UUID of Subject that generated this event.  The subject is\n         * required for all events, except the\n         * EVENT_ADD_OBJECT_ATTRIBUTE and EVENT_FLOWS_TO event."}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "predicateObject", "default": null, "doc": "* UUID of Object/Subject this event acts on. For events that\n         * have two arguments, this attribute contains the first\n         * argument (following the argument order in the underlying\n         * system call). This attribute is optional because it may not\n         * be relevant for some events."}, {"type": ["null", "string"], "name": "predicateObjectPath", "default": null, "doc": "If applicable, the object's absolute file path (Optional)"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm18.UUID"], "name": "predicateObject2", "default": null, "doc": "* Optional UUID of Object/Subject for events that take two\n         * arguments (e.g., link, rename, etc). This attribute\n         * contains the second argument (following the argument order\n         * in the underlying system call)."}, {"type": ["null", "string"], "name": "predicateObject2Path", "default": null, "doc": "If applicable, the second object's absolute file path (Optional)"}, {"type": "long", "name": "timestampNanos", "doc": "* The time at which the event occurred. Timestamps allow\n         * reasoning about order of events on a host when the same\n         * clock is used. A timestamp stores the number of nanoseconds\n         * from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         *\n         * TODO: When different clocks are used on a host or across\n         * hosts, we need to also define a clock source\n         *\n         * NOTE: When an object update is inferred without an explicit\n         * system call event, TA1s may not have an accurate timestamp\n         * of when the object was updated. In that case, the timestamp\n         * used in the update event is the same as the timestamp used\n         * in the next system call event that uses the updated object."}, {"type": ["null", "string"], "name": "name", "default": null, "doc": "Event name (Optional)"}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm18.Value"}], "name": "parameters", "default": null, "doc": "Event parameters represented as values, see Value (Optional)"}, {"type": ["null", "long"], "name": "location", "default": null, "doc": "Location refers to the location of the data affecting the event\n         *  (e.g., the read offset in the file for the read system call event). (Optional)"}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "Size refers to the size of the data affecting the event\n         *  (e.g., the number of bytes read from the file for the read system call event). (Optional)"}, {"type": ["null", "string"], "name": "programPoint", "default": null, "doc": "The program point where the event was triggered (e.g., executable and line number). (Optional)"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* Events represent actions executed by subjects on data objects\n     * or other subjects.  Events are generally system calls, but\n     * could also include function calls, instruction executions, or\n     * even more abstract notions. Events are the core entity in the\n     * data model and they are the main abstraction for representing\n     * information flow between data objects and subjects."}, {"type": "record", "name": "UnitDependency", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "unit"}, {"type": "com.bbn.tc.schema.avro.cdm18.UUID", "name": "dependentUnit"}], "doc": "* This record captures a relationship edge between two units, one\n     * dependent on the other. This relationship is inferred from a\n     * combination of underlying events."}, {"type": "record", "name": "TimeMarker", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "long", "name": "tsNanos", "doc": "Timestamp in nanoseconds"}], "doc": "* TimeMarker records are used to delineate time periods in a data\n     * stream to help consumers know their current read position in the\n     * data stream."}, {"type": "record", "name": "StartMarker", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "int", "name": "sessionNumber", "doc": "sequence number that monotonically increases each time the system is started"}], "doc": "* StartMarker records delineate system (re)starts in a data stream."}, {"type": "record", "name": "EndMarker", "namespace": "com.bbn.tc.schema.avro.cdm18", "fields": [{"type": "int", "name": "sessionNumber", "doc": "session number in the corresponding StartMarker"}, {"type": {"type": "map", "values": "string"}, "name": "recordCounts", "order": "ignore", "doc": "* Reports countc of each record type that has been published\n         * since the the start of the data stream."}], "doc": "* EndMarker records marks the end of a data stream."}], "name": "datum"}, {"type": "string", "name": "CDMVersion", "default": "18"}, {"type": {"type": "enum", "name": "InstrumentationSource", "namespace": "com.bbn.tc.schema.avro.cdm18", "symbols": ["SOURCE_ANDROID_JAVA_CLEARSCOPE", "SOURCE_ANDROID_NATIVE_CLEARSCOPE", "SOURCE_FREEBSD_OPENBSM_TRACE", "SOURCE_FREEBSD_DTRACE_CADETS", "SOURCE_FREEBSD_TESLA_CADETS", "SOURCE_FREEBSD_LOOM_CADETS", "SOURCE_FREEBSD_MACIF_CADETS", "SOURCE_LINUX_SYSCALL_TRACE", "SOURCE_LINUX_NETFILTER_TRACE", "SOURCE_LINUX_PROC_TRACE", "SOURCE_LINUX_BEEP_TRACE", "SOURCE_LINUX_THEIA", "SOURCE_WINDOWS_DIFT_FAROS", "SOURCE_WINDOWS_PSA_FAROS", "SOURCE_WINDOWS_FIVEDIRECTIONS", "SOURCE_WINDOWS_MARPLE"], "doc": "* InstrumentationSource identifies the source reporting provenance information."}, "name": "source", "doc": "What source generated this record?"}], "doc": "* A record representing either a vertex or an edge. This is the top level record that allows\n     * us to easily mix the vertices and edges defined above on the wire."} |î1OÀmĞ [C4ò•¢û LLED 6X€DµÀOS52:blackmarsh3.musec.engr.mun.ca ¬FreeBSD 12.0-CURRENT FreeBSD 12.0-CURRENT #4 9a4f94724c9(cadets): Thu Mar  1 10:53:32 NST 2018     strnad@allendale.engr.mun.ca:/var/build/strnad/obj/usr/home/strnad/build-meta/freebsd/amd64.amd64/sys/CADETS  amd64bge0"44:a8:42:1f:8d:c6192.168.1.1020.0.0.0<fe80::46a8:42ff:fe1f:8dc6%bge0 bge1"44:a8:42:1f:8d:c7192.168.1.106  18Â³ŞR#‹Q‹#õ›!ü(LLED 6X€DµÀOS52        18[pò(ìTÄ—1DÏ{GyI LLED 6X€DµÀOS520root  181K¸3èZD¨BÆ æ€ LLED 6X€DµÀOS52[pò(ìTÄ—1DÏ{GyI        hostH4c4c4544-0036-5810-8044-b5c04f533532 18zşc’gQİ¨·e&3DøŞ :œLLED 6X€DµÀOS521K¸3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ÈÏµ¤Š±£ *aue_openat_rwtc 
+flags     mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49202execbash 18õz?(YW½Çë‰yŞÜœLLED 6X€DµÀOS521K¸3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(   ®Í¥Š±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49202execbash 18åÎô,.T®,êÀä§MLLED 6X€DµÀOS52        18G’,LìQa§˜ÛiC±Á:œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M€/usr/home/skalik/tc/CSscriptDevTest/./calledScript_serveLinks.sh  ¨ó¤§Š±£ *aue_openat_rwtc 
+flags      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49202execbash 18ÀñH2şÊU=µ.`¢Omn.œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M   Àè¥¨Š±£ *aue_lseek    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49202execbash 18ûp´ÛT—¤ª¬*ğ>œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M8./calledScript_serveLinks.sh  Òà—©Š±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path8./calledScript_serveLinks.shfd3ppid
+49202execbash 18íh(…:Pi¢„‰óí³Iu
+.œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M   Šå‘ªŠ±£ *aue_lseek    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49202execbash 18.Èì L5T‘ŸÖ¢™.õïœLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M   Øÿ…¬Š±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49202execbash 18yÜ€bRTÛ‰ÑS Jæü œLLED 6X€DµÀOS521K¸3èZD¨BÆ    ¼Œ€­Š±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+49202execbash 18øYÇŞWˆ’Ø9¡ÚÂp œLLED 6X€DµÀOS521K¸3èZD¨BÆ    º”ú­Š±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49202execbash 18¿©öhŸ¶^’«JÑZŞáÁ.œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M   º”ú­Š±£ *aue_lseek    hostH4c4c4544-0036-5810-8044-b5c04f533532fd255ppid
+49202execbash 18İµ™¶ÆZ$¢ª;ŠÊA>œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M8./calledScript_serveLinks.sh  ìô®Š±£ *aue_read  â 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path8./calledScript_serveLinks.shfd255ppid
+49202execbash 18ãª§bi±VÈFºæËM.œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M   ‚°è°Š±£ *aue_lseek  \ hostH4c4c4544-0036-5810-8044-b5c04f533532fd255ppid
+49202execbash 18“uT3èZD¨BÆ ì€1K¸3èZD¨BÆLLED 6X€DµÀOS52[pò(ìTÄ—1DÏ{GyIæ·â±Š±£ *       hostH4c4c4544-0036-5810-8044-b5c04f533532 18 Ü)!V;…nRÊÕÀ5q"œLLED 6X€DµÀOS521K¸3èZD¨BÆ“uT3èZD¨BÆ   æ·â±Š±£ *aue_fork    
+arg_pid
+49206hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+49206ppid
+49202execbash 18M$²`«Sä™åO¯w3èœLLED 6X€DµÀOS52“uT3èZD¨BÆåÎô,.T®,êÀä§M   æ·â±Š±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+49203execbash 18Ñ'Ûk¼eQT¥¼šÀQ™îLLED 6X€DµÀOS52        18pX.à‘^P‘àY¸`^^‹LLED 6X€DµÀOS52        18¤Ñ[¹ºW=­¨Aê)*…èœLLED 6X€DµÀOS52“uT3èZD¨BÆpX.à‘^P‘àY¸`^^‹/usr/bin/whoamiÑ'Ûk¼eQT¥¼šÀQ™î(/libexec/ld-elf.so.1¶ÃÜ²Š±£ *aue_execve    
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLinewhoamippid
+49203execbash 18–òiI“Äh\„“V*Üh•fLLED 6X€DµÀOS52        18´ß|+âR¡ŸA ŸEfK:èœLLED 6X€DµÀOS52“uT3èZD¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  îÏĞ´Š±£ *aue_openat_rwtc 
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execwhoami 18†ÙFjF\xŸĞË›Ö"÷ >èœLLED 6X€DµÀOS52“uT3èZD¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  îÏĞ´Š±£ *aue_read  ^ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path /etc/libmap.conffd3ppid
+49203execwhoami 18+tL©lCZÏ˜³Tô–XÈ¬"èœLLED 6X€DµÀOS52“uT3èZD¨BÆ–òiI“Äh\„“V*Üh•f   ÜÊµŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execwhoami 18‹à"ZÄÜĞRœÄbíĞ‚"LLED 6X€DµÀOS52        18»T$Š1YW­ Tø&$:èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"0/var/run/ld-elf.so.hints  –ï¾·Š±£ *aue_openat_rwtc 
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execwhoami 18™ñ–ˆ0°^9¨©ø*D&>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"0/var/run/ld-elf.so.hints  Ğ÷¸¸Š±£ *aue_read  € 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path0/var/run/ld-elf.so.hintsfd3ppid
+49203execwhoami 18* fãWr©XßÈıd(>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"0/var/run/ld-elf.so.hints  òˆ³¹Š±£ *aue_pread  ¦ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path0/var/run/ld-elf.so.hintsfd3ppid
+49203execwhoami 18;O˜Â^Qj—S @esQ*èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"   ¢­ºŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execwhoami 18üS«ß‘/'V¯‘1ñ&'ÿ)LLED 6X€DµÀOS52        18ïÜD¿ÉÔRb–f˜7å³Í,:èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)/lib/libc.so.7  ¤”§»Š±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execwhoami 18ÃŒVnW÷Zú•HM	*xÊc.0èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   Ä›¡¼Š±£ *aue_mmap  €€¢ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execwhoami 18kTõaÍVm‘G×‘ôvÃ00èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   À¥›½Š±£ *aue_mmap  €€¢ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execwhoami 18¥“ÙÒ[-W;°È†ƒhßøT20èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   Ê³•¾Š±£ *aue_mmap  €€“ arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execwhoami 18Y1<4‰]·7Ò¬ÆÁõ40èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   °µ¿Š±£ *aue_mmap  €€í arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execwhoami 18ú60qà_´iÚN/~×60èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   ä¼‰ÀŠ±£ *aue_mmap  €€í arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execwhoami 18ÔùM»z‘Su•×¿2‡8èœLLED 6X€DµÀOS52“uT3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   øÉƒÁŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execwhoami 18¶©H»7reR²7%ùâeWyLLED 6X€DµÀOS52        18"2è¿ZæV™å]¶ka¬2::èœLLED 6X€DµÀOS52“uT3èZD¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  îÙ÷ÂŠ±£ *aue_open_rwtc 
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execwhoami 18‡š€ÁÚ2PQ±Ó†«±ÉM¸<>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  äñÃŠ±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/etc/nsswitch.conffd3ppid
+49203execwhoami 18êqğ¼öä^ÑŒ¥~ø‰Óº>>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  ¤ìëÄŠ±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/etc/nsswitch.conffd3ppid
+49203execwhoami 18ë&OĞñV}‰.Jå%9?@èœLLED 6X€DµÀOS52“uT3èZD¨BÆ¶©H»7reR²7%ùâeWy    àÆŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execwhoami 18‹ÑSyŠQNP‘Š ĞNEãLLED 6X€DµÀOS52        18ğCXUÌñ^ºİ£ÄÛõB:èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  „‰ÚÇŠ±£ *aue_open_rwtc 
+flags       mode         
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execwhoami 18ZåÊ¶Ø]¯)‘"f
+ÃD>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  úÎÉŠ±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd3ppid
+49203execwhoami 18bèÑ,|¿Un°3ğKä¥F>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ü£ÈÊŠ±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd3ppid
+49203execwhoami 18@—™[°‚W>¢*ÕBãòŠÔH>èœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ‚¬ÂËŠ±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd3ppid
+49203execwhoami 18Ö¶ S‡l™ºÚK JèœLLED 6X€DµÀOS52“uT3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   üµ¼ÌŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execwhoami 18(>&Š­ÎWê–Pë÷¯
+wL`èœLLED 6X€DµÀOS52“uT3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  üµ¼ÌŠ±£ *aue_write  
+ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd1ppid
+49203execwhoami 18.*¸ˆZ^%œbÆë@¥NèœLLED 6X€DµÀOS52“uT3èZD¨BÆ“uT3èZD¨BÆ   °¾¶ÍŠ±£ *aue_exit    hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execwhoami 18!ƒô)EÈ]¸¾X%eêêÇ‡P>œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M8./calledScript_serveLinks.sh  ÚÉ°ÎŠ±£ *aue_read  † 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path8./calledScript_serveLinks.shfd255ppid
+49202execbash 18ÿÊxf9jTÄ›7Ib^èÎfR`œLLED 6X€DµÀOS521K¸3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  úÕªÏŠ±£ *aue_write   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd1ppid
+49202execbash 18½£’­\Äµ$½I"?ÃT.œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M   ®ÜÑŠ±£ *aue_lseek  ˆ hostH4c4c4544-0036-5810-8044-b5c04f533532fd255ppid
+49202execbash 18˜²¯3èZD¨BÆ î€1K¸3èZD¨BÆLLED 6X€DµÀOS52[pò(ìTÄ—1DÏ{GyI´ì˜ÒŠ±£ *       hostH4c4c4544-0036-5810-8044-b5c04f533532 18ğk”Ô½P]«‚|ë·k
+ìV"œLLED 6X€DµÀOS521K¸3èZD¨BÆ˜²¯3èZD¨BÆ   ´ì˜ÒŠ±£ *aue_fork    
+arg_pid
+49207hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+49207ppid
+49202execbash 18#Hò1ö_H“8pÅ–÷£´XèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆåÎô,.T®,êÀä§M   ´ì˜ÒŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+49203execbash 18¤Û0…ú\…ïùìúİRLLED 6X€DµÀOS52        18_Ê¬İ@[€ò¤!ëMZèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¤Û0…ú\…ïùìúİR$/usr/local/bin/sshÑ'Ûk¼eQT¥¼šÀQ™î(/libexec/ld-elf.so.1ğı’ÓŠ±£ *aue_execve    
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLinessh -t skalik@allendale cd testRcv2; links http://blackmarsh3.musec.engr.mun.cappid
+49203execbash 18Oî«í ÑQ
+´ÿQ}w0—¦\:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  ¬‚‡ÕŠ±£ *aue_openat_rwtc 
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18··I˜­V:ŸÍ¿0ëŞèÚ^>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  ÊÖŠ±£ *aue_read  ^ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path /etc/libmap.conffd3ppid
+49203execssh 184‰³‰XŠ¹ı
+ÓßÍ%D`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ–òiI“Äh\„“V*Üh•f   ÊÖŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18ú:z*PŞ‚®X¹¡.¬b:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"0/var/run/ld-elf.so.hints  Ò›ûÖŠ±£ *aue_openat_rwtc 
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18P€İÎ:RÅªx‡Q©àâd>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"0/var/run/ld-elf.so.hints  ô§õ×Š±£ *aue_read  € 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path0/var/run/ld-elf.so.hintsfd3ppid
+49203execssh 18Ô	êá[2“¾%Ö“wf>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"0/var/run/ld-elf.so.hints  ø«ïØŠ±£ *aue_pread  ¦ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path0/var/run/ld-elf.so.hintsfd3ppid
+49203execssh 18,"Wvñ©QË°O_şµŒµhèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹à"ZÄÜĞRœÄbíĞ‚"   ´éÙŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18!®İãkS£İ$Ñ3k&>LLED 6X€DµÀOS52        18û;*B¹V€ ¯×$=]@j:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>&/lib/libcrypto.so.8  Ì»ãÚŠ±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18 ¾äÊªWq€ªİ‘	ñl0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   ÖÅİÛŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path&/lib/libcrypto.so.8fd3ppid
+49203execssh 18Ñ;»/Û8Y[št!Ó‡ˆÛ}n0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   ŠÎ×ÜŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path&/lib/libcrypto.so.8fd3ppid
+49203execssh 18y"(gõ_Z†ooÎ¼p0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   ¨×ÑİŠ±£ *aue_mmap  €€€
+ arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path&/lib/libcrypto.so.8fd3ppid
+49203execssh 18ù47IÄX°<Ğ›ƒî=”r0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   ¬àËŞŠ±£ *aue_mmap  €€€
+ arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path&/lib/libcrypto.so.8fd3ppid
+49203execssh 18ÂÜz½ğ§Wgd*Ã–èTt0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   ÀæÅßŠ±£ *aue_mmap  €€¢ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path&/lib/libcrypto.so.8fd3ppid
+49203execssh 18*…^ÖçYY³¨ }IbWÁv0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   šñ¿àŠ±£ *aue_mmap  €€¢ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path&/lib/libcrypto.so.8fd3ppid
+49203execssh 18¯¸[¨3OX¤4]“Ö¬xèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ!®İãkS£İ$Ñ3k&>   Üø¹áŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18;A`5õÅøP…õ¡ ø~tLLED 6X€DµÀOS52        18›âQHâVK‚ı &‹ì‰z:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t6/usr/local/lib/libldns.so.1  ª®ãŠ±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18_›Şÿû[e»¥àß¨bZ|0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t   š–¨äŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path6/usr/local/lib/libldns.so.1fd3ppid
+49203execssh 18¥cáUw\*–&$Õ«‰~0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t   „¢åŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path6/usr/local/lib/libldns.so.1fd3ppid
+49203execssh 18|î1OÀmĞ [C4ò•˜¶újºîÓ„Rú‰]qt7+z€0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t   Ş£œæŠ±£ *aue_mmap  €€¸ arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path6/usr/local/lib/libldns.so.1fd3ppid
+49203execssh 18NŠ®T„½?*æ¡Í*Ğ‚0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t   Ê¯–çŠ±£ *aue_mmap  €Àâ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path6/usr/local/lib/libldns.so.1fd3ppid
+49203execssh 18sôºyxYH°ö£	¨|„0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t   ²¸èŠ±£ *aue_mmap  €Àâ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path6/usr/local/lib/libldns.so.1fd3ppid
+49203execssh 18RÓšŠU?šùÙ»µİú†èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ;A`5õÅøP…õ¡ ø~t   ÜÃŠéŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18eé‡2+|Ê]¼+Ê¾ÊÛ¹LLED 6X€DµÀOS52        18û²-„ÇY®‘AeÑxH+ˆ:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹/lib/libz.so.6  ÂÎ„êŠ±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18©ØQ¡hUé¿eN“áĞ#¬Š0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   ÂÕşêŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libz.so.6fd3ppid
+49203execssh 18RÇã¿OV|»”Ë€i×~9Œ0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   úßøëŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libz.so.6fd3ppid
+49203execssh 18Ç;g³2ÿWf“Lÿ·x0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   ¢çòìŠ±£ *aue_mmap  €Àå arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libz.so.6fd3ppid
+49203execssh 18 ¦ï³X_ô¦Ql/ÔQ–0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   úòìíŠ±£ *aue_mmap  €Àå arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libz.so.6fd3ppid
+49203execssh 18Ì<NxQ™[oçjm’0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   îüæîŠ±£ *aue_mmap  €Àñ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libz.so.6fd3ppid
+49203execssh 18sÜÓ­i#Z¦¼,¿ğ˜èk”0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   ºşàïŠ±£ *aue_mmap  €Àñ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libz.so.6fd3ppid
+49203execssh 18¯¥S2S¸¬ Vë8šqg–èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆeé‡2+|Ê]¼+Ê¾ÊÛ¹   ºşàïŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18A37¦©_¦7İ?©^ LLED 6X€DµÀOS52        18:Ş±†Ü_¨¥?4šGRs.˜:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^ "/lib/libutil.so.9  ş™ÕñŠ±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18évËéûRƒ¼5"nà`š0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    ş™ÕñŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path"/lib/libutil.so.9fd3ppid
+49203execssh 18s(fFXş¿`s{¼Íe±œ0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    ÀÏòŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path"/lib/libutil.so.9fd3ppid
+49203execssh 18ë00ÈSÑ½–ö”=1»e0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    ¼¦ÉóŠ±£ *aue_mmap  €€ò arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path"/lib/libutil.so.9fd3ppid
+49203execssh 18ò’´â]ZF‚H*>ª# 0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    ø®ÃôŠ±£ *aue_mmap  €€ò arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path"/lib/libutil.so.9fd3ppid
+49203execssh 18•›/_ŸŸ˜¿„ÿ:Ó¶¢0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    æ·½õŠ±£ *aue_mmap  €Àú arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path"/lib/libutil.so.9fd3ppid
+49203execssh 18+YÌŠV’®é9%2Áü¤0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    öÇ·öŠ±£ *aue_mmap  €Àú arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path"/lib/libutil.so.9fd3ppid
+49203execssh 18{É(¶8S«©“ä{'i¦èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆA37¦©_¦7İ?©^    Î±÷Š±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18t	ınY^™n²V.åLLED 6X€DµÀOS52        18*7>–°mX÷¬€#ŞÑmŒ¨:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å$/lib/libcrypt.so.5  ÔÏ«øŠ±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 187`5ŒV/½¡TS°jÚª0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å   ¬Ü¥ùŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/lib/libcrypt.so.5fd3ppid
+49203execssh 187ú$
+0è]T¬M®‹î®‹¬0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å   ìïŸúŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/lib/libcrypt.so.5fd3ppid
+49203execssh 18ŒQ›C8ñY4ŒkCâoã²®0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å   î™ûŠ±£ *aue_mmap  €€ü arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/lib/libcrypt.so.5fd3ppid
+49203execssh 18ê‰j‚U]=¤?41æ°0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å   œ÷“üŠ±£ *aue_mmap  €€‚ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/lib/libcrypt.so.5fd3ppid
+49203execssh 18–Û'ğ9Râ˜¡àæ…Û²0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å   úşıŠ±£ *aue_mmap  €€‚ arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/lib/libcrypt.so.5fd3ppid
+49203execssh 18Dù%E¶_vc6º«•´èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆt	ınY^™n²V.å   ØˆşŠ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18KÏêI M^1§æÉdM§Š¶:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)/lib/libc.so.7  ä—‚ÿŠ±£ *aue_openat_rwtc 
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+49203execssh 18?#qFV
+Z§§¨ûû9€¸0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   Ò—üÿŠ±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execssh 18çnŞP¡ô—ô7.ÑIº0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   ü¦ö€‹±£ *aue_mmap  €Àñ arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execssh 18¥œ‡Û¨“W6²şï³³)¼0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   Ú­ğ‹±£ *aue_mmap  €€‹ arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execssh 18–Ã]¤U\Z´j›|CÀ&¬¾0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   ´³ê‚‹±£ *aue_mmap  €€‹ arg_mem_flags4['PROT_READ', 'PROT_EXEC']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execssh 18†%ƒp!\½­–b`iÀ0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   Ô»äƒ‹±£ *aue_mmap  €€å arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execssh 18f?51Ÿ–[r¨¤˜”¹t¼mÂ0èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   ğÔŞ„‹±£ *aue_mmap  €€å arg_mem_flags6['PROT_READ', 'PROT_WRITE']hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/lib/libc.so.7fd3ppid
+49203execssh 18k „.ĞæS™1¡ûİ!ÄèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆüS«ß‘/'V¯‘1ñ&'ÿ)   ÂÖØ…‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18¾€wf5\Ãóåê¶"Æ8èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    ÊçÌ‡‹±£ *aue_mprotect    
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execssh 18)ã•„ lR „=aÂlZÙLLED 6X€DµÀOS52        18¤‹aMVÆPw»mWë…ê²È:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ)ã•„ lR „=aÂlZÙ/tmp/runlog  ş‡»Š‹±£ *aue_open_rwtc 
+flags     mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 183PÓK€X‹Ó«·Ø€‘^LLED 6X€DµÀOS52        18£g8Ÿ^¼R2‰jM”SÖ“Ê:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ3PÓK€X‹Ó«·Ø€‘^/dev/null  è”µ‹‹±£ *aue_openat_rwtc 
+flags     mode         ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value4ppid
+49203execssh 18<®‡ÓèdZ¸ÑßFú=ÌèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ3PÓK€X‹Ó«·Ø€‘^   ˆ˜¯Œ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18·®y©¨^Ñ‘•‹=*Â¯ƒÎèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ)ã•„ lR „=aÂlZÙ   ª£©‹±£ *aue_closefrom    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18_ÎæƒSU®‰S®k2ùĞ
+èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ˜²¯3èZD¨BÆ   ¶§£‹±£ *aue_seteuid euid         
+arg_euid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execssh 18,³ÆWb….WımÆê Ò:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  ²±‹±£ *aue_open_rwtc 
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18	ô~«,R<‘Sğš“t£ªÔ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  ¤³—‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/etc/nsswitch.conffd3ppid
+49203execssh 18
+BéT¦…S–¢è^"1V;1Ö>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  ĞÊ‘‘‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path$/etc/nsswitch.conffd3ppid
+49203execssh 18•ïKú‰Ü\X¸%u1»”KÇØèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¶©H»7reR²7%ùâeWy   °Î…“‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18ƒ±Y'İV>¡èUœçÚ:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  øåÿ“‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18°ÖİÖùXT1Tô™{±Ü>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  –ïù”‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd3ppid
+49203execssh 18!şK³YSG¸JşÊ¦{Ş>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  Àôó•‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd3ppid
+49203execssh 18vv‡©r\†ºxÖõı?¹5à>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  èûí–‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd3ppid
+49203execssh 18r/híêšZ’º)¡¶Šµz¼âèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   Òƒè—‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18ªeSI]ØEL«†›¦üä4èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ˜²¯3èZD¨BÆ   ˆ‹â˜‹±£ *aue_umask    hostH4c4c4544-0036-5810-8044-b5c04f533532return_value18ppid
+49203execssh 18/Ôß¶ùvØU¶ù2Øì©LLED 6X€DµÀOS52        18e]R«ùf]ú”=(E[G‚æ:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ/Ôß¶ùvØU¶ù2Øì©(/etc/ssl/openssl.cnf  ê™Öš‹±£ *aue_open_rwtc 
+flags      mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18ì½ÅëÇK[¯œùù¿[ëóè>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ/Ôß¶ùvØU¶ù2Øì©(/etc/ssl/openssl.cnf  ¶©Ğ›‹±£ *aue_read  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path(/etc/ssl/openssl.cnffd3ppid
+49203execssh 18¢röìuYê¥ÉûGF1ê>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ/Ôß¶ùvØU¶ù2Øì©(/etc/ssl/openssl.cnf  Œ²Êœ‹±£ *aue_read  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path(/etc/ssl/openssl.cnffd3ppid
+49203execssh 184FdnuPæœbK&\;“ì>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ/Ôß¶ùvØU¶ù2Øì©(/etc/ssl/openssl.cnf  ê¸Ä‹±£ *aue_read  ¾) 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path(/etc/ssl/openssl.cnffd3ppid
+49203execssh 18ï" ÿXñ—İ¶ªkêÙ¼î>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ/Ôß¶ùvØU¶ù2Øì©(/etc/ssl/openssl.cnf  °Ì¾‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path(/etc/ssl/openssl.cnffd3ppid
+49203execssh 18î!9õ´U©ÄXo¦ZNğèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ/Ôß¶ùvØU¶ù2Øì©   †¶¸Ÿ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18MÔë˜??X¿?>LLED 6X€DµÀOS52        18Ù5P>V^‘‡-ßwµøò:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆMÔë˜??X¿?>:/usr/local/etc/ssh/ssh_config  ªƒ¦‹±£ *aue_open_rwtc 
+flags      mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18/	*m™[$‰pTOÉö¬tô>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆMÔë˜??X¿?>:/usr/local/etc/ssh/ssh_config  ŒŒ‰§‹±£ *aue_read  ü 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path:/usr/local/etc/ssh/ssh_configfd3ppid
+49203execssh 18O'İ>Wœ¸İ2ö’Û²ö>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆMÔë˜??X¿?>:/usr/local/etc/ssh/ssh_config  à•ƒ¨‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path:/usr/local/etc/ssh/ssh_configfd3ppid
+49203execssh 18|Z¾TcOR:¬ Œ½5nøèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆMÔë˜??X¿?>   äı¨‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18ƒXùKkğ]«K¸¸ğ´§LLED 6X€DµÀOS52        18áæ‘ãçZĞèñ2 ¹m¶ú:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆƒXùKkğ]«K¸¸ğ´§/etc/services  ú¨÷©‹±£ *aue_open_rwtc 
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18TîKÁÃøT„ÙLë7ùü.èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆƒXùKkğ]«K¸¸ğ´§   ú¯ñª‹±£ *aue_lseek    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203execssh 18xSÜ‘SSœ—sƒ¼l†ş.èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆƒXùKkğ]«K¸¸ğ´§   ö¹ë«‹±£ *aue_lseek    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203execssh 18ÅY“<ÅVÛ4úŠ×€>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆƒXùKkğ]«K¸¸ğ´§/etc/services  ÚÁå¬‹±£ *aue_read  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/servicesfd3ppid
+49203execssh 18
+iØ¯¹_X¤ã¾ÂÜ„/â‚èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆƒXùKkğ]«K¸¸ğ´§   ÌÍß­‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18¥£J`¢€õ^€¢Ò».õŞûLLED 6X€DµÀOS52        18uƒ‚ï¾)Xì×thƒé„:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû/etc/hosts  ‚ÔÙ®‹±£ *aue_open_rwtc 
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18|î1OÀmĞ [C4ò•¦ôúÕ–;zYŸ+-Öyí†>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû/etc/hosts  şÓÓ¯‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/hostsfd3ppid
+49203execssh 18Á¶‡QT÷@"™Õ×ˆ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû/etc/hosts  ºåÍ°‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/hostsfd3ppid
+49203execssh 18¢İº4mîP°¿zlÊ—³)ŠèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû   ¼ïÇ±‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18`Ö|ŠbPM_báOMLÑLLED 6X€DµÀOS52        18ŒiAù‰ÛV2Ÿ½s'EràŒ:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ /etc/resolv.conf  –úÁ²‹±£ *aue_open_rwtc 
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18È¯©¿ø[ù™½Atböäú>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ /etc/resolv.conf  ’ƒ¼³‹±£ *aue_read  – 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path /etc/resolv.conffd3ppid
+49203execssh 18O¡º);½Xè½´E!îFÄ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ /etc/resolv.conf  î‹¶´‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path /etc/resolv.conffd3ppid
+49203execssh 18 ëµ„ÛˆSé»óvSÈ¬JŒ’èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ   ª“°µ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18¨§G3èZD¨BÆLLED 6X€DµÀOS52   localhost192.168.1.1j  18Ó@Å%¶_ó©ë3oô˜²”èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¨§G3èZD¨BÆ   „¯¤·‹±£ *aue_connect    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203address192.168.1.1port53execssh 18=<neÛüP&’E!ÿòßìLLED 6X€DµÀOS52   192.168.1.102ª192.168.1.1j  18Ğí¹˜wJ\´åğyş#–èœLLED 6X€DµÀOS52 ¨§G3èZD¨BÆ =<neÛüP&’E!ÿòßì „¯¤·‹±£ *      18ÓMÙJW„˜}P< ßKÈ˜HèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¨§G3èZD¨BÆ   ‚­¸‹±£ *aue_sendto  Z 
+ret_msgid"36028797019501618hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203execssh 18‹oûœœ]°­õ.°Ğ|¨šBèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¨§G3èZD¨BÆ   ¶¹˜¹‹±£ *aue_recvfrom  z hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203address192.168.1.1port53execssh 18gŠÍ~[VÄ…-Àtöæ–œèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¨§G3èZD¨BÆ   ¶¹˜¹‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18©`E3èZD¨BÆLLED 6X€DµÀOS52   localhost192.168.1.1j  18m¿~¾Ño\ ³¥ñ7Q‚IèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ©`E3èZD¨BÆ   ğÉŒ»‹±£ *aue_connect    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203address192.168.1.1port53execssh 18?¶û×ZPn·¾ìKó¼i›LLED 6X€DµÀOS52   192.168.1.102À³192.168.1.1j  18ú{à—äSÿ°?>Öi|ç èœLLED 6X€DµÀOS52 ©`E3èZD¨BÆ ?¶û×ZPn·¾ìKó¼i› ìÓ†¼‹±£ *      18Cû_Ši[M–R°VÔ;ÀÕ¢HèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ©`E3èZD¨BÆ   ìÓ†¼‹±£ *aue_sendto  Z 
+ret_msgid"36028797019501619hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203execssh 18jÕİÓõ#WÙ§UZpgh¶¤BèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ©`E3èZD¨BÆ   üæ€½‹±£ *aue_recvfrom  Z hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203address192.168.1.1port53execssh 18{Â/ Á]Uƒ/?K%uÓ¦èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ©`E3èZD¨BÆ   ‚åú½‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18‘RRyPéY8¢(¼agó1¢¨:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû/etc/hosts  Æğô¾‹±£ *aue_open_rwtc 
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+49203execssh 18vJC¼SZ
+Ù× w(9ª>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû/etc/hosts  Èõî¿‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/hostsfd3ppid
+49203execssh 18€Yd¾ŸSnœ[»2o`Ä”¬>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû/etc/hosts  ’éÀ‹±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/hostsfd3ppid
+49203execssh 18êÜák@ı[ïŒ=7¥‚L®èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¥£J`¢€õ^€¢Ò».õŞû   ü‰ãÁ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18ª§_3èZD¨BÆLLED 6X€DµÀOS52   localhost192.168.1.1j  18ÕN Ï/•S<¬øv¯õ¹°èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆª§_3èZD¨BÆ    š×Ã‹±£ *aue_connect    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203address192.168.1.1port53execssh 18(¶ĞùHUâ¨Õ?ã)É¹LLED 6X€DµÀOS52   192.168.1.102ôø192.168.1.1j  18>;©ŠbU0‹ŠA²0‘\²èœLLED 6X€DµÀOS52 ª§_3èZD¨BÆ (¶ĞùHUâ¨Õ?ã)É¹  š×Ã‹±£ *      18ğÁ×À‡˜QJ‘¾(Q$=S[´HèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆª§_3èZD¨BÆ   Ì£ÑÄ‹±£ *aue_sendto  Z 
+ret_msgid"36028797019501620hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203execssh 18LtåZXÊ‹Ñ`á¬A×¶BèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆª§_3èZD¨BÆ   Ì£ÑÄ‹±£ *aue_recvfrom  z hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203address192.168.1.1port53execssh 18ç>:ô[‡$ÚŒüçQ¸èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆª§_3èZD¨BÆ   ®­ËÅ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18«W–3èZD¨BÆLLED 6X€DµÀOS52   localhost192.168.1.1j  18ØªL¤UD¡Ñ­=[ÒKºèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ«W–3èZD¨BÆ   ¾¿Ç‹±£ *aue_connect    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203address192.168.1.1port53execssh 18‰JÙT4Xµ·Šx9ô›LLED 6X€DµÀOS52   192.168.1.102¬À192.168.1.1j  18qˆ¹îy1Vá›-‡Ä tå§¼èœLLED 6X€DµÀOS52 «W–3èZD¨BÆ ‰JÙT4Xµ·Šx9ô› šË¹È‹±£ *      18B@—é5ãW¶ºÏÃU.jq¾HèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ«W–3èZD¨BÆ   šË¹È‹±£ *aue_sendto  Z 
+ret_msgid"36028797019501621hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203execssh 18|È{ˆRæ¼R(‚uRÀBèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ«W–3èZD¨BÆ   ÎÓ³É‹±£ *aue_recvfrom  Z hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+49203address192.168.1.1port53execssh 18=®oµUóŠr)~"zÕıÂèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ«W–3èZD¨BÆ   ¸Û­Ê‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18kcOÖZà±UŠÏNÔ·VÄ èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ     ì¡Ì‹±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+49203execssh 18¬q3èZD¨BÆLLED 6X€DµÀOS52   192.168.1.102¸ÿ192.168.1.1,  18»œS\ÃZûÓàQJÆ.rÆèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ   ôë›Í‹±£ *aue_connect    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203address192.168.1.1port22execssh 18m]utí_X«şnw}×ÜÈ
+èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ˜²¯3èZD¨BÆ   ôü•Î‹±£ *aue_seteuid euid         
+arg_euid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execssh 18PA¥Ğ^²¼ùXSBÊ
+èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ˜²¯3èZD¨BÆ   ôü•Î‹±£ *aue_setresgid gid      egid      sgid         arg_egid0arg_rgid0arg_sgid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execssh 18ÔÇÎ¸mUz˜=ï}Q¤ğÒÌ
+èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ˜²¯3èZD¨BÆ   ´…Ï‹±£ *aue_setresuid uid      euid      suid         arg_euid0arg_ruid0arg_suid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execssh 18Oª~
+ßVşŠ’±ûE±ÙÎ:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  è™„Ñ‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18Òş]QÛWÏ‡u³8!úûĞ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  è™„Ñ‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18¿U¶àeQÉ—v]¾0gwÒ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ²¡şÑ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18ôûœUæ”½:Òûƒ÷Ô>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  †«øÒ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18lğçóÂÂRãºeÅú15ÀÖèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   ˜³òÓ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18¢Ëœ~6"\Ó·úÉw”§­Ø:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ª»ìÔ‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18'†oJo¹W•±GKñ¬¶y«Ú>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  äÄæÕ‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18àk‚z!îZ ¸Á•Ú`(¹Ü>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ÌÍàÖ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18IV`:uyU‹§È—}v•ÕŞ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  òÖÚ×‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18OÌ ¹ïaW:Ÿcò¹÷¦ç¢àèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   ˆáÔØ‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18’;ÇXDßPs¸¸V_ŞÆ$“â:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  âñÈÚ‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18zÏËy<õ_:²mb[˜¥;oä>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ¼ûÂÛ‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18=¥†Ü\Qëµ·Œ×F½ş]æ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ¸…½Ü‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18Õóì®ÒY¯›—6w.ä…è>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ôŒ·İ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18I÷o|êY·ŸM(«ğwêèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   Ê™±Ş‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18V"KT2Z»¢0’‡ì:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  Ì¦¥à‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18ŠÊN=|KY“½ek+£™÷î>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  „ºŸá‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18Ÿ!½©l:Sà¸ö”™»„ğ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  äº™â‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18…äk|o°^Ù”åëBY´÷ò>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  âÂ“ã‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18– ò|–QS™ôÎ·qæ¡ôèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   âÂ“ã‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18Á¤*OáXd“©™Ö³æö:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  úÎ‡å‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18û«…"UÅS³U·Ù‘ú4vø>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  °ãæ‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18•[½‘	T¹½ ”ÊÅğzú>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  øçûæ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18â,Ô ôû]â­6ç;ï9*#ü>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ˆñõç‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18ÁÓ¿y5[j¦–Å+‚‹[óşèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   ¾øïè‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18ù§ôÌ?ÁQ˜Õ'qÃ˜€:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ø‚äê‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18$%A@¥[‰’¡Z>ø;FÈ‚>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  Î”Şë‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18Ú€ÿ´)·Y?e„>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ÌØì‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18@¯j1ÈêY—ì–,à85†>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  è¨Òí‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18äÖ"ÜR_¿r¢R¿†ÛdˆèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   è¨Òí‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18éz¥Ñ8SQ%¯ùŞ«,$Š:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ê­Ìî‹±£ *aue_open_rwtc 
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18şMy?Zj ‡¢İiÙù#Œ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  à¶Æï‹±£ *aue_read  ˆ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18T__â×VÛ¡¸®¯Ö>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  ÂÀğ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18ßŸˆö¾ñPgÆuK¸}%>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã/etc/spwd.db  šËºñ‹±£ *aue_pread  €@ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/etc/spwd.dbfd4ppid
+49203execssh 18pW€[ô¡¤»ÿ¯fĞ‡’èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ‹ÑSyŠQNP‘Š ĞNEã   êÜ´ò‹±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18p|ë¢ÃSo´Rnqªà«”`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ÆÜ®ó‹±£ *aue_write  : 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18å³ÑÍF_–“æíL´VÎ7–>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  è¨ô‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18|î1OÀmĞ [C4ò•¦Œı)'NÑ¢9[¬ëû"ÿÊB˜>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¢ğ¢õ‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18<°Aq$[Yw‚LšD¾ptš>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Ìõœö‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18<tœIPê˜àı+¹ièœ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Üÿ–÷‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18 «×>RJSs‡
+6TEB>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  úˆ‘ø‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18‘°fjé_İ¾ã‡Ô½E€› >èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  †‘‹ù‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ÈQ¹]8SÎœzQºŠ8m¢>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  èš…ú‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18^†®ƒ±'V £‰%æuŞP¤>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ö¥ÿú‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18|ˆ]8é¾YÑ¨û–½“2i¦>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  º¬ùû‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18Üˆ©X¾SSM¤D{¨>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¦·óü‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ñ¨cÙua\>¼aFña·ª>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ºµíı‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18k¥‘jÌB^£‹ÌL3Ë<ŠĞ¬>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ˆÈçş‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18úN)âşUk’ŒQ€³Dz ®>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  äĞáÿ‹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 187‚Öc1[4‡–ÛÿÂ9ç/°>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ÌÚÛ€Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 184°5•w	PR¬èBiÍ²>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>   ãÕŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18Á³;#†4W¯¸v¼‹'Õ¥‹´>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¬ìÏ‚Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18àÁæÈÌãWõˆÜ4Šè¶>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  î÷ÉƒŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18gŠ—âZ¹®ñ'ÿˆÁd¸>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ÆùÃ„Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18™úß¥SY/È JâSº>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¢‡¾…Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18üTˆ$¸\ü¦¨h±¸ÿi¼>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ˆ¸†Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ƒL×§M_¹ÛÒÇÜÂ”¾>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ş–²‡Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18Q!&&É_ Ÿ9À6J À>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  À£¬ˆŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18úJÑYÕ3\š¤»¯ˆ&ÉGÂ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¤«¦‰Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18¤ˆßåöîRˆ…ã¨‰ş‚“³Ä>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Ú² ŠŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ciñ­áSõS¨ŠïÆ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ´¼š‹Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18Ãa¼oTx£E™ +‘0qÈ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ğÂ”ŒŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18;@ƒ1] °MäñØA+Ê>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  äÎŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18In“·Ï×QùµØxäå³Ì>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¬×ˆŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18@wÍôÃÌ^±Ÿ{¥¬MñhaÎ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Èá‚Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18——TrTJ +£h‰Ñ]Ğ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ŠéüŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18B5‚ô×^àè\ëI\Ò>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  øóöŒ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18|î9™¨V7‚ÍŸt@ÜIyÔ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ºûğ‘Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18‘œV¥åéVÄ‰Ë¨‡2’4Ö>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ö‡ë’Œ±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18¢nIbfõ]¦Ï[PÖ€åØ èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    ÀŠå“Œ±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value2ppid
+49203execssh 18¥ö¾|ãZM’ªÒ³d°Œ’Ú èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    ì—ß”Œ±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18Tûø$;Z»›Ÿ*k<LLED 6X€DµÀOS52        18WypÉU¬ÁWMy^1Ü:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<,/root/.ssh/known_hosts  š Ù•Œ±£ *aue_open_rwtc 
+flags      mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 186×¿f_A­ò§œ“Ş>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<,/root/.ssh/known_hosts  ğ§Ó–Œ±£ *aue_read  î 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path,/root/.ssh/known_hostsfd4ppid
+49203execssh 18éú1ì	_Ş—å-Y>ßNJà>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<,/root/.ssh/known_hosts  „»Ç˜Œ±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path,/root/.ssh/known_hostsfd4ppid
+49203execssh 18ş°2Óbš_µ¤g°QòBâèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<   „»Ç˜Œ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18áE^3w/X‡ƒ'®KÒ-r®ä`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¸Ä»šŒ±£ *aue_write  à 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18S÷H†>;[vˆ#¼“.ŠÂæ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ÊÖµ›Œ±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ÄûÛ²Rä½)p2ªĞûè`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ş—Œ¢Œ±£ *aue_write  ` 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18—9©T.ƒÔd@ê>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ´÷Ê¬Œ±£ *aue_read  ° 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18­Î‡µJSÀ…”„}VlÚøì:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ /etc/resolv.conf  òÅ­Œ±£ *aue_open_rwtc 
+flags      mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18*ƒŒñòºY[Ìâ¢ÉKî>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ /etc/resolv.conf  ²‹¿®Œ±£ *aue_read  – 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path /etc/resolv.conffd4ppid
+49203execssh 18…•-o»¨[Ÿa—ä,MQğ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ /etc/resolv.conf  œ“¹¯Œ±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path /etc/resolv.conffd4ppid
+49203execssh 18~Ğ@^Y“¯Ç
+Í¥“òèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ`Ö|ŠbPM_báOMLÑ   ¦œ³°Œ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18¼hM3èZD¨BÆLLED 6X€DµÀOS52   192.168.1.102¨§192.168.1.1j  18®6»ã
+Vœ£_XËìerôHèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¼hM3èZD¨BÆ   š®§²Œ±£ *aue_sendto  p ret_msgid"36028797019501622hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+49203address192.168.1.1port53execssh 18‡Î“é@Xh­!8È®ÒbLLED 6X€DµÀOS52   192.168.1.102¨§192.168.1.1j  18ğHNƒQŸÈ8e¿-½Yö ›LLED 6X€DµÀOS52 ¼hM3èZD¨BÆ ‡Î“é@Xh­!8È®Òb š®§²Œ±£ *      18ÏV4¶âUN”{š-¼L.ø èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    ¬¶¡³Œ±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value2ppid
+49203execssh 18ÄŞy©ƒ[c•­+±sÅOú èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    ÚÃ›´Œ±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18ÇıÖ¥áXZË¯s¹À—@MüBèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¼hM3èZD¨BÆ   ²É•µŒ±£ *aue_recvfrom  p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+49203address192.168.1.1port53execssh 184J®T^m¥ÃñQÀWşèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¼hM3èZD¨BÆ   ÄÒ¶Œ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18PQk8¦U…Û´:^]@€:èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<,/root/.ssh/known_hosts  æÙ‰·Œ±£ *aue_open_rwtc 
+flags      mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+49203execssh 18øKùmNX(±wñT~Ş‚>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<,/root/.ssh/known_hosts  öâƒ¸Œ±£ *aue_read  î 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path,/root/.ssh/known_hostsfd4ppid
+49203execssh 18%&Ş­JT·ˆ¯nÖ¡Ş•A„>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<,/root/.ssh/known_hosts  îïı¸Œ±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path,/root/.ssh/known_hostsfd4ppid
+49203execssh 18‘ĞrÔ_.µøÊ`|Ø†èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆTûø$;Z»›Ÿ*k<   Œù÷¹Œ±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203execssh 18¤‚S
+qRS–Üƒz'— ˆ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¤°ÎÀŒ±£ *aue_write    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18d©—œ
+YZx¾|ı: ÅÂÍŠ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¼¾ÈÁŒ±£ *aue_write  X 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ÏÁh£ÜW	­ÇÙ@±*eŒ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  €îÙ¥±£ *aue_read  X 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18”ûcAV›˜QrÑíBæ¾ èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    €€Î§±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+49203execssh 18Ï3èZD¨BÆLLED 6X€DµÀOS52        18^èêô£ÉY×`·{“môÀèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ   ĞŒÈ¨±£ *aue_connect    hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+49203addressB/tmp/ssh-RCUNhUnuYIvC/agent.49196execssh 18Ï‹T3èZD¨BÆLLED 6X€DµÀOS52        18Tb@3èZD¨BÆLLED 6X€DµÀOS52        18bd°öP»¥„åD‚³Ş LLED 6X€DµÀOS528318skalik  18T‰u3èZD¨BÆ Ú€ LLED 6X€DµÀOS52bd°öP»¥„åD‚³Ş        hostH4c4c4544-0036-5810-8044-b5c04f533532 18BÍ»‚è…^¯_§’´B’ ¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆTb@3èZD¨BÆ Ï‹T3èZD¨BÆ ĞŒÈ¨±£ *aue_accept    ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value4ppid1address execssh-agent 18˜ÍËwS9ˆzÌ¯Şè·‚” ¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆ    ş˜Â©±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value6ppid1execssh-agent 18›Á†è˜_4•ÿÉ’„©–`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  ş˜Â©±£ *aue_write   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18­>ÓšX™1ŒëƒšO˜`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  ¾¼ª±£ *aue_write   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18*?±Òš‹Uê¯"Ÿ	Jz_Íœ¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ ¾¼ª±£ *      184—NÏ0[gã‹êïÔqQš>¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  ¾¼ª±£ *aue_read   ret_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18@\Ïõ‹Q$i	…#ÃÜ ¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ ®§¶«±£ *      18aBå6ùU¦`¨I­_7>¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  ®§¶«±£ *aue_read   ret_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18(9Îº/Y¤ûÕ‘ŒYk¤¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ ¤¯°¬±£ *      18]Ém¿¤U^­–ÎcÍ–'
+¢`¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  ¤¯°¬±£ *aue_write  ” arg_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18İr@	^™»İî!øe¦>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  ¤¯°¬±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18` ´ZYù_`½n&VX¨>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  ˜¶ª­±£ *aue_read  Œ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18âôİGæ–Q°…8]ø@B(ª`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¬Á¤®±£ *aue_write  x 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18a!´¬'_$„ÎÒ P6«y¬>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  €Ó˜°±£ *aue_read  X 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18|î1OÀmĞ [C4ò•†’Ì»±~Íeø\ğ¢ŠòbÛ"®`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  îà’±±£ *aue_write  Ø 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18=Ñ]ùoãUë¶O°:×t?Ø°>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  °ë†³±£ *aue_read  ø 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18X_­»<UWz Ê”1Âe»²`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  ö€´±£ *aue_write   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18Í=ìq_e³AÂ!l-õˆ¶¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ ö€´±£ *      18U¾^§ÎĞTB®B€wÄ´*š´>¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  ö€´±£ *aue_read   ret_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18á8j^l·DÌa )d¸`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  ğÿú´±£ *aue_write  ²
+ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18¯†-¡ğ]¶fúğı¦Âì¼¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ ğÿú´±£ *      18ŞZ$ßøKTì‘Jlœ–Îj|º>¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  ğÿú´±£ *aue_read  ²
+ ret_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18 üÎÌTŞ5°d9OÀ¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ Ø¯İ¹±£ *      18¼pès[ºµYÌìjS[¾`¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  Ø¯İ¹±£ *aue_write  ° arg_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18ÖN³Ü†ZUx‚#	µÈ²üÂ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  Ø¯İ¹±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18>Ó5%[t±8ÍNî—kÄ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÏ3èZD¨BÆ<unknown>  Ø¯İ¹±£ *aue_read  ¨ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid
+49203execssh 18ıS'Ñ4^`‡9~Š^ÚÆ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  œ°×º±£ *aue_write  ø	 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18_sYù»qUç°ÜWk È>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  âÈÅ½±£ *aue_read  8 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18òsP‚V\¢u*ÒæÖUÊ èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    öØ¿¾±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+49203execssh 18ÉÌ‰*­øUŸR­=cT-Ì èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ    ¢İ¹¿±£ *aue_fcntl cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+49203execssh 18At½¼
+X£n­‡Ì¥Î`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  °í³À±£ *aue_write  Ğ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18¸Ra}úSn­.¯”ßÀB0Ğ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ÄøÉ±£ *aue_read  Ø 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18Ü•…êş!_¹¯ï`›ìm›#Ò>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>   Ç§©±£ *aue_read  X 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18š={…S‰e´R›JÏÔ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Ñ¡ª±£ *aue_write  Ğ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18±ÁØƒ3à[Ğ>"ĞkÖ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ä­±£ *aue_read  ¨ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18Êä”©%[Q¬íÿ9±&¢ïØ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  äÏÎ·±£ *aue_read  ˜ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18¶©ÓWº'dW@EÚ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ôÙÈ¸±£ *aue_write  Z 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 18<¶;ÀL^˜²ƒ«`Á¯4šÜ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  åÂ¹±£ *aue_read  È: 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18˜hI"V·Ù8Ÿv§µŞ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  âğ¼º±£ *aue_write  Œ9 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 18Šõª VZiªÙœZÑÚà>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ªÿ°¼±£ *aue_read  ˜ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18uá( §èŠ¢D¨BÆLLED 6X€DµÀOS52   192.168.1.102 192.168.1.1Šç  18çÁ3èZD¨BÆLLED 6X€DµÀOS52   192.168.1.102 192.168.1.1Šç  18æCwbÍÉQ£Ÿz5X¼İà LLED 6X€DµÀOS5280www  18uáV# §èŠ¢D¨BÆ òÚ LLED 6X€DµÀOS52æCwbÍÉQ£Ÿz5X¼İà        hostH4c4c4544-0036-5810-8044-b5c04f533532 18Â©~¾º[/‘Š¹ÚÕÃ¶â ÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆuá( §èŠ¢D¨BÆ çÁ3èZD¨BÆ ªÿ°¼±£ *aue_accept    ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value3ppid
+14008address192.168.1.1port
+63941exec
+nginx 18äeüİYD½Ar!_A"ä`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ªÿ°¼±£ *aue_write  P 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 18ÚkSèP›İDTCQ»ÜæBÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆçÁ3èZD¨BÆ   Š«½±£ *aue_recvfrom  Æ	 hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+14008exec
+nginx 18.1Ù _ V¡»“åvª‹_è>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Š«½±£ *aue_read  ˜ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18`9h¼¡SÄ„x)Ğ{»Ÿê`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ì—¥¾±£ *aue_write  X 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 181wÍ(ÇJÄ[ŠÇ•1ÛÄÀÆLLED 6X€DµÀOS52        18è­‚ÆsV@—®]­ÄÎé]ì:ÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆ1wÍ(ÇJÄ[ŠÇ•1ÛÄÀÆ>/usr/local/www/nginx/index.html  ì—¥¾±£ *aue_openat_rwtc 
+flags     mode         ret_fd19hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value9ppid
+14008exec
+nginx 18"üÊ0’X5£ïc«YÂó[îHÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆçÁ3èZD¨BÆ 1wÍ(ÇJÄ[ŠÇ•1ÛÄÀÆ ¶ŸŸ¿±£ *aue_sendfile    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd9return_value0ppid
+14008exec
+nginx 18}édx^]ïúØ¥ˆ7´Eğ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  °ª™À±£ *aue_read  Ø 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18=AYMêàWÍ‘>ĞxÑ·ò`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ”¢“Á±£ *aue_write  š 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 18­”„§èR]¨§x#}Rf‹LLED 6X€DµÀOS52        18µib€$ûP+JƒÅ!`ô`ÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆ­”„§èR]¨§x#}Rf‹2/var/log/nginx/access.log  ”¢“Á±£ *aue_write  œ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path2/var/log/nginx/access.logfd4ppid
+14008exec
+nginx 18µ²YIhZ¾‰_i à@	öÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆ1wÍ(ÇJÄ[ŠÇ•1ÛÄÀÆ   Ü´Â±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd9return_value0ppid
+14008exec
+nginx 18¡Ra^ÀQRÚ™T!·õN‚ø>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  Âõ´ç©±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd5ppid
+49203execssh 18§ØXC2Yœ‰¥HOá£ú`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ®‹¯è©±£ *aue_write  8 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18u–?;ˆU|–m$•z·g;ü>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¾©é©±£ *aue_read  Ø 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ï¯òFVïp­¯|ëêßş`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  „‘£ê©±£ *aue_write    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 18´4ÖHÓ\<™ÆRVhXÉ€>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ¼ùş‰²±£ *aue_read   
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd5ppid
+49203execssh 18ºsÇsíDWü˜†sTÙup‚`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¼ùş‰²±£ *aue_write  8 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18ªKá¢ÊT'©}ˆÓyí„>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¨Œó‹²±£ *aue_read  ¸ 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18jä
+óÕ_5“!±`Z•Ÿ†ÔœLLED 6X€DµÀOS52uáV# §èŠ¢D¨BÆçÁ3èZD¨BÆ   ¨Œó‹²±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+14008exec
+nginx 18»ÂâuhdWŒ††v¯fî_~ˆ`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  œ¡íŒ²±£ *aue_write  x 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd6ppid
+49203execssh 18P×ÙLÍb]7°Å%M–0hŠ>èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Ü¥ç²±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18bè¯ê/_.¢ß•Õ4[D*ŒèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(   ²¸á²±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+49203execssh 18“ş­øUÜ»Ç?ñÜT§uèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(   ²¸á²±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+49203execssh 18­ÿVyAS±ËÉÇÍ{èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(   Ø±Û²±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+49203execssh 18s5p˜Ñ[[Œl\ÛÚ–+’`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  Ö¹Õ²±£ *aue_write  8 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18x}o´]R…¾4Ø8ÁU”`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ<unknown>  ¸ÂÏ‘²±£ *aue_write  x 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd3ppid
+49203execssh 18X 6²I	WÈˆšÀ´“´Ib–`èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆÂ³ŞR#‹Q‹#õ›!ü(/dev/tty  ĞËÉ’²±£ *aue_write  f 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path/dev/ttyfd2ppid
+49203execssh 18¯­(_ĞZxº9VæÜ+n,˜èœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ¬q3èZD¨BÆ   šØÃ“²±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+49203execssh 18‰¿gN¹UV¼Omë¾b‚šèœLLED 6X€DµÀOS52˜²¯3èZD¨BÆ˜²¯3èZD¨BÆ   ¶İ½”²±£ *aue_exit    hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49203execssh 18ÕÈB$u+ZÑ Äb¯70E¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ Ï‹T3èZD¨BÆ şê·•²±£ *      18Tcõ¾g§ZÔ±Šuúc¤ïœ>¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ<unknown>  şê·•²±£ *aue_read    ret_miouuidH1ecf8b54-3302-11e8-8d5a-44a8421f8dc6hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path<unknown>fd4ppid1execssh-agent 18Õgğ‰+óV>¹GãÀ#¾ç >œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M8./calledScript_serveLinks.sh  şê·•²±£ *aue_read  Ú 
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path8./calledScript_serveLinks.shfd255ppid
+49202execbash 18ax_Å^UÛ“›í£_QÃ¢¼ŸLLED 6X€DµÀOS52T‰u3èZD¨BÆÏ‹T3èZD¨BÆ   ¤ï±–²±£ *aue_close    
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid1execssh-agent 18w°G€iS‹¥±›
+®‚¤>œLLED 6X€DµÀOS521K¸3èZD¨BÆåÎô,.T®,êÀä§M8./calledScript_serveLinks.sh  ¤ï±–²±£ *aue_read    
+hostH4c4c4544-0036-5810-8044-b5c04f533532partial_path8./calledScript_serveLinks.shfd255ppid
+49202execbash 18’+H©¼Yô…#¹¦—fªù¦œLLED 6X€DµÀOS521K¸3èZD¨BÆ1K¸3èZD¨BÆ   Ê‹¬—²±£ *aue_exit    hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+49202execbash 18|î1OÀmĞ [C4ò•
