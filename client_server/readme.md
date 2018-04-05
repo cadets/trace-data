@@ -55,13 +55,13 @@ To act as client, the host on which the tracing is being preformed launches clie
 
 * `git clone <hostname>:path/to/dir/cadets-ci`  to request and receive a clone of the cadets-ci repo
 * `CURL http://allendale.musec.engr.mun.ca` to request and receive the web file available a that front door address 
-* `links http://allendale.musec.engr.mun.ca`
+* `links http://allendale.musec.engr.mun.ca`  #(Note: links must be quit manually with `q` and `<cr>` )
 
 ### server scripts (how `calledScript_serve*.sh` scripts work):
 
 For machineA To act as server, in response to controlled calls, '\*_serve\*.sh' scripts contain an ssh call from MachineA to MachineB.
 
-MachineB then issues the same client calls as mentioned above, but now to the server addresses on Machine A.
+MachineB then issues the same client calls as mentioned above, but now to the server addresses on MachineA.
 
 ### clientAndServer scripts
 A third version includes the client calling to itself, via a network socket.
@@ -85,15 +85,19 @@ The call to launch this, is:
 
 Current call structure to run a tracing of activity controlled by the various client-server scripts:
 
-`./oneLineAuditScript2Args.sh '</full/path/name/of/ClientServerScript.sh>' / '</full/destination/path/name/of/output_file.json>'`
+```./oneLineAuditScript2Args.sh '</full/path/name/of/ClientServerScript.sh>' '</full/destination/path/name/of/output_file.json>'```
 
-example (from within the scripts:
+example (from within the scripts):
+
 ```./oneLineAuditScript2Args.sh './calledScript_serveLinks.sh' 'trace_serveLinks.json'```
 
 ## privileges required:
-- ssh-agent identity (identities)
+ssh-agent identity (identities):
+
 Every calledScript requires passphrase entry to support an `ssh-agent`.
+
 Only `calledScript_server*.sh` scripts actually use this.
+
 In client cases, some passphrase calls are unnecessary.  The scripts can be streamlined to remove many of them.
 
 ### sudo 
@@ -103,14 +107,14 @@ Any `sudo` used in the scripts will require a sudo pasword unless the /etc/sudoe
 Right now all the scripts expect (and in fact often assume or even call explicitly) that skalik will be the user.  As a result, the relevant passwords and passphrases from skalik are needed to run and access machines or achieve necessary privileges.  (TODO: Update scripts to allows users to select identities to use.)
 
 
-### Current script Implementations:
+## Current script Implementations:
 All scripts assume they are on blackmarsh3, running as `calledScript_<ROLE><PROGRAM>.sh`
 * <ROLE> can be {`client` , `server`  or `clientAndServer`}
 * <PROGRAM> is one of {'CURL ...', 'git clone ...', or 'links ...'} as mentioned above
 
 There is an audit.d launching script called `oneLineAuditScript2Args.sh`.
 
-#### It takes two arguments (without any checking a this point).  
+### It takes two arguments (without any checking at this point).  
 They should be:
 * a `calledScript_<ROLE><PROGRAM>.sh` script first, and then
 * an output file name, of the form: trace_<ROLE><PROGRAM>.json  (e.g. `trace_serveLinks.json`)
@@ -139,8 +143,6 @@ The repositories of code to translate these .json files to .cdm files can be fou
 The `cdm` folder is where files oputput from the cdm translator code should be placed.
 
 These are the trace files, now in standardized common data model (CDM) format, appropriate for analysis by other performers, and for testing wth the ADAPT-tester tool.
-
-ADAPT-tester can be found at this address: (TODO: adapt-tester.jar Provider Galois URL TO BE FILLED IN)
 
 Details of the CDM format can be found on readme in the translator directories.
 
