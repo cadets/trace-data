@@ -12,11 +12,12 @@ The scripts that implement these examples  expect the following directores to al
 * home/ta3
 * preExistingFiles/
 
-To help with that, empty copies of those directories have bene placed in this scripts/ folder.  When using these scripts more than once, you will need to empty those folders to assure that writes do not hiccup trying to stomp on existing vefrsions of the files they are writing.
+To help with that, empty copies of those directories have been placed in this scripts/ folder.  When using these scripts more than once, you will need to empty those folders to assure that writes do not choke trying to stomp on existing versions of the files they are writing.
 
-Within the directory preExistingFiles, the scripts expect to find the files:
+Within the directory preExistingFiles/, the scripts expect to find the files:
 Hyperloop_800px.jpg
 msgLogExample.txt
 
 In many cases, the scripts point to these locations explicitly.
-The scripts and locations will need to be adapted if the placement locations are changed (e.g. to another user's home, or even to run directly under this trace-data/... directory.)
+
+The scripts and locations will need to be adapted if the placement locations are changed (e.g. to another user's home, or even to run directly under this `.../trace-data/client_server/policy4/scripts/` directory.)
