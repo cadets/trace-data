@@ -1,11 +1,12 @@
 # README.md
 
 These scripts implement PolicyEnforcementDemo_Policy4_V1 from the BBN GitLab wiki.
+
 The URL for this description is here:
 https://git.tc.bbn.com/bbn/tc-policy-enforcement/wikis/Policy4V1
 
 
-The scripts that implement these examples  expect the following directores to also exist where they are:
+The scripts that implement these examples expect the following directories to also exist where they are:
 
 * tmp/
 * tmp/h/ (it will be copied, zipped, and reconstituted by script ...Rq4.sh)
