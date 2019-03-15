@@ -1,0 +1,1134 @@
+Objavro.codecnullavro.schema„¯{"type": "record", "name": "TCCDMDatum", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": [{"type": "record", "name": "Host", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": {"type": "fixed", "name": "UUID", "namespace": "com.bbn.tc.schema.avro.cdm20", "size": 16}, "name": "uuid", "doc": "universally unique identifier for the host"}, {"type": "string", "name": "hostName", "doc": "hostname or machine name"}, {"type": "string", "name": "ta1Version", "doc": "* For debugging and analysis, the TA2 and TA3 teams would\n         * like to have the TA1 version number included in the CDM\n         * output. This string gets populated from the contents of a\n         * well known file, either /etc/tc-version or\n         * \\Windows\\System32\\drivers\\etc\\tc-version. This file\n         * contains a date timestamp (down to second granularity) and\n         * hash (that incorporates all components of the system\n         * including configs and translator)."}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "HostIdentifier", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "string", "name": "idType"}, {"type": "string", "name": "idValue"}], "doc": "Host identifier, such as serial number, IMEI number"}}], "name": "hostIdentifiers", "default": null, "doc": "list of identifiers, such as serial number, IMEI number"}, {"type": ["null", "string"], "name": "osDetails", "default": null, "doc": "OS level details revealed by tools such as uname -a"}, {"type": {"type": "enum", "name": "HostType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["HOST_MOBILE", "HOST_SERVER", "HOST_DESKTOP", "HOST_OTHER"], "doc": "* HostType enumerates the host roles or device types"}, "name": "hostType", "doc": "host's role or device type, such as mobile, server, desktop"}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "Interface", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "string", "name": "name"}, {"type": "string", "name": "macAddress"}, {"type": ["null", {"type": "array", "items": "string"}], "name": "ipAddresses", "default": null}], "doc": "Interface name and addresses"}}], "name": "interfaces", "default": null, "doc": "names and addresses of network interfaces"}], "doc": "* Hosts represent a host/machine/node in a network."}, {"type": "record", "name": "Principal", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "A unique id for the principal"}, {"type": {"type": "enum", "name": "PrincipalType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["PRINCIPAL_LOCAL", "PRINCIPAL_REMOTE"], "doc": "* PrincipalType identifies the type of user: either local to the\n     * host, or remote users/systems."}, "name": "type", "default": "PRINCIPAL_LOCAL", "doc": "The type of the principal, local by default"}, {"type": "string", "name": "userId", "doc": "The operating system identifier associated with the user"}, {"type": ["null", "string"], "name": "username", "default": null, "doc": "Human-readable string identifier, such as username (Optional)"}, {"type": ["null", {"type": "array", "items": "string"}], "name": "groupIds", "default": null, "doc": "The ids of the groups which this user is part of"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* A principal is a local user\n     * TODO: extend to include remote principals\n     * TODO: what happens when the user information changes (are we tracking versions?)\n     * TODO: Authentication mechanisms: are TA1s providing that information and how?"}, {"type": "record", "name": "ProvenanceTagNode", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "tagId", "doc": "Tag ID for this node *"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "flowObject", "default": null, "doc": "* The UUID of the source or sink object associated with this\n         * tag. (Optional)\n         *\n         * This attribute is optional because if the\n         * ProvenanceTagNode is simply joining two existing\n         * provenances (e.g., when two values are added together), there\n         * is no flow object associated with that definition.\n         *"}, {"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "subject", "doc": "Subject that is performing the src/sink action *"}, {"type": ["null", "string"], "name": "systemCall", "default": null, "doc": "System call that read/wrote the data *"}, {"type": ["null", "string"], "name": "programPoint", "default": null, "doc": "The program point where the event was triggered (e.g., executable and line number), (Optional)"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "prevTagId", "default": null, "doc": "The previous tag for this value *"}, {"type": ["null", {"type": "enum", "name": "TagOpCode", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["TAG_OP_UNION", "TAG_OP_ENCODE", "TAG_OP_STRONG", "TAG_OP_MEDIUM", "TAG_OP_WEAK"], "doc": "* The tag opcode describes the provenance relation i.e., how multiple sources are combined to\n     * produce the output. We identify the following provenance relations"}], "name": "opcode", "default": null, "doc": "Tag operation that resulted in the tagId of this ProvenanceTagNode *"}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm20.UUID"}], "name": "tagIds", "default": null}, {"type": ["null", {"type": "enum", "name": "IntegrityTag", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["INTEGRITY_UNTRUSTED", "INTEGRITY_BENIGN", "INTEGRITY_INVULNERABLE"], "doc": "* The integrity tag may be used to specify the initial integrity of an entity,\n     * or to endorse its content after performing appropriate checking/sanitization."}], "name": "itag", "default": null, "doc": "The integrity tag may be used to specify the intial\n         *  integrity of an entity, or to endorse it content after\n         *  performing appropriate checking/sanitization."}, {"type": ["null", {"type": "enum", "name": "ConfidentialityTag", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["CONFIDENTIALITY_SECRET", "CONFIDENTIALITY_SENSITIVE", "CONFIDENTIALITY_PRIVATE", "CONFIDENTIALITY_PUBLIC"], "doc": "* The confidentiality tag may be used to specify the initial confidentiality of an entity,\n     * or to declassify its content after performing appropriate checking/sanitization."}], "name": "ctag", "default": null, "doc": "* The confidentiality tag may be used to specify the initial\n         * confidentiality of an entity, or to declassify its content\n         * after performing appropriate checking/sanitization."}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* A provenance tag defines source dependence on specific data sources (inputs).\n     * A tag identifier is typically bound to a source and used by the tracking system to\n     * capture dependence on this source input.\n     *\n     * ProvenanceTagNode defines one step of provenance for a value\n     * (i.e., one read from a source or write to a sink), a reference\n     * to the previous provenance of the value (if any), and the tag\n     * operation that resulted the tagId of this ProvenanceTagNode"}, {"type": "record", "name": "UnknownProvenanceNode", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "upnTagId", "doc": "Tag ID for this node *"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "subject", "default": null, "doc": "the subject that generated this UnknownProvenanceNode, optional"}, {"type": ["null", "string"], "name": "programPoint", "default": null, "doc": "The program point where the node was created\n            (e.g., executable and line number), (Optional)"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* An UnknownProvenanceNode communicates that a Value (of an\n     * Event) has unknown provenance. This record can be used anywhere\n     * a ProvenanceTagNode can be used. \n     *\n     * Example use cases from the ClearScope team: During the early\n     * stages of device boot we are not tracking; files are written\n     * during these stages, and when they are later read, we would\n     * like to report the (earliest) provenance as unknown. Also, for\n     * some processes we do not have our full-precision tracking\n     * enabled, and we would like to communicate to the TA2 analyses\n     * that a Value has unknown provenance, but that the value was\n     * generated by a particular program, possibly at a particular\n     * program point.\n     * \n     * Semantically, if a Value is tagged with an\n     * UnknownProvenanceNode with a Subject, this means that the Value\n     * could have any provenance generated by that Subject up to the\n     * point the UnknownProvnenanceNode was generated.\n     *\n     * If a Value is tagged with an UnknownProvenanceNode with no\n     * subject, it should be conservatively interpreted as meaning the\n     * value could have any \"provenance\" defined by the system up to\n     * the point the UnknownProvenanceNode was created."}, {"type": "record", "name": "Subject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "universally unique identifier for the subject"}, {"type": {"type": "enum", "name": "SubjectType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["SUBJECT_PROCESS", "SUBJECT_THREAD", "SUBJECT_UNIT", "SUBJECT_BASIC_BLOCK", "SUBJECT_OTHER"], "doc": "* SubjectType enumerates the types of execution contexts supported.\n     *\n     * SUBJECT_PROCESS,    process\n     * SUBJECT_THREAD,     thread within a process\n     * SUBJECT_UNIT        so far we only know of TRACE BEEP using this"}, "name": "type", "doc": "the subject type"}, {"type": "int", "name": "cid", "doc": "Context ID: OS process id for type process, thread id for threads"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "parentSubject", "default": null, "doc": "* parent subject's UUID. For a process, this is a parent\n         * process. For a thread, this is the process that created the\n         * thread. Only optional because in some cases the parent may not\n         * be known; null value indicates that the parent is unknown."}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "localPrincipal", "default": null, "doc": "* UUID of local principal that owns this subject This\n         * attribute is optional because there are times when\n         * the owner of the subject may not be known at the time the file\n         * object is reported (e.g., missed open call). Otherwise,\n         * the local principal SHOULD be included."}, {"type": ["null", "long"], "name": "startTimestampNanos", "default": null, "doc": "* The start time of the subject\n         * A timestamp stores the number of nanoseconds from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         *\n         * This attribute is optional because there are times when the\n         * subject's start time may not be known. This happens when\n         * the subject was started before TC instrumentation software\n         * was started. Otherwise, the timestamp SHOULD be included."}, {"type": ["null", "int"], "name": "unitId", "default": null, "doc": "unit id for unit based instrumentation (Optional)"}, {"type": ["null", "int"], "name": "iteration", "default": null, "doc": "iteration and count are used for distinguishing individual \"units\" of execution (Optional)"}, {"type": ["null", "int"], "name": "count", "default": null}, {"type": ["null", "string"], "name": "cmdLine", "default": null, "doc": "Process command line arguments including process name (Optional)"}, {"type": ["null", {"type": "enum", "name": "PrivilegeLevel", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["LIMITED", "ELEVATED", "FULL"], "doc": "* Windows allows Subjects (processes) to have the following\n     * enumerated privilege levels."}], "name": "privilegeLevel", "default": null, "doc": "Windows allows processes to have different privilege levels (Optional)"}, {"type": ["null", {"type": "array", "items": "string"}], "name": "importedLibraries", "default": null, "doc": "* imported libraries. (Optional). Lists the libraries that\n         * are expected to be loaded, but may not necessarily\n         * correspond 1-to-1 with actual load library events because\n         * some libraries may already be loaded when this event\n         * occurs."}, {"type": ["null", {"type": "array", "items": "string"}], "name": "exportedLibraries", "default": null, "doc": "exported libraries. (Optional)"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* Subjects represent execution contexts and include mainly threads and processes. They can be more granular and\n     * can represent other execution boundaries such as units and blocks if needed."}, {"type": "record", "name": "FileObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": {"type": "record", "name": "AbstractObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": ["null", {"type": "fixed", "name": "SHORT", "namespace": "com.bbn.tc.schema.avro.cdm20", "size": 2}], "name": "permission", "default": null, "doc": "Permission bits defined over the object (Optional)"}, {"type": ["null", "int"], "name": "epoch", "default": null, "doc": "* Used to track when an object is deleted and a new one is\n         * created with the same identifier. This is useful for when\n         * UUIDs are based on something not likely to be unique, such\n         * as file path."}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "*  Objects, in general, represent data sources and sinks which\n     *  could include sockets, files, memory, and any data in general\n     *  that can be an input and/or output to an event.  This record\n     *  is intended to be abstract i.e., one should not instantiate an\n     *  Object but rather instantiate one of its sub types (ie,\n     *  encapsulating records) FileObject, UnnamedPipeObject,\n     *  RegistryKeyObject, NetFlowObject, MemoryObject, or\n     *  SrcSinkObject."}, "name": "baseObject", "doc": "The base object attributes"}, {"type": {"type": "enum", "name": "FileObjectType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["FILE_OBJECT_BLOCK", "FILE_OBJECT_CHAR", "FILE_OBJECT_DIR", "FILE_OBJECT_FILE", "FILE_OBJECT_LINK", "FILE_OBJECT_PEFILE", "FILE_OBJECT_UNIX_SOCKET"], "doc": "* These types enumerate the types of FileObjects"}, "name": "type", "doc": "The type of FileObject"}, {"type": ["null", "int"], "name": "fileDescriptor", "default": null, "doc": "The file descriptor (Optional)"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "localPrincipal", "default": null, "doc": "UUID of local principal that owns this file object.  This\n         * attribute is optional because there are times when \n         * the owner of the file may not be known at the time the file\n         * object is reported (e.g., missed open call). Otherwise,\n         * the local principal SHOULD be included."}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "* The file size in bytes (Optional). This attribute reports\n         * the file size at the time the FileObject is created. Since records\n         * are not updated, changes in file size is trackable via the events\n         * that changed the file size."}, {"type": ["null", "string"], "name": "peInfo", "default": null, "doc": "* portable execution (PE) info for windows (Optional).\n         * Note from FiveDirections: We will LIKELY change this type for engagement 3"}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "CryptographicHash", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": {"type": "enum", "name": "CryptoHashType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["MD5", "SHA1", "SHA256", "SHA512", "AUTHENTIHASH", "SSDEEP", "IMPHASH"], "doc": "Cryptographich hash types"}, "name": "type", "doc": "The type of hash used"}, {"type": "string", "name": "hash", "doc": "The base64 encoded hash value"}], "doc": "* Cryptographic hash records represent one or more cryptographic hashes for\n     * an object, typically, a FileObject."}}], "name": "hashes", "default": null, "doc": "(Optional) Zero or more cryptographic hashes over the FileObject"}], "doc": "* Represents a file on the file system. Instantiates an AbstractObject."}, {"type": "record", "name": "IpcObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm20.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": {"type": "enum", "name": "IpcObjectType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["IPC_OBJECT_PIPE_NAMED", "IPC_OBJECT_PIPE_UNNAMED", "IPC_OBJECT_SOCKET_ABSTRACT", "IPC_OBJECT_SOCKET_PAIR", "IPC_OBJECT_SOCKET_PATHNAME", "IPC_OBJECT_SOCKET_UNNAMED", "IPC_OBJECT_WINDOWS_ALPC", "IPC_OBJECT_WINDOWS_MAILSLOT", "IPC_OBJECT_SOCKET_NETLINK"], "doc": "* These types enumerate the types of IpcObjects"}, "name": "type", "doc": "The type of IpcObject"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "uuid1", "default": null, "doc": "* If flow is unidirectional, then source is UUID1/fd1 and\n         * destination is UUID2/fd2."}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "uuid2", "default": null}, {"type": ["null", "int"], "name": "fd1", "default": null}, {"type": ["null", "int"], "name": "fd2", "default": null}], "doc": "* Represents an IPC. Instantiates an AbstractObject."}, {"type": "record", "name": "RegistryKeyObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm20.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "string", "name": "key", "doc": "The registry key/path"}, {"type": ["null", {"type": "record", "name": "Value", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "int", "name": "size", "default": -1, "doc": "The size of the value: the number of elements of type valueDataType; -1 for non-arrays"}, {"type": {"type": "enum", "name": "ValueType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["VALUE_TYPE_SRC", "VALUE_TYPE_SINK", "VALUE_TYPE_CONTROL"], "doc": "* A value type is either source, sink, or control This is for\n     * Event parameters to distinguish source/sink values vs control\n     * parameters (such as a file descriptor)."}, "name": "type", "doc": "The type indicates whether it's a source, sink, or control value"}, {"type": {"type": "enum", "name": "ValueDataType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["VALUE_DATA_TYPE_BYTE", "VALUE_DATA_TYPE_BOOL", "VALUE_DATA_TYPE_CHAR", "VALUE_DATA_TYPE_SHORT", "VALUE_DATA_TYPE_INT", "VALUE_DATA_TYPE_FLOAT", "VALUE_DATA_TYPE_LONG", "VALUE_DATA_TYPE_DOUBLE", "VALUE_DATA_TYPE_POINTER32", "VALUE_DATA_TYPE_POINTER64", "VALUE_DATA_TYPE_COMPLEX"], "doc": "* A value data type is one of the primitive data types. A string is treated as a char array"}, "name": "valueDataType", "doc": "The actual datatype of the value elements, e.g., int, double, byte, etc. (Optional)\n         *  Strings are treated as char[] so type=CHAR\n         *  String[] is a COMPLEX value whose components are the string values (each modeled as a char[])\n         *  Complex composite objects comprising of primitive values use the COMPLEX type"}, {"type": "boolean", "name": "isNull", "default": false, "doc": "Whether this value is null, needed to indicate null objects (default: false)"}, {"type": ["null", "string"], "name": "name", "default": null, "doc": "the name of the Value, string. (Optional)"}, {"type": ["null", "string"], "name": "runtimeDataType", "default": null, "doc": "The runtime data type of the value (Optional); For example, an object of dataType=COMPLEX, can have\n         *  a runtime data type of say \"MyClass\""}, {"type": ["null", "bytes"], "name": "valueBytes", "default": null, "doc": "* The actual bytes of the value in Big Endian format, e.g.,\n         * an int is converted to a 4 byte buffer (Optional)\n         *\n         * Strings are represented as an array of UTF32_BE encoded\n         * characters (i.e., 4 bytes per char)"}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "ProvenanceAssertion", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "asserter", "doc": "Which Subject is making this assertion?"}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm20.UUID"}], "name": "sources", "default": null, "doc": "Object(s) that this Value's data came from."}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm20.ProvenanceAssertion"}], "name": "provenance", "default": null, "doc": "* Further provenance assertions within this assertion.\n\t * For example, to describe a situation in which X asserts that\n\t * Y asserts that Z asserts that V came from {p,q}:\n\t *\n\t * ```\n\t * Event {\n\t *   subject = X,\n\t *   parameters = [\n\t *     Value (V) {\n\t *       provenance = [\n\t *         ProvenanceAssertion {\n\t *           asserter = UUID of X,\n\t *           sources = [ UUID of p, UUID of q ],\n\t *           provenance = [\n\t *             ProvenanceAssertion {\n\t *               asserter = UUID of Y,\n\t *               provenance = [\n\t *                 ProvenanceAssertion {\n\t *                   asserter = UUID of Z,\n\t *                 },\n\t *               ],\n\t *             },\n\t *           ],\n\t *         },\n\t *       ],\n\t *     },\n\t *   ],\n\t * }\n\t * ```\n\t * Z should have a provenance assertion\n\t * e.g.,\n         * \"X asserts that Y asserts that Z comes from {p,q}\"."}], "doc": "* An assertion about the provenance of information"}}], "name": "provenance", "default": null, "doc": "* Assertions about the provenance of this value\n         * (e.g., the file that data is claimed to come from).\n         *\n         * This is a direct assertion about provenance for systems that don't\n         * use tags to track data flows."}, {"type": ["null", {"type": "array", "items": {"type": "record", "name": "TagRunLengthTuple", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "int", "name": "numValueElements", "default": 0}, {"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "tagId"}], "doc": "* This record is a single tuple in a run length encoding of tags"}}], "name": "tag", "default": null, "doc": "* The value's tag expression describing its provenance (Optional)\n         * Since value could be an array, the tag can use run length encoding if needed."}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm20.Value"}], "name": "components", "default": null, "doc": "A complex value might comprise other component values if needed (Optional)"}], "doc": "* Values represent transient data, mainly parameters to\n     * events. Values are created and used once within an event's\n     * execution and are relevant mainly during fine-grained tracking\n     * (such as with tag/taint propagation).  Values have tags\n     * describing their provenance. Sometimes the actual value's value\n     * is reported in addition to the value's metadata\n     *\n     * The size of the value is the number of elements of type\n     * valueDataType. This should be -1 for primitive and complex\n     * types.  For arrays, the size is the array length. i.e., if\n     * size >= 0, then this value is an array.  A complex value (such as\n     * an object) can contain other values (primitives or other\n     * complex values) within it, as components.\n     *\n     * Examples: <br>\n     *\n     * an integer will have size=-1 and valueDataType=INT, and\n     * valueBytes.length=4 bytes <br>\n     *\n     * an int[4] will have size=4 and valueDataType=INT, and\n     * valueBytes.length=16 bytes (4*4) <br>\n     *\n     * a string s=\"abc\" has size=3 and valueDataType=CHAR, and\n     * valueBytes.length=12 bytes (UTF32_BE encoding; 4 bytes per\n     * char) <br>\n     *\n     * an MyClass obj has size=-1, valueDataType=COMPLEX,\n     * runtimeDataType=\"MyClass\", valueBytes=<pointer> <br>"}], "name": "value", "default": null, "doc": "The value of the key"}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "The entry size in bytes (Optional)"}], "doc": "* Represents a registry key. Instantiates an AbstractObject."}, {"type": "record", "name": "PacketSocketObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm20.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "com.bbn.tc.schema.avro.cdm20.SHORT", "name": "proto", "doc": "Physical-layer protocol"}, {"type": "int", "name": "ifIndex", "doc": "Interface number"}, {"type": "com.bbn.tc.schema.avro.cdm20.SHORT", "name": "haType", "doc": "ARP hardware type"}, {"type": {"type": "fixed", "name": "BYTE", "namespace": "com.bbn.tc.schema.avro.cdm20", "size": 1}, "name": "pktType", "doc": "Packet type"}, {"type": "bytes", "name": "addr", "doc": "Physical-layer address"}], "doc": "* Represents a packet socket. Instantiates an AbstractObject."}, {"type": "record", "name": "NetFlowObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm20.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": ["null", "string"], "name": "localAddress", "default": null, "doc": "* The local IP address for this flow. Optional for when not\n         * obtained initially."}, {"type": ["null", "int"], "name": "localPort", "default": null, "doc": "* The local network port for this flow. Optional for AF_UNIX\n         * sockets (unnamed and abstract), or for when not obtained\n         * initially."}, {"type": ["null", "string"], "name": "remoteAddress", "default": null, "doc": "* The remote IP address for this flow. Optional for binds\n         * that are a listening action and not a full connection, or\n         * for when not obtained initially."}, {"type": ["null", "int"], "name": "remotePort", "default": null, "doc": "* The remote network port for this flow. Optional for binds\n         * that are a listening action and not a full connection. Also\n         * optional for AF_UNIX sockets (unnamed and abstract) and for\n         * when not obtained intially."}, {"type": ["null", "int"], "name": "ipProtocol", "default": null, "doc": "The IP protocol number e.g., TCP=6"}, {"type": ["null", "int"], "name": "initTcpSeqNum", "default": null, "doc": "* The initial sequence number for a TCP connection (use the\n         * SYN from the initiator). This is to correlate flows across\n         * hosts for improved cross-host tracking."}, {"type": ["null", "int"], "name": "fileDescriptor", "default": null, "doc": "The file descriptor (Optional)"}], "doc": "* Represents a network flow object. Instantiates an AbstractObject."}, {"type": "record", "name": "MemoryObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm20.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": "long", "name": "memoryAddress", "doc": "The memory address"}, {"type": ["null", "long"], "name": "pageNumber", "default": null, "doc": "(Optional) decomposed memory addressed into pageNumber and pageOffset"}, {"type": ["null", "long"], "name": "pageOffset", "default": null}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "The entry size in bytes (Optional)"}], "doc": "* Represents a page in memory. Instantiates an AbstractObject.\n     * TODO: is memory really an object (with permissions and so on) or is it a transient data?"}, {"type": "record", "name": "SrcSinkObject", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "Universally unique identifier for the object"}, {"type": "com.bbn.tc.schema.avro.cdm20.AbstractObject", "name": "baseObject", "doc": "The base object attributes"}, {"type": {"type": "enum", "name": "SrcSinkType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["SRCSINK_ACCELEROMETER", "SRCSINK_TEMPERATURE", "SRCSINK_GYROSCOPE", "SRCSINK_MAGNETIC_FIELD", "SRCSINK_HEART_RATE", "SRCSINK_LIGHT", "SRCSINK_PROXIMITY", "SRCSINK_PRESSURE", "SRCSINK_RELATIVE_HUMIDITY", "SRCSINK_LINEAR_ACCELERATION", "SRCSINK_MOTION", "SRCSINK_STEP_DETECTOR", "SRCSINK_STEP_COUNTER", "SRCSINK_TILT_DETECTOR", "SRCSINK_ROTATION_VECTOR", "SRCSINK_GRAVITY", "SRCSINK_GEOMAGNETIC_ROTATION_VECTOR", "SRCSINK_GPS", "SRCSINK_AUDIO", "SRCSINK_SYSTEM_PROPERTY", "SRCSINK_ENV_VARIABLE", "SRCSINK_ACCESSIBILITY_SERVICE", "SRCSINK_ACTIVITY_MANAGEMENT", "SRCSINK_ALARM_SERVICE", "SRCSINK_ANDROID_AUTO", "SRCSINK_ANDROID_RADIO", "SRCSINK_ANDROID_TV", "SRCSINK_ANDROID_VR", "SRCSINK_AUDIO_IO", "SRCSINK_AUTOFILL", "SRCSINK_BACKUP_MANAGER", "SRCSINK_BINDER", "SRCSINK_BLUETOOTH", "SRCSINK_BOOT_EVENT", "SRCSINK_BROADCAST_RECEIVER_MANAGEMENT", "SRCSINK_CAMERA", "SRCSINK_CLIPBOARD", "SRCSINK_COMPANION_DEVICE", "SRCSINK_COMPONENT_MANAGEMENT", "SRCSINK_CONTENT_PROVIDER", "SRCSINK_CONTENT_PROVIDER_MANAGEMENT", "SRCSINK_DATABASE", "SRCSINK_DEVICE_ADMIN", "SRCSINK_DEVICE_SEARCH", "SRCSINK_DEVICE_USER", "SRCSINK_DISPLAY", "SRCSINK_DROPBOX", "SRCSINK_EMAIL", "SRCSINK_EXPERIMENTAL", "SRCSINK_FILE", "SRCSINK_FILE_SYSTEM", "SRCSINK_FILE_SYSTEM_MANAGEMENT", "SRCSINK_FINGERPRINT", "SRCSINK_FLASHLIGHT", "SRCSINK_GATEKEEPER", "SRCSINK_HDMI", "SRCSINK_IDLE_DOCK_SCREEN", "SRCSINK_IMS", "SRCSINK_INFRARED", "SRCSINK_INSTALLED_PACKAGES", "SRCSINK_JSSE_TRUST_MANAGER", "SRCSINK_KEYCHAIN", "SRCSINK_KEYGUARD", "SRCSINK_LOCATION", "SRCSINK_LOWPAN", "SRCSINK_MACHINE_LEARNING", "SRCSINK_MBMS", "SRCSINK_MEDIA", "SRCSINK_MEDIA_CAPTURE", "SRCSINK_MEDIA_LOCAL_MANAGEMENT", "SRCSINK_MEDIA_LOCAL_PLAYBACK", "SRCSINK_MEDIA_NETWORK_CONNECTION", "SRCSINK_MEDIA_REMOTE_PLAYBACK", "SRCSINK_MIDI", "SRCSINK_NATIVE", "SRCSINK_NETWORK", "SRCSINK_NETWORK_MANAGEMENT", "SRCSINK_NFC", "SRCSINK_NOTIFICATION", "SRCSINK_OVERLAY_MANAGER", "SRCSINK_PAC_PROXY", "SRCSINK_PERMISSIONS", "SRCSINK_PERSISTANT_DATA", "SRCSINK_POSIX", "SRCSINK_POWER_MANAGEMENT", "SRCSINK_PRINT_SERVICE", "SRCSINK_PROCESS_MANAGEMENT", "SRCSINK_QUICK_SETTINGS", "SRCSINK_RECEIVER_MANAGEMENT", "SRCSINK_RCS", "SRCSINK_RPC", "SRCSINK_SCREEN_AUDIO_CAPTURE", "SRCSINK_SERIAL_PORT", "SRCSINK_SERVICE_CONNECTION", "SRCSINK_SERVICE_MANAGEMENT", "SRCSINK_SHORTCUTS", "SRCSINK_SMS_MMS", "SRCSINK_SPEECH_INTERACTION", "SRCSINK_STATUS_BAR", "SRCSINK_SYNC_FRAMEWORK", "SRCSINK_SYSTEM_UPDATE", "SRCSINK_TASK_STACK", "SRCSINK_TELEPHONY", "SRCSINK_TEST", "SRCSINK_TEXT_SERVICES", "SRCSINK_THREADING", "SRCSINK_TIME_EVENT", "SRCSINK_UI", "SRCSINK_UID_EVENT", "SRCSINK_UI_AUTOMATION", "SRCSINK_UI_MODE", "SRCSINK_UI_RPC", "SRCSINK_USAGE_STATS", "SRCSINK_USB", "SRCSINK_USER_ACCOUNTS_MANAGEMENT", "SRCSINK_USER_INPUT", "SRCSINK_VIBRATOR", "SRCSINK_WAKE_LOCK", "SRCSINK_WALLPAPER_MANAGER", "SRCSINK_WAP", "SRCSINK_WEB_BROWSER", "SRCSINK_WIDGETS", "SRCSINK_IPC", "SRCSINK_UNKNOWN"], "doc": "* There are many types of sources such as sensors.  The type of a\n     * sensor could be base (close to hardware) or composite.  This is\n     * mostly (only?) applicable to the Android platform.  See\n     * https://source.android.com/devices/sensors/index.html for\n     * details."}, "name": "type", "doc": "The type of the object"}, {"type": ["null", "int"], "name": "fileDescriptor", "default": null, "doc": "The file descriptor (Optional)"}], "doc": "* Represents a generic source or sink on the host device that is can be a file, memory, or netflow.\n     * This is the most basic representation of a source or sink, basically specifying its type only."}, {"type": "record", "name": "Event", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "uuid", "doc": "A universally unique identifier for the event"}, {"type": ["null", "long"], "name": "sequence", "default": null, "doc": "* A logical sequence number for ordering events relative to\n         * each other within a subject's execution context\n         *\n         * This attribute is only optional for inferred events, such\n         * as an object's attribute change that was observed without\n         * an explicit event or system call."}, {"type": {"type": "enum", "name": "EventType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["EVENT_ACCEPT", "EVENT_ADD_OBJECT_ATTRIBUTE", "EVENT_BIND", "EVENT_BLIND", "EVENT_BOOT", "EVENT_CHANGE_PRINCIPAL", "EVENT_CHECK_FILE_ATTRIBUTES", "EVENT_CLONE", "EVENT_CLOSE", "EVENT_CONNECT", "EVENT_CORRELATION", "EVENT_CREATE_OBJECT", "EVENT_CREATE_THREAD", "EVENT_DUP", "EVENT_EXECUTE", "EVENT_EXIT", "EVENT_FLOWS_TO", "EVENT_FCNTL", "EVENT_FORK", "EVENT_LINK", "EVENT_LOADLIBRARY", "EVENT_LOGCLEAR", "EVENT_LOGIN", "EVENT_LOGOUT", "EVENT_LSEEK", "EVENT_MMAP", "EVENT_MODIFY_FILE_ATTRIBUTES", "EVENT_MODIFY_PROCESS", "EVENT_MOUNT", "EVENT_MPROTECT", "EVENT_OPEN", "EVENT_OTHER", "EVENT_READ", "EVENT_READ_SOCKET_PARAMS", "EVENT_RECVFROM", "EVENT_RECVMSG", "EVENT_RENAME", "EVENT_SENDTO", "EVENT_SENDMSG", "EVENT_SERVICEINSTALL", "EVENT_SHM", "EVENT_SIGNAL", "EVENT_STARTSERVICE", "EVENT_TRUNCATE", "EVENT_UMOUNT", "EVENT_UNIT", "EVENT_UNLINK", "EVENT_UPDATE", "EVENT_WAIT", "EVENT_WRITE", "EVENT_WRITE_SOCKET_PARAMS", "EVENT_TEE", "EVENT_SPLICE", "EVENT_VMSPLICE", "EVENT_INIT_MODULE", "EVENT_FINIT_MODULE"], "doc": "* EventType enumerates the most common system calls. Since there\n     * are hundreds of possible system calls, enumerating all of them\n     * and managing the list across OS versions is a\n     * challenge. EVENT_OTHER is the catch all for events not enumerated here. Any events\n     * that are expected to be of importance, should be included in this list."}, "name": "type", "doc": "The type of the event"}, {"type": ["null", "int"], "name": "threadId", "default": null, "doc": "* The thread id to which this event belongs.  Required for\n         * all events, except the EVENT_ADD_OBJECT_ATTRIBUTE and\n         * EVENT_FLOWS_TO event."}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "subject", "default": null, "doc": "* UUID of Subject that generated this event.  The subject is\n         * required for all events, except the\n         * EVENT_ADD_OBJECT_ATTRIBUTE and EVENT_FLOWS_TO event."}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "predicateObject", "default": null, "doc": "* UUID of Object/Subject this event acts on. For events that\n         * have two arguments, this attribute contains the first\n         * argument (following the argument order in the underlying\n         * system call). This attribute is optional because it may not\n         * be relevant for some events."}, {"type": ["null", "string"], "name": "predicateObjectPath", "default": null, "doc": "If applicable, the object's absolute file path (Optional)"}, {"type": ["null", "com.bbn.tc.schema.avro.cdm20.UUID"], "name": "predicateObject2", "default": null, "doc": "* Optional UUID of Object/Subject for events that take two\n         * arguments (e.g., link, rename, etc). This attribute\n         * contains the second argument (following the argument order\n         * in the underlying system call)."}, {"type": ["null", "string"], "name": "predicateObject2Path", "default": null, "doc": "If applicable, the second object's absolute file path (Optional)"}, {"type": "long", "name": "timestampNanos", "doc": "* The time at which the event occurred. Timestamps allow\n         * reasoning about order of events on a host when the same\n         * clock is used. A timestamp stores the number of nanoseconds\n         * from the unix epoch, 1 January 1970 00:00:00.000000 UTC.\n         *\n         * TODO: When different clocks are used on a host or across\n         * hosts, we need to also define a clock source\n         *\n         * NOTE: When an object update is inferred without an explicit\n         * system call event, TA1s may not have an accurate timestamp\n         * of when the object was updated. In that case, the timestamp\n         * used in the update event is the same as the timestamp used\n         * in the next system call event that uses the updated object."}, {"type": ["null", {"type": "array", "items": "string"}], "name": "names", "default": null, "doc": "* Event names (Optional). Multiple names may be provided to\n         * allow for reporting many parameterless system calls in a\n         * single Event record."}, {"type": ["null", {"type": "array", "items": "com.bbn.tc.schema.avro.cdm20.Value"}], "name": "parameters", "default": null, "doc": "Event parameters represented as values, see Value (Optional)"}, {"type": ["null", "long"], "name": "location", "default": null, "doc": "Location refers to the location of the data affecting the event\n         *  (e.g., the read offset in the file for the read system call event). (Optional)"}, {"type": ["null", "long"], "name": "size", "default": null, "doc": "Size refers to the size of the data affecting the event\n         *  (e.g., the number of bytes read from the file for the read system call event). (Optional)"}, {"type": ["null", "string"], "name": "programPoint", "default": null, "doc": "The program point where the event was triggered (e.g., executable and line number). (Optional)"}, {"type": ["null", {"type": "map", "values": "string"}], "name": "properties", "default": null, "order": "ignore", "doc": "* Arbitrary key, value pairs describing the entity.\n         * NOTE: This attribute is meant as a temporary place holder for items that\n         * will become first-class attributes in the next CDM version."}], "doc": "* Events represent actions executed by subjects on data objects\n     * or other subjects.  Events are generally system calls, but\n     * could also include function calls, instruction executions, or\n     * even more abstract notions. Events are the core entity in the\n     * data model and they are the main abstraction for representing\n     * information flow between data objects and subjects."}, {"type": "record", "name": "UnitDependency", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "unit"}, {"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "dependentUnit"}], "doc": "* This record captures a relationship edge between two units, one\n     * dependent on the other. This relationship is inferred from a\n     * combination of underlying events."}, {"type": "record", "name": "TimeMarker", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "long", "name": "tsNanos", "doc": "Timestamp in nanoseconds"}], "doc": "* TimeMarker records are used to delineate time periods in a data\n     * stream to help consumers know their current read position in the\n     * data stream."}, {"type": "record", "name": "EndMarker", "namespace": "com.bbn.tc.schema.avro.cdm20", "fields": [{"type": "int", "name": "sessionNumber", "doc": "session number in the corresponding StartMarker"}, {"type": {"type": "map", "values": "string"}, "name": "recordCounts", "order": "ignore", "doc": "* Reports countc of each record type that has been published\n         * since the the start of the data stream."}], "doc": "* EndMarker records marks the end of a data stream."}], "name": "datum"}, {"type": "string", "name": "CDMVersion", "default": "20"}, {"type": {"type": "enum", "name": "RecordType", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["RECORD_HOST", "RECORD_PRINCIPAL", "RECORD_PROVENANCE_TAG_NODE", "RECORD_UNKNOWN_PROVENANCE_NODE", "RECORD_SUBJECT", "RECORD_FILE_OBJECT", "RECORD_IPC_OBJECT", "RECORD_REGISTRY_KEY_OBJECT", "RECORD_PACKET_SOCKET_OBJECT", "RECORD_NET_FLOW_OBJECT", "RECORD_MEMORY_OBJECT", "RECORD_SRC_SINK_OBJECT", "RECORD_EVENT", "RECORD_UNIT_DEPENDENCY", "RECORD_TIME_MARKER", "RECORD_END_MARKER"], "doc": "*"}, "name": "type", "doc": "The type of record in the union"}, {"type": "com.bbn.tc.schema.avro.cdm20.UUID", "name": "hostId", "doc": "unique identifier of the host publishing this record"}, {"type": "int", "name": "sessionNumber", "doc": "sequence number that monotonically increases each time the system is started"}, {"type": {"type": "enum", "name": "InstrumentationSource", "namespace": "com.bbn.tc.schema.avro.cdm20", "symbols": ["SOURCE_ANDROID_JAVA_CLEARSCOPE", "SOURCE_ANDROID_NATIVE_CLEARSCOPE", "SOURCE_FREEBSD_OPENBSM_TRACE", "SOURCE_FREEBSD_DTRACE_CADETS", "SOURCE_FREEBSD_TESLA_CADETS", "SOURCE_FREEBSD_LOOM_CADETS", "SOURCE_FREEBSD_MACIF_CADETS", "SOURCE_LINUX_SYSCALL_TRACE", "SOURCE_LINUX_NETFILTER_TRACE", "SOURCE_LINUX_PROC_TRACE", "SOURCE_LINUX_BEEP_TRACE", "SOURCE_LINUX_THEIA", "SOURCE_WINDOWS_DIFT_FAROS", "SOURCE_WINDOWS_PSA_FAROS", "SOURCE_WINDOWS_FIVEDIRECTIONS", "SOURCE_WINDOWS_MARPLE", "SOURCE_PVM_CADETS"], "doc": "* InstrumentationSource identifies the source reporting provenance information."}, "name": "source", "doc": "What source generated this record?"}], "doc": "* A record representing either a vertex or an edge. This is the top level record that allows\n     * us to easily mix the vertices and edges defined above on the wire.\n     *\n     * Host records delineate system (re)starts in a data\n     * stream. i.e., A data stream MUST start with a Host record and a\n     * new session number. TCCDMDatum records that contain a Host\n     * record define the Host UUID in the Host record, and MUST also\n     * include the same UUID in the TCCDMDatum record's hostId field."} Å«zƒËQDÌÁ?B™ãgj¢¬û LLED 6X€DµÀOS52:blackmarsh3.musec.engr.mun.caØdtrace, fake date, fake_version; translator, 2019 Mar 4 15:33:16, 1833e058956186fe832c4cc2b027c65667a09bcd;  ÊFreeBSD 13.0-CURRENT FreeBSD 13.0-CURRENT #6 224d93cf164(cadets-mfc)-dirty: Wed Jan 16 20:50:45 NST 2019     strnad@allendale.engr.mun.ca:/var/build/strnad/obj/usr/home/strnad/build-meta/freebsd/amd64.amd64/sys/CADETS-LITE  amd64bge0"44:a8:42:1f:8d:c6*192.168.1.102 0.0.0.0<fe80::46a8:42ff:fe1f:8dc6%bge0 bge1"44:a8:42:1f:8d:c7192.168.1.106  20 LLED 6X€DµÀOS52 
+ƒZYï\5·4âßÙ§j 8317   20LLED 6X€DµÀOS52 Šò¢gG2é•D¨BÆ Æ‡ 
+ƒZYï\5·4âßÙ§j        hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 	§R—I¿(&" ÌœŠò¢gG2é•D¨BÆŠò¢gG2é•D¨BÆ   Â™Ñïòë”Œ+aue_exit     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 
+í( ö~R¶ ~{‚~¯        20
+LLED 6X€DµÀOS52 >ÄbTG2é•D¨BÆ Şş 
+ƒZYï\5·4âßÙ§j        hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 á[W:eBG²h„ËÆÃÄsbü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   Â™Ñïòë”Œ+aue_write   P hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 Æ}!¼@1AÕ¨ÄFŠïbü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   èş»ğòë”Œ+aue_write    hostH4c4c4544-0036-5810-8044-b5c04f533532fd1ppid
+20815execbash 20LLED 6X€DµÀOS52 Utñ9ÿÅD”Ä¾H]‹Úbü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   èş»ğòë”Œ+aue_write   , hostH4c4c4544-0036-5810-8044-b5c04f533532fd1ppid
+20815execbash 20LLED 6X€DµÀOS52 A›²)ÊKS›… ª# sbü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   èş»ğòë”Œ+aue_write     hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 Uí.G2é•D¨BÆ Šˆ>ÄbTG2é•D¨BÆ
+ƒZYï\5·4âßÙ§jèş»ğòë”Œ+       hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 Z¥zZ»9KR¡şvö¨,0€
+$ü >ÄbTG2é•D¨BÆUí.G2é•D¨BÆ   èş»ğòë”Œ+aue_fork     
+arg_pid
+25093hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+25093ppid
+20815execbash 20LLED 6X€DµÀOS52 
+²wÓÙ##X£Û;(#Ø‹        20
+LLED 6X€DµÀOS52 °4Kã?şMö FÅæ«hAÌœUí.G2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   èş»ğòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 
+¬BMƒïKX‹ï<“¸$‰        20
+LLED 6X€DµÀOS52 
+Y§Ö¾…V¾©ê…t}        20
+LLED 6X€DµÀOS52 Åö©6İ,Lb…Ôû£÷Æ™ÌœUí.G2é•D¨BÆY§Ö¾…V¾©ê…t}p/usr/home/amanda/bbn/ripe-prov-tests/Linux/./direct_pipe¬BMƒïKX‹ï<“¸$‰(/libexec/ld-elf.so.1Ú™°òòë”Œ+aue_execve     
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLine./direct_pipeppid
+24495execbash 20LLED 6X€DµÀOS52 
+–òiI“Äh\„“V*Üh•f        20
+LLED 6X€DµÀOS52 Ãß÷RvG\’±C»“ñ£<ÌœUí.G2é•D¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  Ú™°òòë”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ú#fĞæAÅ« tÖnA}@ÌœUí.G2é•D¨BÆ–òiI“Äh\„“V*Üh•f   è ªóòë”Œ+aue_read   ^ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 òObZ‹O’ÚíÑâ¡ÌœUí.G2é•D¨BÆ–òiI“Äh\„“V*Üh•f   è ªóòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 
+¡ú&÷F_·VÎFÜ0        20
+LLED 6X€DµÀOS52 Z¤$– GB£ªİjJqºäü<ÌœUí.G2é•D¨BÆ¡ú&÷F_·VÎFÜ00/var/run/ld-elf.so.hints  ¨¶¤ôòë”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ñ†9è%¼I šO©…Õ•@ÌœUí.G2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ¨¶¤ôòë”Œ+aue_read   € hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 wóµTßµB­ƒ¡ŒÀÖy%@ÌœUí.G2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ¨¶¤ôòë”Œ+aue_pread   Ö hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ¶$K|ÇGĞ´çpÄ´ÌœUí.G2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ¨¶¤ôòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 
+opCJØH[˜Jq»H1K        20
+LLED 6X€DµÀOS52 aéÄgGú£À¯¥xc<ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K/lib/libc.so.7  à»õòë”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ˆ¼ÚtO‰MÅ£Éärİ 2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   à»õòë”Œ+aue_mmap   €À£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 nÆ“mJA˜LIî›²i«"2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   à»õòë”Œ+aue_mmap   €À£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ÌÔ5ÎWÉIZ¿Ã½m“"x$2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   à»õòë”Œ+aue_mmap   €€¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 bVaË† K· wÁ&w&‰ñ&2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   üÍ˜öòë”Œ+aue_mmap   €€¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 !~ˆF+ ±Ì0^âë(2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   üÍ˜öòë”Œ+aue_mmap   €€ã arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 d[Ò-H×’¾´8Ş“„Ñ*2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   üÍ˜öòë”Œ+aue_mmap   €€ã arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ÷ß‚;tFp“ó«ZCöAñ,2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   üÍ˜öòë”Œ+aue_mmap   €À… arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 g'd÷,L‘¹³‚DéÄƒ.2ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   üÍ˜öòë”Œ+aue_mmap   €À… arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ö…Ï	üK#˜#%`Ÿ9º0ÌœUí.G2é•D¨BÆopCJØH[˜Jq»H1K   üÍ˜öòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 0/hr)wBã‹KdªÅ&¯2:ÌœUí.G2é•D¨BÆ    ÆÖ’÷òë”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 º¶)ª®vH´š›¦dÏ4:ÌœUí.G2é•D¨BÆ    ÆÖ’÷òë”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ¿Ôš |sCò¿¦…~²Sx‹6bÌœUí.G2é•D¨BÆí( ö~R¶ ~{‚~¯   ’×Œøòë”Œ+aue_write   < hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 8ŸeógC–_—™`•8ÌœUí.G2é•D¨BÆUí.G2é•D¨BÆ   ’×Œøòë”Œ+aue_exit     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execdirect_pipe 20LLED 6X€DµÀOS52 ğ¨ÍĞ3šIó¯¦‡?Âíì:bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   ’×Œøòë”Œ+aue_write    hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 W5WG2é•D¨BÆ Œˆ>ÄbTG2é•D¨BÆ
+ƒZYï\5·4âßÙ§jèà†ùòë”Œ+       hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 ãŞf±J@÷¥ˆZ¨“=Ë4<$ü >ÄbTG2é•D¨BÆW5WG2é•D¨BÆ   èà†ùòë”Œ+aue_fork     
+arg_pid
+25094hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+25094ppid
+20815execbash 20LLED 6X€DµÀOS52 ]¤Ï®¹^LĞ¸)ƒEÎa#>ÌœW5WG2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   èà†ùòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 
+N×ë·ÓQ·ëH£±Ó‹        20
+LLED 6X€DµÀOS52 ãÜJñªE[¾¼Ïm@ÌœW5WG2é•D¨BÆN×ë·ÓQ·ëH£±Ó‹/bin/sleep¬BMƒïKX‹ï<“¸$‰(/libexec/ld-elf.so.1æÚ€úòë”Œ+aue_execve     
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLinesleep 4ppid
+24495execbash 20LLED 6X€DµÀOS52 é-ë–EfC›µB´ÖïäÄ‚B<ÌœW5WG2é•D¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf   Ûúúòë”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 sùŒâüNÕ¤!6Úx„D@ÌœW5WG2é•D¨BÆ–òiI“Äh\„“V*Üh•f    Ûúúòë”Œ+aue_read   ^ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 wW	ORNš-éEkFÌœW5WG2é•D¨BÆ–òiI“Äh\„“V*Üh•f    Ûúúòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 <A3MK;š¶Ğuf[]H<ÌœW5WG2é•D¨BÆ¡ú&÷F_·VÎFÜ00/var/run/ld-elf.so.hints   Ûúúòë”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ãfeï)B&»YE‹¡,J@ÌœW5WG2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ïôûòë”Œ+aue_read   € hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ³‚u—A)¼şEôŒ}iL@ÌœW5WG2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ïôûòë”Œ+aue_pread   Ö hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 †ïR{Fw£a;hN?œêNÌœW5WG2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ïôûòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 c@ê,¿HŒœn9N“*TˆP<ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K/lib/libc.so.7  ïôûòë”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 c©l:Ÿ0G#—*è–!İµR2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ´‰ïüòë”Œ+aue_mmap   €À£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 zt^4N¬°Qçü†	æÒT2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ´‰ïüòë”Œ+aue_mmap   €À£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 è@¿™ÈA£´õ˜ÈÊ."NV2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ´‰ïüòë”Œ+aue_mmap   €€¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 5_»«¼‹M²™UÇ¬r X2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ´‰ïüòë”Œ+aue_mmap   €€¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 -!˜‹Ù¢H35÷…¿‰!íZ2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ´‰ïüòë”Œ+aue_mmap   €€ã arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ¤Ä.dM'–J.±¯ÉÖ8\2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ´‰ïüòë”Œ+aue_mmap   €€ã arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ™ÛŞÛKú˜€¯ı·½|^2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ÈŒéıòë”Œ+aue_mmap   €À… arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 "şëó‰Eë¸_TP›J†`2ÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ÈŒéıòë”Œ+aue_mmap   €À… arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ˆ¨MAKºl—Ób‚¢bÌœW5WG2é•D¨BÆopCJØH[˜Jq»H1K   ÈŒéıòë”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 `ó%$2D±¥{Ù¿–_æd:ÌœW5WG2é•D¨BÆ    ÈŒéıòë”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 õ{MÖ¢HÇ
+©²G¬f:ÌœW5WG2é•D¨BÆ    î‘ãşòë”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 èı=.â–GG¿×0ğŞ·øhÌœW5WG2é•D¨BÆW5WG2é•D¨BÆ   Ìêàöì”Œ+aue_exit     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ‹ñ:¤KHPšZ>ëüSjbü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   Ìêàöì”Œ+aue_write   , hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 ½Z´G2é•D¨BÆ ˆ>ÄbTG2é•D¨BÆ
+ƒZYï\5·4âßÙ§jæÔË÷ì”Œ+       hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 ør7miÌKpé'Í‡Ìl$ü >ÄbTG2é•D¨BÆ½Z´G2é•D¨BÆ   æÔË÷ì”Œ+aue_fork     
+arg_pid
+25095hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+25095ppid
+20815execbash 20LLED 6X€DµÀOS52 “#SFş”s	¾:dünÌœ½Z´G2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   æÔË÷ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 
+
+Ï.EvB]‚v õ]•Š        20
+LLED 6X€DµÀOS52 â}N^˜Îe›æŠpÌœ½Z´G2é•D¨BÆ
+Ï.EvB]‚v õ]•Š&/usr/local/bin/sudo¬BMƒïKX‹ï<“¸$‰(/libexec/ld-elf.so.1şÓÅøì”Œ+aue_execve     
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLine&sudo killall dtraceppid
+24495execbash 20LLED 6X€DµÀOS52 [pò(ìTÄ—1DÏ{GyI 0root  20LLED 6X€DµÀOS52 Dè§yzLD¢àê·Á-kr<Ìœ½Z´G2é•D¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  èİ¿ùì”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ßKÿ±’œO¡¹â×g=­šçt@Ìœ½Z´G2é•D¨BÆ–òiI“Äh\„“V*Üh•f   èİ¿ùì”Œ+aue_read   ^ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ò@zŒùâ¨€ŒšvÌœ½Z´G2é•D¨BÆ–òiI“Äh\„“V*Üh•f   èİ¿ùì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 YlZ¹ŠKÀ™ÄáNœWRx<Ìœ½Z´G2é•D¨BÆ¡ú&÷F_·VÎFÜ00/var/run/ld-elf.so.hints   ï¹úì”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 hÄ…&gIµ¤IÂÕ¾]Ôz@Ìœ½Z´G2é•D¨BÆ¡ú&÷F_·VÎFÜ0    ï¹úì”Œ+aue_read   € hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 @îªÏJê¾©êÉ…Á™|@Ìœ½Z´G2é•D¨BÆ¡ú&÷F_·VÎFÜ0    ï¹úì”Œ+aue_pread   Ö hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Jõş §CD¦JÓ{·~Ìœ½Z´G2é•D¨BÆ¡ú&÷F_·VÎFÜ0    ï¹úì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgj’şú
+ñK‡k”ãY£”é·i°‘        20
+LLED 6X€DµÀOS52 °Œ¸CZ÷Jµ¥^¿Ë$€<Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘"/lib/libutil.so.9  „´ûì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 q:øßï…H±\YÀ‡º‚2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   „´ûì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 $DËÚ+HÈ¨»!ÜW„2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   „´ûì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 “Î–ÛZD¨o[FÊ6î†2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   „´ûì”Œ+aue_mmap   €€² arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÆÎLFÄ^B¥¨Ì4‚vˆ2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   È‰®üì”Œ+aue_mmap   €€² arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ô²À¦B,­o(äNwëŠ2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   È‰®üì”Œ+aue_mmap   €€¶ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 <"cs‹D@¸-ƒdØzÍIŒ2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   È‰®üì”Œ+aue_mmap   €€¶ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 8nK’ß¹I­"s¦lT 2Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   È‰®üì”Œ+aue_mmap   €À» arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ƒ-4]¦®DÚ—²Œë\32Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   È‰®üì”Œ+aue_mmap   €À» arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ğï«CÂG%³ĞÊ¥R`€e’Ìœ½Z´G2é•D¨BÆñK‡k”ãY£”é·i°‘   È‰®üì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+ÒÜB¬é@^©¬1¾@+é        20
+LLED 6X€DµÀOS52 à(³7{GŸ´*~Rã’”<Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+éR/usr/local/libexec/sudo/libsudo_util.so.0  ˆ¨ıì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 #bóbJn¢äßpñçé–2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ˆ¨ıì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‡ùê¹C{@²º‰¦?»Úå˜2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ˆ¨ıì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 [i“#ÿL¿~¼¥mš2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ö¢şì”Œ+aue_mmap   €À½ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 NÉrsBKUŠÅWøÁä¾7œ2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ö¢şì”Œ+aue_mmap   €À½ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 môÛñ*PHâ Üş\íıÆê2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ö¢şì”Œ+aue_mmap   €ÀÁ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 –•€/êSK´‡[h-‹›w 2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ö¢şì”Œ+aue_mmap   €ÀÁ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 í¥4HçÄK«„Š/ÀŒüÑ¢2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ö¢şì”Œ+aue_mmap   €€È arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 òì,uB¥‡úÒä+…8¤2Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ö¢şì”Œ+aue_mmap   €€È arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ®gsçM*’ô3êãk‡¦Ìœ½Z´G2é•D¨BÆÒÜB¬é@^©¬1¾@+é   ĞŸœÿì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+ÕŞìQ<|T¼û°d|-õ        20
+LLED 6X€DµÀOS52 -N/p$~Ja–O÷;â½Ô¨<Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ6/usr/local/lib/libintl.so.8  à¡–€‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Øtè!¸CN7‰À£Tª2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   à¡–€‘ì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Û¢íŒ"MJ‘„6Ÿàåá¬2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   à¡–€‘ì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 H	t¯sN(‘bÈ´ÉAD®2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   à¡–€‘ì”Œ+aue_mmap   €ÀÉ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˜@U4QMÂ®£=®c(¨°2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   à¡–€‘ì”Œ+aue_mmap   €ÀÉ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 —Ş™ÆÆIµ¦ÈóÎ‡º²2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   à¡–€‘ì”Œ+aue_mmap   €ÀË arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 y0¨ÈBÄ«-É™«ô_´2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   à¡–€‘ì”Œ+aue_mmap   €ÀË arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‹¡Tó";Ii¿i_1,¹f¶2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   š¶‘ì”Œ+aue_mmap   €ÀÎ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 "dêW@ºşëuõ8¸2Ìœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   š¶‘ì”Œ+aue_mmap   €ÀÎ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 6˜[«Kè¥¥¥,B–ÖºÌœ½Z´G2é•D¨BÆÕŞìQ<|T¼û°d|-õ   š¶‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 òE¯Ap¦€ıf0[„á¼<Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K/lib/libc.so.7  š¶‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 <i8£ÏH–»iëÕºƒ¾2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¶‘ì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÜëÕ¯Õ¾@ µÃ¹‘¤ïá€À2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¸Š‚‘ì”Œ+aue_mmap   €À± arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 S-MÚpÜLŒÓñNwëOÂ2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¸Š‚‘ì”Œ+aue_mmap   €€Ğ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 I®y|(4H›ŠP?²ƒeßöÄ2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¸Š‚‘ì”Œ+aue_mmap   €€Ğ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 _g¿…+D¯©vt)Æÿ¹CÆ2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¸Š‚‘ì”Œ+aue_mmap   €€ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 VOqø{BcšÓİäoQGÈ2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¸Š‚‘ì”Œ+aue_mmap   €€ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÛÉñï}ñOKšSİW%[¤Ê2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   š¸Š‚‘ì”Œ+aue_mmap   €À± arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 {‹,TéOU¦áàiş¡øÌ2Ìœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   œÄ„ƒ‘ì”Œ+aue_mmap   €À± arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ñ`F«ÿrIgl >æ½ÎÌœ½Z´G2é•D¨BÆopCJØH[˜Jq»H1K   œÄ„ƒ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 so=DOˆ®•*Xã%|Ğ:Ìœ½Z´G2é•D¨BÆ    œÄ„ƒ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ~%-r9¯I¿¥ÎûÍªğl&Ò:Ìœ½Z´G2é•D¨BÆ    œÄ„ƒ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 w•fHó˜ërÍEwñÔ:Ìœ½Z´G2é•D¨BÆ    œÄ„ƒ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 k^æY¥JHJ†ÿ2Çj¡àÖ:Ìœ½Z´G2é•D¨BÆ    ¢Ìşƒ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 µ¬÷B8}A’ÅSò$#£?Ø:Ìœ½Z´G2é•D¨BÆ    ¢Ìşƒ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ”±}'A‰¤ÄI¶Ú"Ìœ½Z´G2é•D¨BÆ    –İø„‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value10ppid
+24495execsudo 20LLED 6X€DµÀOS52 &ĞNMÍAgƒóJĞ'/€Ü"Ìœ½Z´G2é•D¨BÆ    –İø„‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value10ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ş½½ÄA«¬QE¾RN¸ŸŞ"Ìœ½Z´G2é•D¨BÆ    –İø„‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value10ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+p&;Íh#€Z£hµÔº€E¸        20
+LLED 6X€DµÀOS52 öQhåÙ E¹ÂÍ{à<Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  –İø„‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ß/tYiÌDŠ—¯Ä©:móâ2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   èîò…‘ì”Œ+aue_mmap   €€Ñ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 –×:w,M9’4sÌ_§nä2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   èîò…‘ì”Œ+aue_mmap   €€Ñ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¡+pá‘E¬¶"·fÇâ©ÓæÌœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   èîò…‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+«·y“Ó}ÏP½ÓS¦ Ï†{        20
+LLED 6X€DµÀOS52 hn, üM*‘—èæİÓ×¥è<Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  èîò…‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 MÀ,¯ZGa¨Ëja—Û‹ıê2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   èûì†‘ì”Œ+aue_mmap   €€Û arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 îiÖ®Jp½“ÛËø^Kì2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   èûì†‘ì”Œ+aue_mmap   €€Û arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 $HËG£÷YÄDÃnZîÌœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   èûì†‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+¦¹Xìƒ!_ƒì$O!u        20
+LLED 6X€DµÀOS52 ‹”.3K=™ı¯ÿ¶QN€ğ<Ìœ½Z´G2é•D¨BÆ¦¹Xìƒ!_ƒì$O!uR/usr/share/locale/en_US.UTF-8/LC_MONETARY  èûì†‘ì”Œ+aue_open_rwtc  
+flags       mode p        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 p>d
+@~‹<ôß3,lò@Ìœ½Z´G2é•D¨BÆ¦¹Xìƒ!_ƒì$O!u   Œøæ‡‘ì”Œ+aue_read   @ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 e+Gªl9@¢Ô9xÛ÷ôÌœ½Z´G2é•D¨BÆ¦¹Xìƒ!_ƒì$O!u   Œøæ‡‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+æ9Fqø]¸q.]­øÆ        20
+LLED 6X€DµÀOS52 (éB0]M¶€ærV?suö<Ìœ½Z´G2é•D¨BÆæ9Fqø]¸q.]­øÆP/usr/share/locale/en_US.UTF-8/LC_NUMERIC  Œøæ‡‘ì”Œ+aue_open_rwtc  
+flags       mode A        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ®¥mŒJ¡kÍŞ¹1
+ø@Ìœ½Z´G2é•D¨BÆæ9Fqø]¸q.]­øÆ   Œøæ‡‘ì”Œ+aue_read    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 H[`¿1G~„°¶Ùk$QãúÌœ½Z´G2é•D¨BÆæ9Fqø]¸q.]­øÆ   Æøàˆ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+Ú‚øúVQMQ‘Võ«qM§        20
+LLED 6X€DµÀOS52 
+û\ÆFx£zO¤õ©ü<Ìœ½Z´G2é•D¨BÆÚ‚øúVQMQ‘Võ«qM§J/usr/share/locale/en_US.UTF-8/LC_TIME  Æøàˆ‘ì”Œ+aue_open_rwtc  
+flags       mode s        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¹¡b¾ˆßEA´$CüF%i·ş@Ìœ½Z´G2é•D¨BÆÚ‚øúVQMQ‘Võ«qM§   Æøàˆ‘ì”Œ+aue_read   ò hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 „_×Ã ÒD‚œá9ûnûe€Ìœ½Z´G2é•D¨BÆÚ‚øúVQMQ‘Võ«qM§   Æøàˆ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgjšÀı
+„oF'N¿Q'sÓñ¿ƒ•        20
+LLED 6X€DµÀOS52 4R1“ßûJ4[›š‚<Ìœ½Z´G2é•D¨BÆ„oF'N¿Q'sÓñ¿ƒ•R/usr/share/locale/en_US.UTF-8/LC_MESSAGES  …Û‰‘ì”Œ+aue_open_rwtc  
+flags       mode G        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˜£D=-JÏ°Èpµë JM„@Ìœ½Z´G2é•D¨BÆ„oF'N¿Q'sÓñ¿ƒ•   …Û‰‘ì”Œ+aue_read   ” hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Â"õéF£†"´¤“™†Ìœ½Z´G2é•D¨BÆ„oF'N¿Q'sÓñ¿ƒ•   …Û‰‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+Î¶Ñ®ÈÖóW–ÈG>óeÙ        20
+LLED 6X€DµÀOS52 »»
+G=‚.1•gJıˆ<Ìœ½Z´G2é•D¨BÆÎ¶Ñ®ÈÖóW–ÈG>óeÙ./usr/share/zoneinfo/UTC  °“ÕŠ‘ì”Œ+aue_open_rwtc  
+flags      mode         
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 —=ÎZ¦Oš”³ 0É%GŠ@Ìœ½Z´G2é•D¨BÆÎ¶Ñ®ÈÖóW–ÈG>óeÙ   °“ÕŠ‘ì”Œ+aue_read   ì hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 nQ¶vıH1¥[)â²§Ü¡ŒÌœ½Z´G2é•D¨BÆÎ¶Ñ®ÈÖóW–ÈG>óeÙ   °“ÕŠ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+®İ§h ¯_¯ :	        20
+LLED 6X€DµÀOS52 pÆ¹ÇO8Œ³Tórèz<Ìœ½Z´G2é•D¨BÆ®İ§h ¯_¯ :	</usr/share/zoneinfo/posixrules  ¨Ï‹‘ì”Œ+aue_open_rwtc  
+flags      mode         
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 VÓÇGI¡¨j#æ}ÜÕ™@Ìœ½Z´G2é•D¨BÆ®İ§h ¯_¯ :	   ¨Ï‹‘ì”Œ+aue_read   ş6 hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Õ(¿àjAÖ®ÓŸ©|Ê’Ìœ½Z´G2é•D¨BÆ®İ§h ¯_¯ :	   ¨Ï‹‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‘u÷¥F¥³	]Óte”<Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  ˆŠÉŒ‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ğuÇhó@…«©²ê8–2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ˆŠÉŒ‘ì”Œ+aue_mmap   €€‚ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 )Æ7äœÍA¼Œonq6-±˜2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ˆŠÉŒ‘ì”Œ+aue_mmap   €€‚ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Õ^›O[‘De¹…È)ÄPšÌœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ˆŠÉŒ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52  IP„ˆ@2Ÿh&•QEœ<Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  š­Ã‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ú3ı «I_·[AG] °2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   š­Ã‘ì”Œ+aue_mmap   €€Œ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 s<öOT®hAÓ~š#â 2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   š­Ã‘ì”Œ+aue_mmap   €€Œ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 „X#IFà½­_[Â¶ ¢Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   š­Ã‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÛË˜v-lI‚,ÀßÆ¼†r¤<Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  Òš½‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¦²x˜)íLE¡_BuQĞ=a¦2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   Òš½‘ì”Œ+aue_mmap   €€Œ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 6ğiûJ±@”/O„Ø(¨2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   Òš½‘ì”Œ+aue_mmap   €€Œ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 L8Q¶E5‡2HûRŠVªÌœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   Òš½‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÖŒ£íˆ§@n¼`Cs%pı¬<Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  Ôµ·‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 tihá<Fr¿ÎDKÆ®2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   Ôµ·‘ì”Œ+aue_mmap   €€– arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 íº;[9OGO±Ğ/]‚¥&°2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   Ôµ·‘ì”Œ+aue_mmap   €€– arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ôá5YEğN6£úJŠ—©8²Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   Ôµ·‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+¶©H»7reR²7%ùâeWy        20
+LLED 6X€DµÀOS52 ½zX3ND’”Œè²s´<Ìœ½Z´G2é•D¨BÆ¶©H»7reR²7%ùâeWy$/etc/nsswitch.conf  Ôµ·‘ì”Œ+aue_open_rwtc  
+flags       mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 %ìÏ†ª«M²ö'JQÈ©Õ¶@Ìœ½Z´G2é•D¨BÆ¶©H»7reR²7%ùâeWy   ØÄ±‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 K>5
+ED‹°ö·‘xúu¸@Ìœ½Z´G2é•D¨BÆ¶©H»7reR²7%ùâeWy   ØÄ±‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 YÑÒûĞJ™³ÿõ=Ï*™ºÌœ½Z´G2é•D¨BÆ¶©H»7reR²7%ùâeWy   ØÄ±‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+W9”202^’0~,20        20
+LLED 6X€DµÀOS52 _=é²ØH*“`©Y[a¼<Ìœ½Z´G2é•D¨BÆW9”202^’0~,20/etc/spwd.db  ÊÍ«‘‘ì”Œ+aue_open_rwtc  
+flags       mode         
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¢)fÓÿOAŒşÑÓn®=*¾@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   ÊÍ«‘‘ì”Œ+aue_read   ˆ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 &eP€jJ*’şk
+½’­“À@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   ÊÍ«‘‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+­mRb¤ç‡Y§¤QW	‡f³        20
+LLED 6X€DµÀOS52 ËqôxaLG„İ3ÁæPIÇÂ<Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³/etc/group  ÊÍ«‘‘ì”Œ+aue_open_rwtc  
+flags       mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 xÿ@lolB§§è7;c	İ=Ä<Ìœ½Z´G2é•D¨BÆí( ö~R¶ ~{‚~¯/dev/tty  öÑ¥’‘ì”Œ+aue_openat_rwtc  
+flags     mode         ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Âl{íL§Ú%®İ ¼ÆÌœ½Z´G2é•D¨BÆí( ö~R¶ ~{‚~¯   öÑ¥’‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ı»÷4AÑEk¤#tg†äÚÈ@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   öÑ¥’‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52  «6ÿ
+£OE#P„¢±‹éÊ@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   öÑ¥’‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¼¾À"¿„C±½UÆNÚŞ¹Ì@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   öÑ¥’‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ïê:Á{B¢”†`™MX7Î@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   ÈŞŸ“‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 áß ä×D1£ÑõHæ:ôĞ@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   ÈŞŸ“‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 {!0{L@x»’­ ~«ö£Ò@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   ÈŞŸ“‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 ØC­hEçÉiÌş(OÔ@Ìœ½Z´G2é•D¨BÆW9”202^’0~,20   ÈŞŸ“‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execsudo 20LLED 6X€DµÀOS52 c>fÃokI£„.ğ½æ`f	Ö6Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ÈŞŸ“‘ì”Œ+aue_umask     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value18ppid
+24495execsudo 20LLED 6X€DµÀOS52 ñğøV?N?ƒH8x¤€Ø6Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ÈŞŸ“‘ì”Œ+aue_umask     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+‹#HÙ#¼Y£Ùšç)¼¯        20
+LLED 6X€DµÀOS52 T Ë×$aAš†ÈQëÉÚ<Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯D/usr/local/libexec/sudo/sudoers.so  ‚Ş™”‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 9Šö`úEU«’øš¬”"5Ü2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   ‚Ş™”‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 q?‰xKMJ‡E(Àî¬ºŞ2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ï«×ÿŠC¯›àÑ^éÈôSà2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €À¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ±-PÓH¹¡9¶ÄÃ…â2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €À¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 íĞäzUÖD–+4â€;¬ä2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €Àº arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 I\½|L?’dÖdU‹İæ2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €Àº arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 zjbƒœA¥HB‰@è&è2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €ÀÔ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 k~·wXB7ŠpÉÙG²ê2Ìœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   í“•‘ì”Œ+aue_mmap   €ÀÔ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 $%º“-K¤)·¸F@vìÌœ½Z´G2é•D¨BÆ‹#HÙ#¼Y£Ùšç)¼¯   ¬ø–‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+‚ŠÈ©º_º©²ŸC½        20
+LLED 6X€DµÀOS52 Í"ÔåÛdAş¹†L‚®æ;Pî<Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½(/usr/lib/libbsm.so.3  ¬ø–‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ±_Ú›Mºœá³Õ/ğ2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   ¬ø–‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ´Wúõ–Ft)‚­Öñò2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   ¬ø–‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ŠÁåz‚Ki¡“,’©Á¬ô2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   „ÿ‡—‘ì”Œ+aue_mmap   €€× arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ÿò/e5J	›ÎhV9~Vö2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   „ÿ‡—‘ì”Œ+aue_mmap   €€× arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 /À¹¶-ÖF¥¿R%Õd–<ø2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   „ÿ‡—‘ì”Œ+aue_mmap   €€Ü arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‰Ç!ñƒHhŸ?D,°¥Tìú2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   „ÿ‡—‘ì”Œ+aue_mmap   €€Ü arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 1"Ğ‚ä7D…
+&Éì„’ü2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   „ÿ‡—‘ì”Œ+aue_mmap   €Àä arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 4=.ÁJ9°3Â4úf“ş2Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   „ÿ‡—‘ì”Œ+aue_mmap   €Àä arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ŞjÎĞ`—Kjµ^‡ˆIå˜¡€Ìœ½Z´G2é•D¨BÆ‚ŠÈ©º_º©²ŸC½   ì…‚˜‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+Şn)R5+VµR´‹+W        20
+LLED 6X€DµÀOS52 †Ø:üÔIÚ¢¦Ïv;€¤‚<Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W(/usr/lib/libpam.so.6  ì…‚˜‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ›Ã#‚	ZMÜ–>Ş‹Vr„2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ì…‚˜‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 7µÀba@Bƒd^˜Å+W…†2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ì…‚˜‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ôS:n”L`ˆSHà#sñ?ˆ2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ¾–ü˜‘ì”Œ+aue_mmap   €€æ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgj’ş8»NOoFh7•2gVŠ2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ¾–ü˜‘ì”Œ+aue_mmap   €€æ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÈooËGø´ô<ó‹g°Œ2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ¾–ü˜‘ì”Œ+aue_mmap   €€é arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ’T“†AA® °/Š9‰2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ¾–ü˜‘ì”Œ+aue_mmap   €€é arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 #`x>‹`F]º!û-ğ^i2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ¾–ü˜‘ì”Œ+aue_mmap   €Àì arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 öVfr‰F’5€qŞàè’2Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   ¾–ü˜‘ì”Œ+aue_mmap   €Àì arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Àc,;±Ox •'¦sŒ—?”Ìœ½Z´G2é•D¨BÆŞn)R5+VµR´‹+W   Ì²ö™‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+:TB]\CèWƒ\¥—èåƒ        20
+LLED 6X€DµÀOS52 I=Ü}Â@ôw‚¬dÿ–<Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ/lib/libz.so.6  Ì²ö™‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 —"=×lBh¦•gÄò…-R˜2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   Ì²ö™‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52  g×ØóêL…®ƒ°)×Cš2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   Ì²ö™‘ì”Œ+aue_mmap   €€¬ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 $zù «HU”±Íİ"Nœ2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_mmap   €€î arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 WœQˆ¥ÇJ"µËfdmG2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_mmap   €€î arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˆñ'Î;<Oã©·ÌØƒU)< 2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_mmap   €€ò arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‰Ô	ÑÚL)‹¹÷ôsí¢2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_mmap   €€ò arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ì92-ÆBBŒDN&Í˜ˆº¤2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_mmap   €Àú arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 .ã÷qBÿ¢šĞ2m,¦2Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_mmap   €Àú arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Á\‚)ìM2©ˆÑMEê¨Ìœ½Z´G2é•D¨BÆ:TB]\CèWƒ\¥—èåƒ   ¤°ğš‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ^E1JÖN¢)§é4÷ª:Ìœ½Z´G2é•D¨BÆ    Œ±ê›‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 \=zÂ¸®D“ˆwÖ«n¾]¬:Ìœ½Z´G2é•D¨BÆ    Œ±ê›‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 íP‡{B>ˆ*ğm&<®:Ìœ½Z´G2é•D¨BÆ    Œ±ê›‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ·²ÿL íâ” İ_-°:Ìœ½Z´G2é•D¨BÆ    Œ±ê›‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+»ş‘`*Q‹€¡*Óğ        20
+LLED 6X€DµÀOS52 E‡õñL\Lè¯ ÉÄ%cÑ²<Ìœ½Z´G2é•D¨BÆ»ş‘`*Q‹€¡*ÓğH/usr/local/share/locale/locale.alias  ª»äœ‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¼à±}aµKO¹îÈ9¯´@Ìœ½Z´G2é•D¨BÆ»ş‘`*Q‹€¡*Óğ   ª»äœ‘ì”Œ+aue_read   ¼0 hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 O~vÒSQLÑ ëÉ©ÁÙè¶@Ìœ½Z´G2é•D¨BÆ»ş‘`*Q‹€¡*Óğ   ª»äœ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¡f™®i\DÄ¿˜^ã#û„S¸Ìœ½Z´G2é•D¨BÆ»ş‘`*Q‹€¡*Óğ   æºŞ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ø•R²•õI¸MZ8Îj³)º
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   æºŞ‘ì”Œ+aue_setresuid  uid      euid ÿ    suid ÿ       arg_euid-1arg_ruid0arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 óvË•@a§5şí,=“¼
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   æºŞ‘ì”Œ+aue_setresgid  gid ÿ    egid      sgid ÿ       arg_egid0arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 †“éFrIJ¦ğ‹ó€Ê¾
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   æºŞ‘ì”Œ+aue_setresuid  uid ÿ    euid     suid ÿ       arg_euid1arg_ruid-1arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+¨*„±çÉ-S‰çË„ó- ‹        20
+LLED 6X€DµÀOS52 ñø<¶W£1¨VÈÆÒØ 1   20LLED 6X€DµÀOS52 ØäqJĞeK‰³äÉÂ/?¤À<Ìœ½Z´G2é•D¨BÆ¨*„±çÉ-S‰çË„ó- ‹,/usr/local/etc/sudoers  ÂÍØ‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¶{¼üÖÅF>—¯ba #n[Â@Ìœ½Z´G2é•D¨BÆ¨*„±çÉ-S‰çË„ó- ‹   ğÑÒŸ‘ì”Œ+aue_read   ¤ hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 åÊĞË¢ÃDÆ¸ÁˆÄĞÏ¢yÄ0Ìœ½Z´G2é•D¨BÆ¨*„±çÉ-S‰çË„ó- ‹   ğÑÒŸ‘ì”Œ+aue_lseek   ¤ hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ^5ÏïM¾‡–|éOÀ¶%Æ"Ìœ½Z´G2é•D¨BÆ    ğÑÒŸ‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ü´J¥¢K‹¨Ê;J•µTÈ
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ğÑÒŸ‘ì”Œ+aue_setresuid  uid ÿ    euid      suid ÿ       arg_euid0arg_ruid-1arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 iˆ´g¯çF¦Š@•#7QèÊ
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ğÑÒŸ‘ì”Œ+aue_setresgid  gid ÿ    egid ÿ    sgid ÿ       arg_egid-1arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 N'µCÂH‘›¶ı›Ì
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ğÑÒŸ‘ì”Œ+aue_setresuid  uid ÿ    euid      suid ÿ       arg_euid0arg_ruid-1arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Äp3$HÆOÉ´?rbÁj,ëÎ@Ìœ½Z´G2é•D¨BÆ¨*„±çÉ-S‰çË„ó- ‹   ¦ÙÌ ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ñe*ŒR¢HdIÊô¾1eĞ
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ¦ÙÌ ‘ì”Œ+aue_setresgid  gid ÿ    egid  }    sgid ÿ       arg_egid8317arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 a5wË÷DÏeP(ñL8\Ò
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ¦ÙÌ ‘ì”Œ+aue_setresuid  uid  }    euid ÿ    suid ÿ       arg_euid-1arg_ruid8317arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 :JZ{î³I„Ÿ€è©dÔ<Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  ¦ÙÌ ‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÉZÆ®ÎAB…"CÂ=qÖ2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ÄäÆ¡‘ì”Œ+aue_mmap   €€† arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 êPå5¤@ŒÚâ^G¶Ü+Ø2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ÄäÆ¡‘ì”Œ+aue_mmap   €€† arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‡ìÂ›xiFş€Z±üŒZšÚÌœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ÄäÆ¡‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 µvŒ†¼LE¯DÆ-§h[®Ü<Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  ğÚÀ¢‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52 j[^úÜÈE|²/{‰Õ.“Ş2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ğÚÀ¢‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 BÍX,G@†½‘¨Œt›Óà2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ğÚÀ¢‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 õ-[İJ¾´W+ÿŸÑíâÌœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ğÚÀ¢‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 İ KêRG‰`oSP•©
+ä
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ğÚÀ¢‘ì”Œ+aue_setresgid  gid ÿ    egid      sgid ÿ       arg_egid0arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ñuâVU9B1·Y3q’RE$æ0Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   Äõº£‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 _÷™ÀIá“±¬¼‰$°è0Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   Äõº£‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÉåèpëJ¸¾'ïJtUµê@Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   Äõº£‘ì”Œ+aue_read   ˜
+ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 v*5‹ÔMHB‡L ¢ïšåì@Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   Äõº£‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 µa*g4A²òµ!1ˆúÓîÌœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   Äõº£‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 %ÁCºÿaGe£Ú¿*Cìcûğ
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   Äõº£‘ì”Œ+aue_setresgid  gid ÿ    egid  }    sgid ÿ       arg_egid8317arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ãÄ4=´z@¬¬½9qVhò
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   †µ¤‘ì”Œ+aue_setresuid  uid ÿ    euid ÿ    suid ÿ       arg_euid-1arg_ruid-1arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 &Òş^†hF!²Üƒ‡öÌÙ‹ô
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   †µ¤‘ì”Œ+aue_setresgid  gid ÿ    egid      sgid ÿ       arg_egid0arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ĞÀ‡Ô·Nr‚éUAÒF0Ïö<Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³/etc/group  †µ¤‘ì”Œ+aue_open_rwtc  
+flags       mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 u§SİS9EM«Ó„BTyVâø@Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   †µ¤‘ì”Œ+aue_read   ˜
+ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¸¸|B•ğMl‚ÍcT—øúÌœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   ä†¯¥‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 5™âQÉˆDH³yÑ=æü<Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³/etc/group  ä†¯¥‘ì”Œ+aue_open_rwtc  
+flags       mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 [Q¸”Oœ–Äsúÿş@Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   ä†¯¥‘ì”Œ+aue_read   ˜
+ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˜¢4v#O¯–1ÅöõêÜ‡€Ìœ½Z´G2é•D¨BÆ­mRb¤ç‡Y§¤QW	‡f³   ä†¯¥‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52  ãu^şÖGÈ¤ùCdüeI‚
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ê©¦‘ì”Œ+aue_setresgid  gid ÿ    egid  }    sgid ÿ       arg_egid8317arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 â
+"2G!§õ gPú„
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ê©¦‘ì”Œ+aue_setresuid  uid ÿ    euid ÿ    suid ÿ       arg_euid-1arg_ruid-1arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ub«Dû(KÎ²ŒÚ$ß¨óÓ†<Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  ê©¦‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 2´aIñUM£’ o²®c¥ˆ2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ê©¦‘ì”Œ+aue_mmap   €€£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 xñ)Ï—ÏN›ü0Š¥Yt0Š2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   €›£§‘ì”Œ+aue_mmap   €€£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 Íç2NÆ.Kx¼b±5üdŒÌœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   €›£§‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 »c>LœŠ§f!×_,<Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  €›£§‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgjŞüyø\Â I©ƒJO4 Ú2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ¥¨‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 aŒ´šOãœà(P¯
+pt’2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ¥¨‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 8÷Sv(0Oæ³jñ-K¶°¶”Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ¥¨‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+UhgA[²T›=²Â[        20
+LLED 6X€DµÀOS52 .¡(8WCJC§†òš
+â!–<Ìœ½Z´G2é•D¨BÆUhgA[²T›=²Â[2/usr/local/etc/pam.d/sudo  „™—©‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 `f´M_ú@B”šR9š‹*$˜@Ìœ½Z´G2é•D¨BÆUhgA[²T›=²Â[   „™—©‘ì”Œ+aue_read    hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+#R4•N™PNáœ ™„!        20
+LLED 6X€DµÀOS52 Y¥–&öGóE¥–¿%…š<Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!"/etc/pam.d/system  „™—©‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52 íÀt¿=QF³R«,Ó[œ@Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   „™—©‘ì”Œ+aue_read   
+ hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+¯r³ˆ‰Ğ2U‰`•2€°        20
+LLED 6X€DµÀOS52 6xl¬â@t†e«Ê¥—ÊÔ<Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°,/usr/lib/pam_opie.so.6  À°‘ª‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 wÄÛ©Ø^A*¿wm6¥õQ0 "Ìœ½Z´G2é•D¨BÆ    À°‘ª‘ì”Œ+aue_fcntl  cmd        ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 =¸â´emF²şoQ!s¢2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   À°‘ª‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ïòÏ–Ô(Om¿k:z¾Tå¤2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   À°‘ª‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ³=İMOxA¼¦jåL(¦2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_mmap   €À arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ïŒŠ[m JT¢ÌøÍ¨2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_mmap   €À arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 3ÛCôwH
+ÔRõ³Q-ª2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_mmap   €€‘ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 uÏ;œK,§¸Rí‹ñ¬2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_mmap   €€‘ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 €^N|öSHú˜zÉmxú"4®2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_mmap   €À‘ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ü;Q3?Dı¾l«îÒ(°2Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_mmap   €À‘ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 H4jàOX©ü£ÒR¦û7²Ìœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   Ô¸‹«‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+S¹‡šòšäPšò!#ä±        20
+LLED 6X€DµÀOS52 jjg¶oO]’ã4áşĞÁ´<Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±*/usr/lib/libopie.so.8  ²Ê…¬‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‹­E>Lô”,r<ößu¶2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ²Ê…¬‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 /è^RFF­júª|]D¸2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ²Ê…¬‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 D#ğ´¤„D¹9ğBFT~Aº2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ²Ê…¬‘ì”Œ+aue_mmap   €€­ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ëÜœ?öF<‘Áşj|¼2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ²Ê…¬‘ì”Œ+aue_mmap   €€­ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 K¥8T>AX“T×‚’¨Ğ¾2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ¸Óÿ¬‘ì”Œ+aue_mmap   €À® arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÕwØ˜ßK—Ÿ=÷¸ù)À2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ¸Óÿ¬‘ì”Œ+aue_mmap   €À® arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ]1ZİºîB ¸¶G£¡Jì²Â2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ¸Óÿ¬‘ì”Œ+aue_mmap   €À° arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÕZĞ·¾ªK ë”-FmğÄ2Ìœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ¸Óÿ¬‘ì”Œ+aue_mmap   €À° arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ml5;øG9™n[E·¬åÆÌœ½Z´G2é•D¨BÆS¹‡šòšäPšò!#ä±   ¸Óÿ¬‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+bºE|ÚŸUš|¶n5Ÿğ        20
+LLED 6X€DµÀOS52 -dRÊC5ªf·OóÏ¿âÈ<Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ/lib/libmd.so.6  Úù­‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 zÕ½ùF~‘”B<†¬(Ê2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   Úù­‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 »‰±nJÉ$zéöÍ]½Ì2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   Úù­‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¸å H¹ıåÊûÎ2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   Úù­‘ì”Œ+aue_mmap   €€³ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ñä5ÎGB!ƒ&ŠÆ˜…*¡Ğ2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   Úù­‘ì”Œ+aue_mmap   €€³ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Èg†<äNş¨~êˆÂX›ëÒ2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   ãó®‘ì”Œ+aue_mmap   €€· arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ^…E’MT‘ÖHVA\ú˜Ô2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   ãó®‘ì”Œ+aue_mmap   €€· arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‰‹Fä!C+ºÈÄ1erAÖ2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   ãó®‘ì”Œ+aue_mmap   €€Á arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Èá7g»Jê‚„pÔÀyØ2Ìœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   ãó®‘ì”Œ+aue_mmap   €€Á arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ú,+.Ñ3FÔ³nˆ>%·­®ÚÌœ½Z´G2é•D¨BÆbºE|ÚŸUš|¶n5Ÿğ   ãó®‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 rÒ\À„şD„³r³†	íÜ:Ìœ½Z´G2é•D¨BÆ    ãó®‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Øó¬¤¡Oè’im¦l×ùŞ:Ìœ½Z´G2é•D¨BÆ    öêí¯‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 lÅ
+`1´E”hZkB¯Ënà:Ìœ½Z´G2é•D¨BÆ    öêí¯‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 3¿@[µO˜Tƒ—0F‹’âÌœ½Z´G2é•D¨BÆ¯r³ˆ‰Ğ2U‰`•2€°   öêí¯‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+ lN‚Â[‚CJÂF        20
+LLED 6X€DµÀOS52 ˜P¿ÌO«¤h9ğÍZZä<Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF8/usr/lib/pam_opieaccess.so.6  Äïç°‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 ëê’*K§òòHÚ.g±æ"Ìœ½Z´G2é•D¨BÆ    Äïç°‘ì”Œ+aue_fcntl  cmd        ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 I,æH
+<D2#=2è2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   Äïç°‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ãdáÚFu”Ñğ°z*€+ê2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   Äïç°‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ;';ù‡cL­z%ûJMEì2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   Äïç°‘ì”Œ+aue_mmap   €À’ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 èÇ7*InO
+Zíµ–æ‘iî2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   Äïç°‘ì”Œ+aue_mmap   €À’ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÛÖü#)@‘¤&àŒ
+'òğ2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   ¾üá±‘ì”Œ+aue_mmap   €€“ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ×ƒz=´ Gb¿èÒ6J	‚ò2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   ¾üá±‘ì”Œ+aue_mmap   €€“ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 èÑ'-öBG¿®n­,”ô2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   ¾üá±‘ì”Œ+aue_mmap   €À“ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 üÈ¦y­™Lz°²Å¼Cúó(ö2Ìœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   ¾üá±‘ì”Œ+aue_mmap   €À“ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 òÕş-òLDû9I{JYÀÆøÌœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   ¾üá±‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 õ:¨ÈØæM¶‡lÛe/Oùú:Ìœ½Z´G2é•D¨BÆ    ¾üá±‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¼ˆƒ_ÑA´Ë¡t3D7üÌœ½Z´G2é•D¨BÆ lN‚Â[‚CJÂF   ¤ƒÜ²‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+–óòóı)9R©ıc¸98(        20
+LLED 6X€DµÀOS52 <ÏãfLDŒ imRş<Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(,/usr/lib/pam_unix.so.6  ¤ƒÜ²‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 R±WğFeŒ	=âĞU€"Ìœ½Z´G2é•D¨BÆ    ¤ƒÜ²‘ì”Œ+aue_fcntl  cmd        ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 o‘ıPÉÊAÀ¬¼´ùŒ=o‚2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ƒÜ²‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 xÈ1D\]E¹·íDõ(u”„2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ?¡Æ2ÎèA2¿‹É®®0°/†2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €ÀÒ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ş§’P{ªJç˜í\ÇÙv<ˆ2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €ÀÒ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˆÇ?œE¢Ñ!Xp}ÌŠ2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €ÀÓ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 DÂóà_ØE&±‘ÇI<°ÿŒ2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €ÀÓ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Œ©J10OVûíİƒªçv2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €ÀÔ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 V|K+ÄäA^‚'rk6è2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   šÖ³‘ì”Œ+aue_mmap   €ÀÔ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgjòıŞ¶5fåD\¥Ò‹ªÑ>ï’Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   Ê•Ğ´‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+AÂ¬J7SŠ…Òó7Ç        20
+LLED 6X€DµÀOS52 Ht‚8“Lé›ö
+ñC‚GG”<Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç$/lib/libcrypt.so.5  Ê•Ğ´‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52  |àè°Fûµ¥gnAB"–2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç   Ê•Ğ´‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 u¬3»7ET“óÏT$)˜2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç   Ê•Ğ´‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 á”B¢F0™ùWVud™´š2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç   Ê•Ğ´‘ì”Œ+aue_mmap   €ÀÕ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ûH=ÕUMj†Ù“/dóœ2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç    ¤Êµ‘ì”Œ+aue_mmap   €ÀÕ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¡¨î{u×D©›$¼MŒİy£2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç    ¤Êµ‘ì”Œ+aue_mmap   €À× arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 M‚ƒö½IÅ¶Ûş¯fªa 2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç    ¤Êµ‘ì”Œ+aue_mmap   €À× arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 å‹VÊ|HJàó´7ã2^p¢2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç    ¤Êµ‘ì”Œ+aue_mmap   €ÀÜ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ëfıx#Nè‚Ş[çû÷ê?¤2Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç    ¤Êµ‘ì”Œ+aue_mmap   €ÀÜ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‚k¨ğHJÔfŞ¢½wl¦Ìœ½Z´G2é•D¨BÆAÂ¬J7SŠ…Òó7Ç    ¤Êµ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+Ù‚‹<èP¨<,xĞ2°        20
+LLED 6X€DµÀOS52 +ÅVÅyè@¼@V…ÿØ;¨<Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°./usr/lib/libypclnt.so.4  ¨¦Ä¶‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÆÎï½·§K@µ²éz×ö™½ª2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   ¨¦Ä¶‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 û(@Hš™Ó©ô`‚İÅ¬2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   ¨¦Ä¶‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÓêmÉ/MFr¡ yP»21®2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   ¨¦Ä¶‘ì”Œ+aue_mmap   €Àæ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 u’Ôe#AwšA¸Ï+>Ã°2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   ¨¦Ä¶‘ì”Œ+aue_mmap   €Àæ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÿºÔhŞ Hµ¢B"XYî²2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   „°¾·‘ì”Œ+aue_mmap   €€è arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÷Ö=—˜E®„{yK® ›æ´2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   „°¾·‘ì”Œ+aue_mmap   €€è arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‡JVgx¸K«‰ë³,Üd.¶2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   „°¾·‘ì”Œ+aue_mmap   €€é arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 gœyq¡MS‘¥…ö
+öÒ¸2Ìœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   „°¾·‘ì”Œ+aue_mmap   €€é arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ğ!`ÍÉCŸ‰&N£¦ºÌœ½Z´G2é•D¨BÆÙ‚‹<èP¨<,xĞ2°   „°¾·‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+F¢°CDµB(Yr™Ü¼:Ìœ½Z´G2é•D¨BÆ    „°¾·‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ø'hïYxB±Ù¨2çĞŸõ¾:Ìœ½Z´G2é•D¨BÆ    ¸¹¸¸‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 (ô¾ö9Aß‡î-V«‰ô4À:Ìœ½Z´G2é•D¨BÆ    ¸¹¸¸‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ±d/XÂ*Jƒ^ÕÍ2]À¸ÂÌœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¸¹¸¸‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ìi®HWgF¦‰¥„s~|÷ÄÄ@Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   ¸¹¸¸‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 !î455M†­ª\@¾KÆÌœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   ¸¹¸¸‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ^¶c²B|LKGa©<È<Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!"/etc/pam.d/system  ¤Á²¹‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ŠÖñ¸/PFF§ç(Ø—dß*Ê@Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   ¤Á²¹‘ì”Œ+aue_read   
+ hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+ôŠ¦g¢¼üS¼¢Š÷3üõè        20
+LLED 6X€DµÀOS52 ¢SíWb¦NY¿ËhÎ½AÁÌ<Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè</usr/lib/pam_login_access.so.6  ²Ò¬º‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ğj³¥ÔO.‡<\şÃß «Î"Ìœ½Z´G2é•D¨BÆ    ²Ò¬º‘ì”Œ+aue_fcntl  cmd        ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ³†¶SsC…¾ØáuJÚĞ2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ²Ò¬º‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å9±ˆOI¶ŠÀKÒ-^Ò2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ²Ò¬º‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ©{„"Â@›–)­|&ÀÔ2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ²Ò¬º‘ì”Œ+aue_mmap   €À” arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 4\Pò­ÖJÓšÎAcœ;aYÖ2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ²Ò¬º‘ì”Œ+aue_mmap   €À” arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¼ËXK˜¾m£y?Ø2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ú×¦»‘ì”Œ+aue_mmap   €€• arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 _ëËø40E‹—Ÿ¬ç"%æeÚ2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ú×¦»‘ì”Œ+aue_mmap   €€• arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÓìmÏH%“Zßìj–<Ü2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ú×¦»‘ì”Œ+aue_mmap   €À• arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ”}ºæ{¹@óB]ü1QÏŞ2Ìœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ú×¦»‘ì”Œ+aue_mmap   €À• arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ©†Ù»PnGö )^LˆßàÌœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ú×¦»‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 4[¾	ßK¼İ…œã–â:Ìœ½Z´G2é•D¨BÆ    ú×¦»‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 …Ô?ÊcEKµ™]üã!ŠÏäÌœ½Z´G2é•D¨BÆôŠ¦g¢¼üS¼¢Š÷3üõè   ¢å ¼‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 å·±áåIÔˆïé£qıèVæ<Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(,/usr/lib/pam_unix.so.6  ¢å ¼‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 €{y>Ÿ•@‚“’â§NÄè"Ìœ½Z´G2é•D¨BÆ    ¢å ¼‘ì”Œ+aue_fcntl  cmd        ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 iØ°…nCŞ‘9ğcÖšæê2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¢å ¼‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 m&i2gõD …×{üíxnœì2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¢å ¼‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ©Œ$Z»Lß^¼ê! ğî2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ìš½‘ì”Œ+aue_mmap   €Àê arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 È›3Ë!Eq¢dôVÔxğ2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ìš½‘ì”Œ+aue_mmap   €Àê arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ú.x1Nf¹Æ»bpY ò2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ìš½‘ì”Œ+aue_mmap   €Àë arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 4¾
+±PA¬ éo¹iÕô2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ìš½‘ì”Œ+aue_mmap   €Àë arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 äcğÿO¶ER¼ŸµäßÅö2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ìš½‘ì”Œ+aue_mmap   €Àì arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 \4Ç)ßîM·®ñ·{ªNõø2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ¤ìš½‘ì”Œ+aue_mmap   €Àì arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 o¦]yGCx††*ë™VúÌœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   Ğõ”¾‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 	†:øV]L™Š-ö7v«'ü:Ìœ½Z´G2é•D¨BÆ    Ğõ”¾‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Â‡©üƒJ­§Ü1z¨G÷§şÌœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   Ğõ”¾‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¯JR9 B“¨9~g&^}€@Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   Ğõ”¾‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÓZb™ÌXFçÚ0‚Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   Ğõ”¾‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+àPçB›‡]›BI`-‡9Ğ        20
+LLED 6X€DµÀOS52 ÎÖXkBó“»Ş÷tK„<Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ0/usr/lib/pam_permit.so.6  Øı¿‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ùw}ÊE—ÒMjÖèÌ†"Ìœ½Z´G2é•D¨BÆ    Øı¿‘ì”Œ+aue_fcntl  cmd        ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 ›ÍRòKĞ£ÄLÊÊˆ2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Øı¿‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 PO³¶/EÒ†º>B…âVŠ2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Øı¿‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 d5¤!¤
+AA€‡eÇ¾g[Œ2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Øı¿‘ì”Œ+aue_mmap   €Àí arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 #î`R#CÄ“Qèñ¯‹2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Ü‰À‘ì”Œ+aue_mmap   €Àí arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 .º/¸~B`˜(RÛ3‘2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Ü‰À‘ì”Œ+aue_mmap   €€î arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 áŸ…¯³G˜¼Z5©I€C’2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Ü‰À‘ì”Œ+aue_mmap   €€î arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 ş¶4íß@Û½?Ö!]~`”2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Ü‰À‘ì”Œ+aue_mmap   €Àî arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 ö±ÕfMOº[y™f â–2Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Ü‰À‘ì”Œ+aue_mmap   €Àî arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgj¤Šú_©tù´A"¨ˆŸ%Ón“Ø˜Ìœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   Ü‰À‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ğÂ–‰BÀ­2©ráÍ£š:Ìœ½Z´G2é•D¨BÆ    ¾ŒƒÁ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¥å@U>F¹¦Ñix.íˆœÌœ½Z´G2é•D¨BÆàPçB›‡]›BI`-‡9Ğ   ¾ŒƒÁ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Økœ‰Cø¿ïV”dş<Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!"/etc/pam.d/system  ¾ŒƒÁ‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ©ÀâêçAP¸¶Ì$	-ğJ @Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   ¾ŒƒÁ‘ì”Œ+aue_read   
+ hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ;ı[¬ÃNAÇ°^†«°9¢<Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(,/usr/lib/pam_unix.so.6  ş–ıÁ‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd17hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value7ppid
+24495execsudo 20LLED 6X€DµÀOS52 >Ã°ê+Hı¢³kjÍó
+¤"Ìœ½Z´G2é•D¨BÆ    ş–ıÁ‘ì”Œ+aue_fcntl  cmd        ret_fd18hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value8ppid
+24495execsudo 20LLED 6X€DµÀOS52 g“QW1N3€õÂw°Ö7¦2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ş–ıÁ‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¶ŞWœùOÚ›Ñ+à ÷†¨2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ş–ıÁ‘ì”Œ+aue_mmap   €€ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ü›—yÈE84ë«ğ5ª2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   öŸ÷Â‘ì”Œ+aue_mmap   €Àï arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 I¾Ou?‡F§¤«;¦éö¬2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   öŸ÷Â‘ì”Œ+aue_mmap   €Àï arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ƒ§rø’I$‡’¬¤P=®2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   öŸ÷Â‘ì”Œ+aue_mmap   €Àğ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 £ŒI.ŠLOŒ†)°2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   öŸ÷Â‘ì”Œ+aue_mmap   €Àğ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ƒşX
+²qHQ„A)"Üz»²2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   öŸ÷Â‘ì”Œ+aue_mmap   €Àñ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 Z0&YÀZIšx‘_Ô™õ>´2Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   öŸ÷Â‘ì”Œ+aue_mmap   €Àñ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ø»Ñ/0XO3”\ä[Ä…L¶Ìœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ˆ¯ñÃ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 _ş)ÊÆL³[á=•R¸:Ìœ½Z´G2é•D¨BÆ    ˆ¯ñÃ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ±œåÃ@©)9é	MSºÌœ½Z´G2é•D¨BÆ–óòóı)9R©ıc¸98(   ˆ¯ñÃ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ã¾†Š9LKZŒÙ+EuÕC;¼@Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   ˆ¯ñÃ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˆÌ”C@MæªäN©ºş¾Ìœ½Z´G2é•D¨BÆ#R4•N™PNáœ ™„!   ˆ¯ñÃ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 =ÃÃ9VC¥¦\ L©¾‰ÃÀ@Ìœ½Z´G2é•D¨BÆUhgA[²T›=²Â[   ˆ¯ñÃ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 	É•t°±KÄ¨o$(ë¥¥5ÂÌœ½Z´G2é•D¨BÆUhgA[²T›=²Â[   À°ëÄ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+T›sÈëRÈŒëİD        20
+LLED 6X€DµÀOS52 ¾w6óúC‘¢Ï‰Êv3Ä<Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD./var/run/sudo/ts/amanda  äÅåÅ‘ì”Œ+aue_openat_rwtc  
+flags     mode €       ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 «‘J’*N6¸°W'&†1¦Æ"Ìœ½Z´G2é•D¨BÆ    äÅåÅ‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+,LsŞO2kY²O_aykÃë        20
+LLED 6X€DµÀOS52 ÿÇ
+&HÂ©Üª[¨:eÚÈ<Ìœ½Z´G2é•D¨BÆ,LsŞO2kY²O_aykÃë&/var/run/utx.active  äÅåÅ‘ì”Œ+aue_open_rwtc  
+flags       mode ¶       
+ret_fd16hostH4c4c4544-0036-5810-8044-b5c04f533532return_value6ppid
+24495execsudo 20LLED 6X€DµÀOS52  (>bñØE¨)–?WË¥Ê@Ìœ½Z´G2é•D¨BÆ,LsŞO2kY²O_aykÃë   ä¾ßÆ‘ì”Œ+aue_read   ² hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 ²1²¥›¦Jş­GH©ê˜ö0ÌÌœ½Z´G2é•D¨BÆ,LsŞO2kY²O_aykÃë   ä¾ßÆ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 v+ê%øfHíµÅ	t3ØçTÎ0Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ä¾ßÆ‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ïé˜‘¢gGJ¤^1¬-=ÆĞ"Ìœ½Z´G2é•D¨BÆ    ä¾ßÆ‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd13return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 `ó¨¬N•Li%­sX¦Ò@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀÃÙÇ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 Š­kEîJL¿r.t•%Ô@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀÃÙÇ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 9/÷´ML›”ôB«@¦/Ö@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀÃÙÇ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 >q]I.£O›srÈ‹2Ø@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀÃÙÇ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 9M¥eC0Ÿb'oDØ¯mÚ@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀÃÙÇ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 â“eÆ%®B¾HğîËá)ÁÜ@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀÃÙÇ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 åÅlM¹µ×ü =8KáŞ@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀåÓÈ‘ì”Œ+aue_read   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ğeŒyYDŒ´Ä¶2·Da	à0Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀåÓÈ‘ì”Œ+aue_lseek    hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 yş*'ÍqL¼£?ö2T²_â0Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀåÓÈ‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 /4D$:€CèŠ0Éó’av‘ä"Ìœ½Z´G2é•D¨BÆ    ÀåÓÈ‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd12return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ôU\uPßO •şsÚw=Înæ0Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀåÓÈ‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 åvEÈ}/AÔ«Ğ¬2‹˜´è"Ìœ½Z´G2é•D¨BÆ    ÀåÓÈ‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd13return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 »ÿ‹ÜNßHŸşPVmLê@Ìœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   ÀåÓÈ‘ì”Œ+aue_pread   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 *7}ŠèO¡G9ìbÌœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   šáÍÉ‘ì”Œ+aue_pwrite   p hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 §‰X?TD¸ÄèQYîÌœ½Z´G2é•D¨BÆT›sÈëRÈŒëİD   šáÍÉ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+crƒÎÑ¹^†Ña ¹?X        20
+LLED 6X€DµÀOS52 	x´+‹ˆAÉ›õz•ødğ<Ìœ½Z´G2é•D¨BÆcrƒÎÑ¹^†Ña ¹?X"/etc/login.access  ¢òÇÊ‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 C„)Ş`oBŒ îFKTA¸ò@Ìœ½Z´G2é•D¨BÆcrƒÎÑ¹^†Ña ¹?X   ¢òÇÊ‘ì”Œ+aue_read   ò hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 Jùyy0XOÓvØ,m
+%ô@Ìœ½Z´G2é•D¨BÆcrƒÎÑ¹^†Ña ¹?X   ¢òÇÊ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 †u¡©ïé’~D¨BÆ   192.168.1.102ä192.168.1.1ò   20LLED 6X€DµÀOS52 –`˜ÇœmP™¯ê„‹W§kÏ   192.168.1.102ä192.168.1.1ò   20LLED 6X€DµÀOS52 ³Gz/¶Hk‰w†ìïdƒFö¤› †u¡©ïé’~D¨BÆ –`˜ÇœmP™¯ê„‹W§kÏ øöÁË‘ì”Œ+      20LLED 6X€DµÀOS52 1Z€i¶ÂHÚ—•Í8ß¡áøÌœ½Z´G2é•D¨BÆcrƒÎÑ¹^†Ña ¹?X   øöÁË‘ì”Œ+aue_close     ret_msgid"72057594039686596hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+¢8ë­’_Ÿ­—<Ÿ’	        20
+LLED 6X€DµÀOS52 }Ár©‹J ˜[[Ë6æéú<Ìœ½Z´G2é•D¨BÆ¢8ë­’_Ÿ­—<Ÿ’	$/etc/login.conf.db  Æû»Ì‘ì”Œ+aue_open_rwtc  
+flags       mode         
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ˜MËŠÆMû®á™*º:ü@Ìœ½Z´G2é•D¨BÆ¢8ë­’_Ÿ­—<Ÿ’	   Æû»Ì‘ì”Œ+aue_read   ˆ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 z#Ê÷4OCŒPTmKş@Ìœ½Z´G2é•D¨BÆ¢8ë­’_Ÿ­—<Ÿ’	   ĞŠ¶Í‘ì”Œ+aue_pread   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÒÍÂßDó´Õç¤7ğ¿€Ìœ½Z´G2é•D¨BÆ¢8ë­’_Ÿ­—<Ÿ’	   ĞŠ¶Í‘ì”Œ+aue_close     ret_msgid"72057594039686597hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+ù¾K#`U#½J•`)£        20
+LLED 6X€DµÀOS52 İ÷7÷}LGä¨ŞLW%:p‚<Ìœ½Z´G2é•D¨BÆù¾K#`U#½J•`)£/etc/ttys  ‚°Î‘ì”Œ+aue_open_rwtc  
+flags       mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 kzV·Ú
+B}œ”êÂ6c„@Ìœ½Z´G2é•D¨BÆù¾K#`U#½J•`)£   ‚°Î‘ì”Œ+aue_read   Ü hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 7;wò^@Š>`5ùÑÉ†@Ìœ½Z´G2é•D¨BÆù¾K#`U#½J•`)£   ĞŒªÏ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 3Xš!O>NW¿˜h‡y;¥ˆÌœ½Z´G2é•D¨BÆù¾K#`U#½J•`)£   ĞŒªÏ‘ì”Œ+aue_close     ret_msgid"72057594039686598hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Šö¸OJEƒÖ®6â=ŸŠ
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ˜•¤Ğ‘ì”Œ+aue_setresuid  uid      euid ÿ    suid ÿ       arg_euid-1arg_ruid0arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÍÜ•SHhIn–äLIÄ3Œ
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   ˜•¤Ğ‘ì”Œ+aue_setresgid  gid ÿ    egid      sgid ÿ       arg_egid0arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+Ë›éG2é•D¨BÆ        20
+LLED 6X€DµÀOS52 (B'%}éLAµZ&ëlk”
+Ìœ½Z´G2é•D¨BÆË›éG2é•D¨BÆ   Ò¥Ñ‘ì”Œ+aue_connect     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495address /var/run/logprivexecsudo 20LLED 6X€DµÀOS52 ç‡1§ºrAe˜qçó_™JÌœ½Z´G2é•D¨BÆË›éG2é•D¨BÆ   Ò¥Ñ‘ì”Œ+aue_sendto    
+ret_msgid"72057594039686599hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+­iïé’~D¨BÆ        20
+LLED 6X€DµÀOS52 ­Ábïé’~D¨BÆ „	 [pò(ìTÄ—1DÏ{GyI        hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 µ=N~ÉFö­Úé‡Ñ’Dø›­Ábïé’~D¨BÆ­iïé’~D¨BÆ   Ò¥Ñ‘ì”Œ+aue_recvfrom    ret_msgid"72057594039686599hostH4c4c4544-0036-5810-8044-b5c04f533532fd9ppid1address execsyslogd 20LLED 6X€DµÀOS52  ¨0ÊI©Ë¯Éu¥[”Ìœ½Z´G2é•D¨BÆË›éG2é•D¨BÆ   Ò¥Ñ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ûèCg}Mt¡Fãæ¿9™Ç–
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   Ò¥Ñ‘ì”Œ+aue_setresgid  gid ÿ    egid  }    sgid ÿ       arg_egid8317arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 H…n–¬KûŒùª¹"˜
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   Ò¥Ñ‘ì”Œ+aue_setresuid  uid  }    euid ÿ    suid ÿ       arg_euid-1arg_ruid8317arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 !3ƒÊ‚Lƒ¢Ìye"òĞš<Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  ş©˜Ò‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 BIËëM¯ˆ÷R&E~°´œ2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ş©˜Ò‘ì”Œ+aue_mmap   €€õ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+9y{ƒCM1Ö7ÚT2Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ş©˜Ò‘ì”Œ+aue_mmap   €€õ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+å—AíñÎ[…ñZ—ËÎ8s        20
+LLED 6X€DµÀOS52 aÕWÍmL®æ6SO‰k bø›­Ábïé’~D¨BÆå—AíñÎ[…ñZ—ËÎ8s   ä¬’Ó‘ì”Œ+aue_writev   º hostH4c4c4544-0036-5810-8044-b5c04f533532fd16ppid1execsyslogd 20LLED 6X€DµÀOS52 Bm3“&	@¯‰
+®r,ÈŸã¢Ìœ½Z´G2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ä¬’Ó‘ì”Œ+aue_close     ret_msgid"72057594039686600hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Ç¾[!úoDmŸo8Q(è¤<Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  šÃŒÔ‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgj¨Âüùç6¾òAæƒrg”a÷¦2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   šÃŒÔ‘ì”Œ+aue_mmap   €€ÿ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 4Ê¤¡% @ª°3Öà h¨2Ìœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ºÍ†Õ‘ì”Œ+aue_mmap   €€ÿ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 uùë¿
+Aw‰TÆrì#ªÌœ½Z´G2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ºÍ†Õ‘ì”Œ+aue_close     ret_msgid"72057594039686601hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 &iÛĞG¶âö0PÂl¬Ìœ½Z´G2é•D¨BÆ¨*„±çÉ-S‰çË„ó- ‹   ÄÕúÖ‘ì”Œ+aue_close     ret_msgid"72057594039686602hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+åâ0ön¨U•n·K…¨üR        20
+LLED 6X€DµÀOS52 ÷*[ô_EH®¼BJÚ­®<Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR2/etc/security/audit_event  ääô×‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd14hostH4c4c4544-0036-5810-8044-b5c04f533532return_value4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¾[äÚ‘H¿
+%qKî°@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ääô×‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 
+ùµThz‰M_‰zzkïM{        20
+LLED 6X€DµÀOS52 …¿„Ğ¹ØE¡V‰gğS²<Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{2/etc/security/audit_class  æåîØ‘ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd15hostH4c4c4544-0036-5810-8044-b5c04f533532return_value5ppid
+24495execsudo 20LLED 6X€DµÀOS52 é'aÜæİH/¿åOÏ
+¢Ä´@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   æåîØ‘ì”Œ+aue_read   à hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 OüçËªLÓ–¿úí3{w¶0Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   æåîØ‘ì”Œ+aue_lseek   à hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 P\Ÿ_òqJñÛù–|3é¸@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ¬ñèÙ‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 zä¶<¯ÙC"œ4G
+²æº@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   „ôâÚ‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 úûôÇM„,¨„V€Âd¼@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   š„İÛ‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 œBÖ—‹¶C_¯1°n¶ãmr¾@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   şŒ×Ü‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¢"h¡‚Co¶4û–+iMÀ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR    •Ñİ‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 	£™ÒD@¥¢qìæ$<Â@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ‚–ËŞ‘ì”Œ+aue_read   Ì3 hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 Çû¾A£òC1·}ÅTëîõÄ@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   ‚–ËŞ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 P¡êøO[”MvÌc«üÆ0Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   ‚–ËŞ‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ·$àg@œ€õtuœ£kÈ@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   ‚–ËŞ‘ì”Œ+aue_read   à hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 RîcÊƒ@{¥ËØ8‚(1&Ê@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   ‚–ËŞ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ,¤"'pÅNÂ›DüDÂ•RÌ0Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   Ì¬Åß‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 Wëš2šÙNÆ½İ3…º1Ş¸Î@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   Ì¬Åß‘ì”Œ+aue_read   à hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‘)w2¥«HÂ¦^Õ72>AĞ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   Ì¬Åß‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‰zH¬³¤X<]5—òÒ0Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   Ì¬Åß‘ì”Œ+aue_lseek   Ì³ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ĞEr­²±AÂ¤2šÏ×	?øÔ0Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ¤¹¿à‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¼ÍØà¯˜H¨[gÇ¡ŠÖ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ¤¹¿à‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 6BE¿î¹GL ×¯zqØ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   –Â¹á‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ñã˜ÉCC­è™ÎşĞ—Ú@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   –Â¹á‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 æå›”tËGÅºo:-oBÜ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   üÃ³â‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 µ³lœ?mHïqM56é°Ş@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ¸Í­ã‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 "ûà$-J‰’ˆ:ÎÒqşà@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ¸Ğ§ä‘ì”Œ+aue_read   €@ hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 !,âY*O•M{!C‹ÅÏâ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   ¸Ğ§ä‘ì”Œ+aue_read   Ì3 hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 iÙ7 FLƒ'a.~-9rä@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   °â¡å‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 x(‰»@¾U¸òÂÀ¢æ0Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   °â¡å‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 $9.÷zÛC ¾6M©ƒPGÜè@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   °â¡å‘ì”Œ+aue_read   à hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¤ÅIg&gCpƒNßƒôÜËê@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   °â¡å‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ™ÍÙu”KÓ¡xñMÿÔ|ì0Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   °â¡å‘ì”Œ+aue_lseek     hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 †
+©w¡‘IÃƒ›SÅ)?Uî@Ìœ½Z´G2é•D¨BÆùµThz‰M_‰zzkïM{   Æé›æ‘ì”Œ+aue_read   à hostH4c4c4544-0036-5810-8044-b5c04f533532fd5ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¹4Êl!¿J”?T1éçğ@Ìœ½Z´G2é•D¨BÆåâ0ön¨U•n·K…¨üR   Æé›æ‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd4ppid
+24495execsudo 20LLED 6X€DµÀOS52 ¿öZÿó@Ğ‘éãha¾{ò
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   Æé›æ‘ì”Œ+aue_setresgid  gid ÿ    egid ÿ    sgid ÿ       arg_egid-1arg_rgid-1arg_sgid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ŞÛœ/}Bn¯Y÷<†R Ôô
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   šğ•ç‘ì”Œ+aue_setresuid  uid ÿ    euid ÿ    suid ÿ       arg_euid-1arg_ruid-1arg_suid-1hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 nÇ†Xª Aÿ‹/¹‹k¶‘ö6Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   šğ•ç‘ì”Œ+aue_umask     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value18ppid
+24495execsudo 20LLED 6X€DµÀOS52 —ÖÒHr{Oe„î‘¬/÷Õ9ø6Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   šğ•ç‘ì”Œ+aue_umask     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value63ppid
+24495execsudo 20LLED 6X€DµÀOS52 ›âÅÖ/dKÜ®îÈ1~¡Œú
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   šğ•ç‘ì”Œ+aue_setuid  uid         
+arg_uid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 D‰lµXEYƒµx¿âü
+Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   šğ•ç‘ì”Œ+aue_setgid  gid         
+arg_gid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÏTÿG2é•D¨BÆ   ô 20LLED 6X€DµÀOS52 ÏTıG2é•D¨BÆ   ô 20LLED 6X€DµÀOS52 0Ã £mV¢¢èŞfª   ÏTıG2é•D¨BÆÏTÿG2é•D¨BÆ  20LLED 6X€DµÀOS52 ™Û€Œƒ.BŠ§CaOÔ¶9"şÌœ½Z´G2é•D¨BÆ0Ã £mV¢¢èŞfª   šğ•ç‘ì”Œ+aue_pipe     ret_fd16ret_fd27hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÏoG2é•D¨BÆ ˆ½Z´G2é•D¨BÆ[pò(ìTÄ—1DÏ{GyIòãè‘ì”Œ+       hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 Çb,–H{xÓFfÒ€$Ìœ½Z´G2é•D¨BÆÏoG2é•D¨BÆ   òãè‘ì”Œ+aue_fork     
+arg_pid
+25096hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+25096ppid
+24495execsudo 20LLED 6X€DµÀOS52 ƒM'”“Aí¶ tË‰&R‚6ºœÏoG2é•D¨BÆÏoG2é•D¨BÆ   òãè‘ì”Œ+aue_umask     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value18ppid
+25095execsudo 20LLED 6X€DµÀOS52 wãä—ĞA{ºfÄLÉ„
+ºœÏoG2é•D¨BÆÏoG2é•D¨BÆ   Âÿ‰é‘ì”Œ+aue_setresuid  uid      euid      suid         arg_euid0arg_ruid0arg_suid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+25095execsudo 20LLED 6X€DµÀOS52 Ï„şG2é•D¨BÆ   ô 20LLED 6X€DµÀOS52 Ï„ûG2é•D¨BÆ   ô 20LLED 6X€DµÀOS52 y¿¬˜Q^D·ô*$WDŒ   Ï„ûG2é•D¨BÆÏ„şG2é•D¨BÆ  20LLED 6X€DµÀOS52 ?"zŸQ5HÔ„®tÇ:âQ†Ìœ½Z´G2é•D¨BÆy¿¬˜Q^D·ô*$WDŒ   Âÿ‰é‘ì”Œ+aue_pipe     ret_fd17ret_fd28hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 M=ìÖÙòI`‹5ÂŸÚH«ˆ"ºœÏoG2é•D¨BÆ    Âÿ‰é‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd1return_value1ppid
+25095execsudo 20LLED 6X€DµÀOS52 Ùš|+ò™D¡ƒqsZK°róŠºœÏoG2é•D¨BÆW9”202^’0~,20   Âÿ‰é‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execsudo 20LLED 6X€DµÀOS52 –DCêÛÆE°m ¸>Z¾ŒºœÏoG2é•D¨BÆåâ0ön¨U•n·K…¨üR   Âÿ‰é‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd4return_value0ppid
+25095execsudo 20LLED 6X€DµÀOS52 ’ÂàıòIæ„„?ëcºœÏoG2é•D¨BÆùµThz‰M_‰zzkïM{   Âÿ‰é‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd5return_value0ppid
+25095execsudo 20LLED 6X€DµÀOS52 ×÷ˆeKx›K`x`ìŞ–"ºœÏoG2é•D¨BÆ    Êš„ê‘ì”Œ+aue_fcntl  cmd        
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd2return_value0ppid
+25095execsudo 20LLED 6X€DµÀOS52 >şÈÛB¬'°XvWE’ºœÏoG2é•D¨BÆÏTÿG2é•D¨BÆ /usr/bin/killall¬BMƒïKX‹ï<“¸$‰(/libexec/ld-elf.so.1¸’şê‘ì”Œ+aue_execve     
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLinekillall dtraceppid
+25095execsudo 20LLED 6X€DµÀOS52 úğÃ8¶AÌ¤íaËïµ|8”@Ìœ½Z´G2é•D¨BÆÏTıG2é•D¨BÆ   ¸’şê‘ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd6ppid
+24495execsudo 20LLED 6X€DµÀOS52 jßƒdKPê¨¶5ƒ–Ìœ½Z´G2é•D¨BÆÏTıG2é•D¨BÆ   ¸’şê‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd6return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ëæßü6Ny¨M5G‚À˜<ºœÏoG2é•D¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  šøë‘ì”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52  ó~¦F¾‘ø.Ü¢¢"š@ºœÏoG2é•D¨BÆ–òiI“Äh\„“V*Üh•f   šøë‘ì”Œ+aue_read   ^ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ½nX*V	Ejöª¥m¯œºœÏoG2é•D¨BÆ–òiI“Äh\„“V*Üh•f   šøë‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 ûÑÄÂ­tF—¦Ø”âÇ`B<ºœÏoG2é•D¨BÆ¡ú&÷F_·VÎFÜ00/var/run/ld-elf.so.hints  ˜¡òì‘ì”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 R9ÖËE¿JG™z.2.©×Í @ºœÏoG2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ˜¡òì‘ì”Œ+aue_read   € hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 œ(wmGÃ!Ò‡Ğ6 ¢@ºœÏoG2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ˜¡òì‘ì”Œ+aue_pread   Ö hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ;Å­b¹QNP†GÁÂŒ•›o¤ºœÏoG2é•D¨BÆ¡ú&÷F_·VÎFÜ0   ˜¡òì‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 
+³¿3VY)V6        20
+LLED 6X€DµÀOS52 ®†p0 Kú¾¹¬ŞŒı›¦<ºœÏoG2é•D¨BÆ³¿3VY)V6"/lib/libjail.so.1  Ş¦ìí‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 û6ià9zH3§·°vº†¨2ºœÏoG2é•D¨BÆ³¿3VY)V6   Ş¦ìí‘ì”Œ+aue_mmap   €À¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ú˜Öò¦@y”?é8¥Sª2ºœÏoG2é•D¨BÆ³¿3VY)V6   Ş¦ìí‘ì”Œ+aue_mmap   €À¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 5—ÉûOCé²?\4,ğ­¬2ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_mmap   €€¥ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 Kw¥a¦VDg“IVg÷?“ú®2ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_mmap   €€¥ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ÃÔÔ1d¯Nã¥1˜1‘Œ±°2ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_mmap   €€¦ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ª>¡ÆdCŸœ®Ï½€Kò²2ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_mmap   €€¦ arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 %9­®±Mj–föWíy´2ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_mmap   €€¨ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 WÚR"­G‚Ÿ±e…—’hÅ¶2ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_mmap   €€¨ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 åõú¾D °i áRoö¸ºœÏoG2é•D¨BÆ³¿3VY)V6   è»æî‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgjš„ûŠ:ì¹£@½áõR™kº<ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K/lib/libc.so.7  äÆàï‘ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ‘(ûoNkŸKÜP A¼2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÆàï‘ì”Œ+aue_mmap   €À¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ws2°ücK0O_ç‚Î¾2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÆàï‘ì”Œ+aue_mmap   €À¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 htyã†A)³SJëlà˜[À2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÆàï‘ì”Œ+aue_mmap   €À© arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ú½Å°BI“f™5•Y¿BÂ2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÆàï‘ì”Œ+aue_mmap   €À© arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 "¨adûL4¼á’i%x9Ä2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÏÚğ‘ì”Œ+aue_mmap   €Àè arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 Ô¿’%¯OŒBñ£‡ƒÆ2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÏÚğ‘ì”Œ+aue_mmap   €Àè arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 Ìµ5!9ØAï¿I	2…ÁÈ2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÏÚğ‘ì”Œ+aue_mmap   €€‹ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ÅUÏHœÙN‰¿XqÀÃdÊ2ºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÏÚğ‘ì”Œ+aue_mmap   €€‹ arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ñß'ÓMBªGWÕ$"?¶ÌºœÏoG2é•D¨BÆopCJØH[˜Jq»H1K   äÏÚğ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 /„5uKR‡ÅöòMG›Î:ºœÏoG2é•D¨BÆ    „ÙÔñ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 rŠ½¨ I
+¾ıÈBå$­Ğ:ºœÏoG2é•D¨BÆ    „ÙÔñ‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 áâı•GÆªr¬œö&LÒ:ºœÏoG2é•D¨BÆ    ŒßÎò‘ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 Z+½I3ot¼Ò_‘Ô<ºœÏoG2é•D¨BÆp&;Íh#€Z£hµÔº€E¸P/usr/share/locale/en_US.UTF-8/LC_COLLATE  ŒßÎò‘ì”Œ+aue_open_rwtc  
+flags      mode (       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 Í¯pëM;•FÕ4eMßÖ2ºœÏoG2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ŒßÎò‘ì”Œ+aue_mmap   €Àª arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 d(GvĞEç¬e„ø½jƒEØ2ºœÏoG2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   ŒßÎò‘ì”Œ+aue_mmap   €Àª arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 Õï«¯5Hé¸´I—4_	ÚºœÏoG2é•D¨BÆp&;Íh#€Z£hµÔº€E¸   €ìÈó‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 S÷/—ö²O³FÁv›Õ.Ü<ºœÏoG2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{L/usr/share/locale/en_US.UTF-8/LC_CTYPE  €ìÈó‘ì”Œ+aue_open_rwtc  
+flags      mode &       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 =!ğG•­B†û*¯7lkîŞ2ºœÏoG2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ĞôÂô‘ì”Œ+aue_mmap   €À´ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ø­’òˆ°J’ˆ´×XHà2ºœÏoG2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ĞôÂô‘ì”Œ+aue_mmap   €À´ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ®SnMR0Ga§—İ§)óâºœÏoG2é•D¨BÆ«·y“Ó}ÏP½ÓS¦ Ï†{   ĞôÂô‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 ‰h8lgBQ†ìè;m9Õä<ºœÏoG2é•D¨BÆ¦¹Xìƒ!_ƒì$O!uR/usr/share/locale/en_US.UTF-8/LC_MONETARY  ĞôÂô‘ì”Œ+aue_open_rwtc  
+flags       mode p        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 6»ÿãQsMßôçlZ»‘æ@ºœÏoG2é•D¨BÆ¦¹Xìƒ!_ƒì$O!u   îÿ¼õ‘ì”Œ+aue_read   @ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ÷·³ß$H˜®›VÍÊ¹èºœÏoG2é•D¨BÆ¦¹Xìƒ!_ƒì$O!u   îÿ¼õ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 ø/üø~µHD±êh²›?ê<ºœÏoG2é•D¨BÆæ9Fqø]¸q.]­øÆP/usr/share/locale/en_US.UTF-8/LC_NUMERIC  îÿ¼õ‘ì”Œ+aue_open_rwtc  
+flags       mode A        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 „¹…™èA+ºox¯ğÑì@ºœÏoG2é•D¨BÆæ9Fqø]¸q.]­øÆ   îÿ¼õ‘ì”Œ+aue_read    hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 u•l@?N]œàiÎÍ\˜îºœÏoG2é•D¨BÆæ9Fqø]¸q.]­øÆ   ¼‰·ö‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 *å	¯:CÈ»Êç‘Õ¬ğ<ºœÏoG2é•D¨BÆÚ‚øúVQMQ‘Võ«qM§J/usr/share/locale/en_US.UTF-8/LC_TIME  ¼‰·ö‘ì”Œ+aue_open_rwtc  
+flags       mode s        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ó½Ö›>MVª3Õ¨ ò@ºœÏoG2é•D¨BÆÚ‚øúVQMQ‘Võ«qM§   ¼‰·ö‘ì”Œ+aue_read   ò hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ‰ªkQEE*‰«9ˆõNúkôºœÏoG2é•D¨BÆÚ‚øúVQMQ‘Võ«qM§   ¼‰·ö‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 Ğ3Ÿ—ÅğN%pÛ^×Kö<ºœÏoG2é•D¨BÆ„oF'N¿Q'sÓñ¿ƒ•R/usr/share/locale/en_US.UTF-8/LC_MESSAGES  ¦±÷‘ì”Œ+aue_open_rwtc  
+flags       mode G        
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+25095execkillall 20LLED 6X€DµÀOS52 ÙœL´>–K^‹=]™Â
+×ıø@ºœÏoG2é•D¨BÆ„oF'N¿Q'sÓñ¿ƒ•   ¦±÷‘ì”Œ+aue_read   ” hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+25095execkillall 20LLED 6X€DµÀOS52 uÉl¯ÜEw•á¬$XYúºœÏoG2é•D¨BÆ„oF'N¿Q'sÓñ¿ƒ•   ¦±÷‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 ıÛb¥Y[(£E”<ScU -1UNKNOWN  20LLED 6X€DµÀOS52 ‹	ÔµG2é•D¨BÆ „ˆ ıÛb¥Y[(£E”<ScU        hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 –şËgJm·§+ô„üRºœÏoG2é•D¨BÆ‹	ÔµG2é•D¨BÆ   º‘«ø‘ì”Œ+aue_kill  pid b    signum        arg_pid
+25090arg_euid0arg_ruid0arg_egid0arg_rgid0hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 s‡?Õ•BŸ€0|çä±şºœÏoG2é•D¨BÆÏoG2é•D¨BÆ   º‘«ø‘ì”Œ+aue_exit     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+25095execkillall 20LLED 6X€DµÀOS52 6ûÂ’‰D²üºKŸİš<€	bÌœ½Z´G2é•D¨BÆÏ„şG2é•D¨BÆ   º‘«ø‘ì”Œ+aue_write    hostH4c4c4544-0036-5810-8044-b5c04f533532fd8ppid
+24495execsudo 20LLED 6X€DµÀOS52 ÊQğ9Ak¼«Ÿ^ÓS‚‚	@Ìœ½Z´G2é•D¨BÆÏ„ûG2é•D¨BÆ   ğ¢¥ù‘ì”Œ+aue_read    hostH4c4c4544-0036-5810-8044-b5c04f533532fd7ppid
+24495execsudo 20LLED 6X€DµÀOS52 öœÜEŠÕB‰«»ì-Šæˆ„	Ìœ½Z´G2é•D¨BÆÏ„ûG2é•D¨BÆ   ğ¢¥ù‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd7return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 Îâ4•OÆLY¤¤ç'‚­‚†	Ìœ½Z´G2é•D¨BÆÏ„şG2é•D¨BÆ   ğ¢¥ù‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd8return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 éÜ"Õ£E¤¾ÈF%‡Kˆ	Ìœ½Z´G2é•D¨BÆ½Z´G2é•D¨BÆ   È¯Ÿú‘ì”Œ+aue_exit     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execsudo 20LLED 6X€DµÀOS52 ‘-ÁqãIÏ§ñ!Ö°åØŠ	@ü >ÄbTG2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   Ä³“ü‘ì”Œ+aue_read   œ hostH4c4c4544-0036-5810-8044-b5c04f533532fd255ppid
+20815execbash 20LLED 6X€DµÀOS52 	šTØ$WN´ª\ˆ’şOÕŒ	bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   Ä³“ü‘ì”Œ+aue_write   P hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 ÿ¶7ÜCş¼:Á*Méş	bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   Ä³“ü‘ì”Œ+aue_write   8 hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 T—voC9©cBòpâ!	bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   ®½ı‘ì”Œ+aue_write   J hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 
+¡SÄ—ğ¤ê_¤ğ™‡_ê        20
+LLED 6X€DµÀOS52 Å¶«9F€Lõ¹bë¤¡Ï±’	6ü >ÄbTG2é•D¨BÆ>ÄbTG2é•D¨BÆ ¡SÄ—ğ¤ê_¤ğ™‡_ê</home/amanda/tc/dtrace-scripts¤Ì‡ş‘ì”Œ+aue_chdir     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+20815execbash 20LLED 6X€DµÀOS52 o±-í0ÁK7“Xi™}ôÂ—”	0ü >ÄbTG2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   ¤Ì‡ş‘ì”Œ+aue_lseek   ¦ hostH4c4c4544-0036-5810-8044-b5c04f533532fd255ppid
+20815execbash 20LLED 6X€DµÀOS52 Ò÷µG2é•D¨BÆ ’ˆ>ÄbTG2é•D¨BÆ
+ƒZYï\5·4âßÙ§j¤Ì‡ş‘ì”Œ+       hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 Ğé¸feM@X:ÜqF–	$ü >ÄbTG2é•D¨BÆÒ÷µG2é•D¨BÆ   ¤Ì‡ş‘ì”Œ+aue_fork     
+arg_pid
+25097hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+25097ppid
+20815execbash 20LLED 6X€DµÀOS52 •pGq‹±KyCœîJ?^˜	ÌœÒ÷µG2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   ¤Ì‡ş‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 0Kìw°„Mï€»³s³sÇ>š	bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   ”Èÿ‘ì”Œ+aue_write    hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 ÖÀğmyKäªf³ñ²Äœ	bÌœÒ÷µG2é•D¨BÆí( ö~R¶ ~{‚~¯   ”Èÿ‘ì”Œ+aue_write   8 hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+24495execbash 20LLED 6X€DµÀOS52 
+3PÓK€X‹Ó«·Ø€‘^        20
+LLED 6X€DµÀOS52 Ù÷<
+B'šßÀÇé	<ÌœÒ÷µG2é•D¨BÆ3PÓK€X‹Ó«·Ø€‘^/dev/null  ”Èÿ‘ì”Œ+aue_openat_rwtc  
+flags      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495execbash 20LLED 6X€DµÀOS52 
+¢†˜âÎG^]‡Îtm^P        20
+LLED 6X€DµÀOS52 €^èâØ
+KÙŸrŠho{© 	6ü >ÄbTG2é•D¨BÆ>ÄbTG2é•D¨BÆ ¢†˜âÎG^]‡Îtm^PL/home/amanda/bbn/ripe-prov-tests/Linux”Èÿ‘ì”Œ+aue_chdir     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+20815execbash 20LLED 6X€DµÀOS52 íd÷İ¿Gß“;Ã!½ó*¢	bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   ”Èÿ‘ì”Œ+aue_write   N hostH4c4c4544-0036-5810-8044-b5c04f533532fd1ppid
+20815execbash 20LLED 6X€DµÀOS52 ²&‹ì¥EÍ¶EK=yÍ¹,¤	ÌœÒ÷µG2é•D¨BÆ3PÓK€X‹Ó«·Ø€‘^   ”Èÿ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 ,¹ÿ,ŸLü‡¤§èÄ#Ïy¦	bü >ÄbTG2é•D¨BÆí( ö~R¶ ~{‚~¯   ”Èÿ‘ì”Œ+aue_write    hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+20815execbash 20LLED 6X€DµÀOS52 Ó1¼G2é•D¨BÆ ”ˆ>ÄbTG2é•D¨BÆ
+ƒZYï\5·4âßÙ§jÌ×ûÿ‘ì”Œ+       hostH4c4c4544-0036-5810-8044-b5c04f533532 20LLED 6X€DµÀOS52 `Y §
+ûK²½o/Pƒq¨	$ü >ÄbTG2é•D¨BÆÓ1¼G2é•D¨BÆ   Ì×ûÿ‘ì”Œ+aue_fork     
+arg_pid
+25098hostH4c4c4544-0036-5810-8044-b5c04f533532return_value
+25098ppid
+20815execbash 20LLED 6X€DµÀOS52 D€kj!»Nc…š¼2c¿pëª	ÜœÓ1¼G2é•D¨BÆ²wÓÙ##X£Û;(#Ø‹   Ì×ûÿ‘ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd255return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 î’×’7ıF‘#Ê†k»&¬	ÜœÓ1¼G2é•D¨BÆN×ë·ÓQ·ëH£±Ó‹/bin/sleep¬BMƒïKX‹ï<“¸$‰(/libexec/ld-elf.so.1ºŞõ€’ì”Œ+aue_execve     
+hostH4c4c4544-0036-5810-8044-b5c04f533532return_value-1cmdLinesleep 4ppid
+24495execbash 20LLED 6X€DµÀOS52 Ì]Ü Ÿ@¨ô%•zrî®	<ÜœÓ1¼G2é•D¨BÆ–òiI“Äh\„“V*Üh•f /etc/libmap.conf  ºŞõ€’ì”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 w¢>#;J¾ŸV1Ã´°	<ÌœÒ÷µG2é•D¨BÆ»ş‘`*Q‹€¡*ÓğH/usr/local/share/locale/locale.alias  ºŞõ€’ì”Œ+aue_open_rwtc  
+flags      mode ¶       
+ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532return_value3ppid
+24495execbash 20LLED 6X€DµÀOS52 8‡áb@²ØZ]Å¥Ñ|²	@ÜœÓ1¼G2é•D¨BÆ–òiI“Äh\„“V*Üh•f   Æçï’ì”Œ+aue_read   ^ hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 Ê5¡öŸ7Bg¥«°lxÊ‡´	@ÌœÒ÷µG2é•D¨BÆ»ş‘`*Q‹€¡*Óğ   Æçï’ì”Œ+aue_read   ¼0 hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execbash 20LLED 6X€DµÀOS52 »Ï¾ËKM=¯f%æÕA¶	ÜœÓ1¼G2é•D¨BÆ–òiI“Äh\„“V*Üh•f   Æçï’ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ¬NĞcDªr¨d•Ñï¸	@ÌœÒ÷µG2é•D¨BÆ»ş‘`*Q‹€¡*Óğ   Æçï’ì”Œ+aue_read     hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495execbash 20LLED 6X€DµÀOS52 RE5c'Kğ‡?-2…J©º	ÌœÒ÷µG2é•D¨BÆ»ş‘`*Q‹€¡*Óğ   Æçï’ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 NÁxqğ,F„˜vëR7Š£.¼	<ÜœÓ1¼G2é•D¨BÆ¡ú&÷F_·VÎFÜ00/var/run/ld-elf.so.hints  Æçï’ì”Œ+aue_openat_rwtc  
+flags       mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 úò'
+_*FÁ´”—¬}¨7¾	bÌœÒ÷µG2é•D¨BÆí( ö~R¶ ~{‚~¯   Æçï’ì”Œ+aue_write   ” hostH4c4c4544-0036-5810-8044-b5c04f533532fd2ppid
+24495execbash 20LLED 6X€DµÀOS52 Ÿ\á_NC¦BÈÖ+UìÀ	@ÜœÓ1¼G2é•D¨BÆ¡ú&÷F_·VÎFÜ0   Æçï’ì”Œ+aue_read   € hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 Wu;DœKï”ên}m²:Â	@ÜœÓ1¼G2é•D¨BÆ¡ú&÷F_·VÎFÜ0   âıé‚’ì”Œ+aue_pread   Ö hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 &#åpÓdM¹¸û>!§!x}Ä	ÌœÒ÷µG2é•D¨BÆÒ÷µG2é•D¨BÆ   âıé‚’ì”Œ+aue_exit     hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495execbash 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgj€1â]}ËWìB¬ù	0§×krÆ	ÜœÓ1¼G2é•D¨BÆ¡ú&÷F_·VÎFÜ0   âıé‚’ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ¬ĞC}xLìˆd~r˜
+å“È	<ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K/lib/libc.so.7  âıé‚’ì”Œ+aue_openat_rwtc  
+flags 0      mode         ret_fd13hostH4c4c4544-0036-5810-8044-b5c04f533532fd-100return_value3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 Íb
+,bMG±ñã¼cƒÊ	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   âıé‚’ì”Œ+aue_mmap   €À£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 [üKë
+BÖ«
+1SvÙó&Ì	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   âıé‚’ì”Œ+aue_mmap   €À£ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 s}~ ØH¤ª“ayÒtk,Î	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   â…äƒ’ì”Œ+aue_mmap   €€¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ,€{eõXE@´t·ö‚ıô¿Ğ	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   â…äƒ’ì”Œ+aue_mmap   €€¤ arg_mem_flags['PROT_READ']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 š+Ÿ§ä.LM¿6 …áJÒ	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   â…äƒ’ì”Œ+aue_mmap   €€ã arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ·Ü <D9¡óÁ”úšÅÔ	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   â…äƒ’ì”Œ+aue_mmap   €€ã arg_mem_flags4['PROT_READ', 'PROT_EXEC']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52  ùÆjÈC"£8Û˜6ÙÖ	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   â…äƒ’ì”Œ+aue_mmap   €À… arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ™¿¹Iû’¸µûJ
+—ÁØ	2ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   â…äƒ’ì”Œ+aue_mmap   €À… arg_mem_flags6['PROT_READ', 'PROT_WRITE']&arg_mem_other_flags['MAP_PRIVATE']hostH4c4c4544-0036-5810-8044-b5c04f533532fd3ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 ¿7¹M/‹FÔ
+›‹×ˆÚ	ÜœÓ1¼G2é•D¨BÆopCJØH[˜Jq»H1K   şˆŞ„’ì”Œ+aue_close     
+hostH4c4c4544-0036-5810-8044-b5c04f533532fd3return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 Øp¿NKõƒ|¹H[dÜ	:ÜœÓ1¼G2é•D¨BÆ    şˆŞ„’ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 •†gõ`N3“¿1—ù8VŞ	:ÜœÓ1¼G2é•D¨BÆ    öØ…’ì”Œ+aue_mprotect     
+arg_mem_flags['PROT_READ']hostH4c4c4544-0036-5810-8044-b5c04f533532return_value0ppid
+24495exec
+sleep 20LLED 6X€DµÀOS52 Å«zƒËQDÌÁ?B™ãgj
